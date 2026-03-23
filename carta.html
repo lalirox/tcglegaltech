@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>LEGAL TECH TCG</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+          tailwind.config = {
+            darkMode: "class",
+            theme: {
+              extend: {
+                colors: {
+                  "surface": "#0a0e14",
+                  "surface-container": "#151a21",
+                  "surface-bright": "#262c36",
+                  "on-secondary-container": "#e8fbff",
+                  "on-surface-variant": "#a8abb3",
+                  "surface-container-low": "#0f141a",
+                  "surface-container-highest": "#20262f",
+                  "on-surface": "#f1f3fc",
+                  "secondary": "#00e3fd",
+                  "primary": "#ffd96f",
+                  "primary-fixed": "#fcc800",
+                  "outline-variant": "#44484f",
+                },
+                fontFamily: {
+                  "headline": ["Space Grotesk"],
+                  "body": ["Inter"],
+                  "label": ["Space Grotesk"]
+                },
+              },
+            },
+          }
+    </script>
+    <style>
+        * { -webkit-tap-highlight-color: transparent; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .scanline-overlay {
+            background: linear-gradient(to bottom, transparent 50%, rgba(241, 243, 252, 0.02) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+        .chamfer-clip { clip-path: polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px); }
+        .card-perspective { perspective: 1000px; }
+        .card-interactive {
+            transform-style: preserve-3d;
+            /* Se redujo el tiempo de transición de transform para que el seguimiento del mouse sea más fluido */
+            transition: box-shadow 0.3s ease, filter 0.3s ease, transform 0.05s linear;
+            will-change: transform;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+        @media (hover: hover) {
+            .card-interactive:hover {
+                box-shadow: 0 15px 30px rgba(255, 217, 111, 0.2), 0 0 20px rgba(255, 217, 111, 0.1) inset;
+            }
+        }
+        .card-interactive:active { transform: scale3d(0.95, 0.95, 0.95) !important; }
+
+        /* SOBRE SORPRESA */
+        .pack-container { position: relative; width: 220px; height: 310px; perspective: 1200px; cursor: pointer; margin-top: 60px; }
+        .pack-container .card-surprise {
+            position: absolute; width: 100%; height: 100%; border-radius: 12px; background-size: cover; background-position: center;
+            box-shadow: 0 0 15px rgba(0,0,0,0.8); z-index: 2; transition: transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.15); transform: translateY(0) scale(0.95);
+        }
+        .pack-back { position: absolute; width: 100%; height: 100%; background: #1e293b; border-radius: 10px; z-index: 1; }
+        .pack-front {
+            position: absolute; width: 100%; height: 100%; background: linear-gradient(135deg, #ffd96f 0%, #fcc800 100%);
+            border-radius: 10px; z-index: 3; display: flex; justify-content: center; align-items: center; color: #0a0e14; font-size: 20px; font-weight: 900;
+        }
+        .pack-front::after { content: 'MYSTERY\APACK'; white-space: pre; border: 2px solid rgba(10,14,20,0.4); padding: 15px; border-radius: 8px; }
+        .pack-flap { position: absolute; top: -15px; left: 0; width: 100%; height: 30px; background: repeating-linear-gradient(45deg, #ffd96f, #ffd96f 8px, #fcc800 8px, #fcc800 16px); z-index: 4; border-radius: 6px 6px 0 0; transition: transform 0.5s ease; transform-origin: bottom; }
+        .pack-container:hover .card-surprise { transform: translateY(-115%) scale(1.1) rotateZ(3deg); z-index: 5; }
+        .pack-container:hover .pack-front { transform: rotateX(20deg); }
+        .pack-container:hover .pack-flap { transform: rotateX(180deg); opacity: 0; }
+
+        /* MÁQUINA DE GARRA */
+        .claw-machine-wrap { width: 320px; height: 450px; background: #151a21; border: 6px solid #262c36; border-radius: 12px 12px 0 0; position: relative; overflow: hidden; }
+        .claw-glass-area { position: absolute; inset: 10px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); overflow: hidden; }
+        #main-claw-arm { position: absolute; top: 0; left: 50%; width: 2px; height: 40px; background: #ffd96f; transition: left 0.2s linear, height 0.8s ease; z-index: 50; }
+        #main-claw-hook { position: absolute; bottom: -18px; left: -14px; font-size: 24px; transform: rotate(180deg); filter: drop-shadow(0 0 5px #ffd96f); }
+        #mini-caught-card { position: absolute; top: 25px; left: 50%; transform: translateX(-50%); width: 40px; height: 56px; border: 1px solid #ffd96f; z-index: 45; display: none; object-fit: cover; }
+        .claw-pile-container { position: absolute; bottom: 0; width: 100%; height: 70px; pointer-events: none; }
+        #claw-card-won { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%) scale(0); width: 170px; z-index: 100; transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); pointer-events: none; }
+
+        /* =========================================
+           EFECTOS VISUALES HOLOGRÁFICOS
+           ========================================= */
+        .card-interactive::after, .card-surprise::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                115deg,
+                transparent 20%,
+                rgba(255, 217, 111, 0.25) 30%,
+                rgba(255, 255, 255, 0.5) 40%,
+                rgba(0, 227, 253, 0.25) 50%,
+                transparent 60%
+            );
+            background-size: 300% 300%;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            mix-blend-mode: color-dodge;
+            z-index: 10;
+            border-radius: inherit;
+        }
+        .card-interactive:hover::after, .pack-container:hover .card-surprise::after {
+            opacity: 1;
+            animation: holo-shimmer 2s infinite linear;
+        }
+        @keyframes holo-shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface font-body selection:bg-primary selection:text-on-primary">
+
+<nav class="fixed top-0 z-40 flex justify-between items-center w-full px-4 md:px-6 py-4 bg-slate-950/80 backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.8)] pt-safe">
+    <div class="text-xl md:text-2xl font-black italic text-[#FFCB05] font-headline">Legal Tech TCG</div>
+    <div class="flex items-center gap-4">
+        <span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-colors" onclick="document.getElementById('sideCartPanel').classList.remove('translate-x-full')">shopping_cart</span>
+        <div class="w-10 h-10 bg-surface-container-highest border border-outline-variant rounded-full overflow-hidden">
+            <img alt="User" class="w-full h-full object-cover" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Trainer1"/>
+        </div>
+    </div>
+</nav>
+
+<main class="relative min-h-screen pt-28 pb-12 px-4 md:px-12 lg:px-24">
+    <div class="fixed inset-0 scanline-overlay z-10"></div>
+
+    <section class="relative mb-20 z-20">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-6 text-center lg:text-left">
+                <div class="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 border-l-4 border-primary text-primary-fixed font-label text-xs tracking-widest uppercase">OFERTA LIMITADA</div>
+                <h1 class="text-5xl md:text-7xl font-headline font-black uppercase italic tracking-tighter leading-none">Cartas <span class="text-primary">Legendarias</span></h1>
+                <p class="text-lg text-on-surface-variant max-w-xl font-body">Explora nuestra base de datos de cartas raras del sector Legal Tech.</p>
+            </div>
+            <div class="relative flex justify-center card-perspective">
+                <div class="relative w-full max-w-[300px] aspect-[3/4] bg-surface-container-low rounded-xl border border-outline-variant/30 overflow-hidden card-interactive cursor-pointer tilt-element">
+                    <img class="w-full h-full object-contain" src="carta15.png" alt="Featured"/>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+
+<section class="mb-24 relative z-20">
+        <h2 class="text-3xl font-headline font-black uppercase mb-10">Inventario <span class="text-primary">Actualizado</span></h2>
+        <div class="grid lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 bg-surface-container border border-outline-variant/30 chamfer-clip p-6">
+                <div id="inventoryGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4 card-perspective">
+                    </div>
+            </div>
+            
+            <div class="flex flex-col gap-4">
+                <div class="bg-surface-container-highest border border-outline-variant/30 chamfer-clip p-6">
+                    <h3 class="font-headline font-bold text-sm text-primary uppercase mb-4">Resumen MXN</h3>
+                    <div class="space-y-4">
+                        <div class="bg-surface-container p-3 border border-outline-variant/20">
+                            <div class="text-[8px] text-on-surface-variant uppercase font-mono mb-1">Cartas en stock</div>
+                            <div class="text-xl font-headline font-black text-secondary">16 Items</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-1 bg-surface-container-highest border border-outline-variant/30 chamfer-clip overflow-hidden relative min-h-[300px]">
+                    <video 
+                        src="tcg.mp4" 
+                        class="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity"
+                        autoplay 
+                        muted 
+                        loop 
+                        playsinline>
+                    </video>
+                    <div class="absolute inset-0 pointer-events-none border-1 border-primary/10 shadow-[inset_0_0_20px_rgba(0,227,253,0.1)]"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="flex flex-col lg:flex-row justify-center items-center py-16 gap-16 lg:gap-32 relative z-20">
+        <svg id="pokedexElement" width="180" height="240" viewBox="0 0 150 200" fill="none" class="transition-all duration-500 drop-shadow-[0_0_15px_rgba(255,50,50,0.3)]">
+            <rect x="10" y="10" width="130" height="180" rx="15" fill="#dc2626"/>
+            <circle cx="45" cy="40" r="14" fill="#3b82f6" class="animate-pulse"/>
+            <circle id="pokedexBuyBtn" cx="115" cy="25" r="5" fill="#22c55e" class="cursor-pointer hover:fill-green-400 transition-colors"/>
+            <rect x="25" y="100" width="100" height="65" rx="5" fill="#1e293b"/>
+            <image id="pokedexScreenImg" x="35" y="110" width="80" height="45" preserveAspectRatio="xMidYMid meet" opacity="0" href="" />
+        </svg>
+
+        <div class="pack-container">
+            <div class="pack-flap"></div>
+            <div class="pack-back"></div>
+            <div class="card-surprise" id="randomCardElement"></div>
+            <div class="pack-front"></div>
+        </div>
+    </div>
+
+    <div class="flex flex-col items-center py-20 relative z-20 border-t border-outline-variant/20 mt-10">
+        <h2 class="text-3xl font-headline font-black uppercase text-secondary mb-10">🕹️ La Garra Legal Tech</h2>
+        <div class="claw-machine-wrap">
+            <div class="claw-glass-area">
+                <div id="main-claw-arm"><div id="main-claw-hook">🏗️</div><img id="mini-caught-card" src=""></div>
+                <img id="claw-card-won" src="" class="card-interactive rounded border-2 border-primary shadow-2xl">
+                <div id="claw-pile" class="claw-pile-container"></div>
+            </div>
+            <div class="absolute bottom-0 w-full h-20 bg-surface-container-highest border-t border-outline-variant flex items-center justify-center gap-4 px-4">
+                <button onclick="moveClaw(-5)" class="w-12 h-12 bg-surface-bright border border-outline-variant flex items-center justify-center chamfer-clip active:scale-90"><span class="material-symbols-outlined">arrow_back</span></button>
+                <button id="dropBtn" onclick="runClawLogic()" class="px-6 py-2 bg-primary text-black font-black uppercase text-xs chamfer-clip active:scale-90">BAJAR GARRA</button>
+                <button onclick="moveClaw(5)" class="w-12 h-12 bg-surface-bright border border-outline-variant flex items-center justify-center chamfer-clip active:scale-90"><span class="material-symbols-outlined">arrow_forward</span></button>
+            </div>
+        </div>
+        <p id="clawMessage" class="mt-4 font-mono text-[10px] text-on-surface-variant uppercase">Usa las flechas para posicionar</p>
+    </div>
+</main>
+
+<div id="sideCartPanel" class="fixed top-0 right-0 h-full w-80 bg-surface-container border-l border-outline-variant z-[150] transform translate-x-full transition-transform flex flex-col">
+    <div class="p-5 border-b border-outline-variant flex justify-between items-center bg-surface-container-highest">
+        <h2 class="font-headline font-bold text-primary">CARRITO</h2>
+        <button onclick="document.getElementById('sideCartPanel').classList.add('translate-x-full')">✕</button>
+    </div>
+    <div id="cartItemsContainer" class="flex-1 overflow-y-auto p-4 space-y-3 font-mono text-xs"></div>
+    
+    <div class="p-5 border-t border-outline-variant bg-surface-container-highest flex flex-col gap-4">
+        <div class="font-headline font-black text-secondary text-xl" id="cartTotalEl">$0.00 MXN</div>
+        <button class="w-full py-3 px-4 bg-[#ffc439] hover:bg-[#e5b033] text-[#003087] font-bold rounded flex items-center justify-center gap-2 transition-colors">
+            Pagar con PayPal
+        </button>
+    </div>
+</div>
+
+<div id="cardModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/90 backdrop-blur-md p-4">
+    <button onclick="hideModal()" class="fixed top-6 right-6 text-slate-400 border border-outline-variant p-2 rounded-full">✕</button>
+    <div class="flex flex-col items-center gap-6">
+        <img id="modalImg" src="" class="max-h-[70vh] object-contain rounded-xl shadow-2xl tilt-element card-interactive" style="transition: transform 0.1s linear;" />
+        <button id="modalAddBtn" class="px-8 py-3 bg-primary text-black font-black chamfer-clip">AÑADIR AL CARRITO</button>
+    </div>
+</div>
+
+<script>
+    const inventoryData = [
+        {img: "carta1.jpg", name: "Carta 1", price: 450}, {img: "carta2.jpeg", name: "Carta 2", price: 1200},
+        {img: "carta3.jpeg", name: "Carta 3", price: 890}, {img: "carta4.jpeg", name: "Carta 4", price: 350},
+        {img: "carta5.jpeg", name: "Carta 5", price: 600}, {img: "carta6.jpeg", name: "Carta 6", price: 150},
+        {img: "carta7.jpeg", name: "Carta 7", price: 950}, {img: "Carta8.jpeg", name: "Carta 8", price: 2100},
+        {img: "carta9.jpeg", name: "Carta 9", price: 420}, {img: "carta10.jpeg", name: "Carta 10", price: 770},
+        {img: "carta11.jpeg", name: "Carta 11", price: 3500}, {img: "doffiekang.jpeg", name: "Doffie", price: 800},
+        {img: "carta12.png", name: "Carta 12", price: 1000}, {img: "13.png", name: "Carta 13", price: 1100},
+        {img: "carta14.png", name: "Carta 14", price: 900}, {img: "carta15.png", name: "Carta 15", price: 1300}
+    ];
+
+    let cart = [];
+    let clawX = 50;
+    let selectedForPokedex = null;
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const grid = document.getElementById('inventoryGrid');
+        inventoryData.forEach((card, i) => {
+            const div = document.createElement('div');
+            // Se añadió la clase tilt-element para el script 3D
+            div.className = "card-interactive tilt-element aspect-[3/4] bg-surface-container-highest border border-outline-variant/50 relative p-1 group cursor-pointer overflow-hidden rounded";
+            div.innerHTML = `<img class="w-full h-full object-cover pointer-events-none" src="${card.img}">`;
+            div.onclick = () => handleCardClick(card);
+            grid.appendChild(div);
+        });
+        initPile();
+        const rand = inventoryData[Math.floor(Math.random()*inventoryData.length)].img;
+        document.getElementById('randomCardElement').style.backgroundImage = `url('${rand}')`;
+        
+        // Inicializar el efecto 3D después de cargar el DOM
+        init3DTilt();
+    });
+
+    function handleCardClick(card) {
+        showModal(card);
+        
+        const screen = document.getElementById('pokedexScreenImg');
+        if(screen) {
+            screen.setAttribute('href', card.img);
+            screen.style.opacity = "1";
+            selectedForPokedex = card;
+        }
+    }
+
+    document.getElementById('pokedexBuyBtn').onclick = () => {
+        if (selectedForPokedex) {
+            addToCart(selectedForPokedex);
+            alert("Añadido desde PokeDex");
+        }
+    };
+
+    function showModal(card) {
+        const modal = document.getElementById('cardModal');
+        const modalImg = document.getElementById('modalImg');
+        modalImg.src = card.img;
+        
+        // Resetear la rotación 3D del modal al abrir
+        modalImg.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+        
+        document.getElementById('modalAddBtn').onclick = () => { addToCart(card); hideModal(); };
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+
+    function hideModal() { document.getElementById('cardModal').classList.replace('flex', 'hidden'); }
+
+    function addToCart(card) {
+        cart.push(card);
+        updateCartUI();
+    }
+
+    function updateCartUI() {
+        const container = document.getElementById('cartItemsContainer');
+        const totalEl = document.getElementById('cartTotalEl');
+        container.innerHTML = cart.map(item => `<div>${item.name} - $${item.price}</div>`).join('');
+        const total = cart.reduce((sum, item) => sum + item.price, 0);
+        totalEl.innerText = `$${total.toLocaleString()} MXN`;
+    }
+
+    // --- LÓGICA GARRA MANUAL ---
+    function moveClaw(dir) {
+        clawX = Math.max(15, Math.min(85, clawX + dir));
+        document.getElementById('main-claw-arm').style.left = clawX + '%';
+    }
+
+    function runClawLogic() {
+        const btn = document.getElementById('dropBtn');
+        const arm = document.getElementById('main-claw-arm');
+        const mini = document.getElementById('mini-caught-card');
+        const big = document.getElementById('claw-card-won');
+        
+        btn.disabled = true;
+        big.style.transform = 'translate(-50%, -50%) scale(0)';
+        
+        arm.style.height = "340px";
+        setTimeout(() => {
+            const win = inventoryData[Math.floor(Math.random()*inventoryData.length)];
+            mini.src = win.img;
+            mini.style.display = 'block';
+            arm.style.height = "40px";
+            setTimeout(() => {
+                big.src = win.img;
+                big.style.transform = 'translate(-50%, -50%) scale(1)';
+                mini.style.display = 'none';
+                btn.disabled = false;
+                initPile();
+            }, 1000);
+        }, 1000);
+    }
+
+    function initPile() {
+        const pile = document.getElementById('claw-pile');
+        pile.innerHTML = '';
+        for(let i=0; i<20; i++) {
+            const img = document.createElement('img');
+            img.src = inventoryData[Math.floor(Math.random()*inventoryData.length)].img;
+            img.className = "absolute w-12 h-16 object-cover border border-white/10 rounded shadow-md pointer-events-none";
+            img.style.left = (Math.random()*85) + "%";
+            img.style.bottom = (Math.random()*15) + "px";
+            img.style.transform = `rotate(${Math.random()*60 - 30}deg)`;
+            pile.appendChild(img);
+        }
+    }
+
+    // =========================================
+    // LÓGICA DE EFECTO 3D (MOUSE / TOUCH)
+    // =========================================
+    function init3DTilt() {
+        // Seleccionamos las cartas interactivas que añadimos al DOM
+        const tiltElements = document.querySelectorAll('.tilt-element');
+        
+        tiltElements.forEach(el => {
+            // Eventos para PC
+            el.addEventListener('mousemove', handleTiltMove);
+            el.addEventListener('mouseleave', handleTiltLeave);
+            
+            // Eventos para Móvil
+            el.addEventListener('touchmove', handleTiltMove, {passive: true});
+            el.addEventListener('touchend', handleTiltLeave);
+        });
+    }
+
+    function handleTiltMove(e) {
+        const el = this;
+        const rect = el.getBoundingClientRect();
+        let clientX, clientY;
+
+        // Detectar si es evento táctil o de mouse
+        if (e.type === 'touchmove') {
+            clientX = e.touches[0].clientX;
+            clientY = e.touches[0].clientY;
+        } else {
+            clientX = e.clientX;
+            clientY = e.clientY;
+        }
+
+        // Calcular el centro del elemento
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        // Calcular el porcentaje de distancia desde el centro (-1 a 1)
+        const percentX = (clientX - centerX) / (rect.width / 2);
+        const percentY = (clientY - centerY) / (rect.height / 2);
+
+        // Multiplicador de grados de inclinación (max 15 grados)
+        const rotateX = percentY * -15; // Invertimos Y para que se incline hacia el cursor
+        const rotateY = percentX * 15;
+
+        // Aplicamos la transformación 3D
+        el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+    }
+
+    function handleTiltLeave(e) {
+        // Restaurar la posición original suavemente al quitar el cursor/dedo
+        this.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+    }
+</script>
+</body>
+</html>
