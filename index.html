@@ -5,7 +5,7 @@
     <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>LEGAL TECH TCG</title>
+    <title>LEGAL TECH TCG - Carta Legendaria</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
@@ -46,51 +46,264 @@
             pointer-events: none;
         }
         .chamfer-clip { clip-path: polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px); }
-        .card-perspective { perspective: 1000px; }
+        .card-perspective { perspective: 1200px; }
+        
+        /* MEJORAS DE ANIMACIÓN PARA CARTAS */
         .card-interactive {
             transform-style: preserve-3d;
-            /* Se redujo el tiempo de transición de transform para que el seguimiento del mouse sea más fluido */
-            transition: box-shadow 0.3s ease, filter 0.3s ease, transform 0.05s linear;
-            will-change: transform;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                        box-shadow 0.4s ease, 
+                        filter 0.4s ease;
+            will-change: transform, box-shadow;
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
+            position: relative;
+            cursor: pointer;
         }
+        
+        /* Efecto de brillo móvil */
+        .card-interactive::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.05) 30%,
+                rgba(255, 255, 255, 0.1) 50%,
+                rgba(255, 255, 255, 0.05) 70%,
+                transparent 100%
+            );
+            transform: skewX(-25deg);
+            transition: left 0.6s ease;
+            z-index: 2;
+            pointer-events: none;
+        }
+        
+        .card-interactive:hover::before {
+            left: 150%;
+            transition: left 0.6s ease;
+        }
+        
+        /* Efecto de partículas brillantes */
+        .card-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 3;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .card-interactive:hover .card-particles {
+            opacity: 1;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #ffd96f;
+            border-radius: 50%;
+            animation: floatParticle 2s infinite;
+            box-shadow: 0 0 4px #ffd96f, 0 0 8px rgba(255, 217, 111, 0.5);
+        }
+        
+        @keyframes floatParticle {
+            0%, 100% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+            50% { transform: translateY(-20px) translateX(10px) scale(1.5); opacity: 1; }
+            75% { transform: translateY(-30px) translateX(-5px) scale(1); opacity: 0.5; }
+        }
+        
+        /* Efecto de profundidad y sombra mejorado */
         @media (hover: hover) {
             .card-interactive:hover {
-                box-shadow: 0 15px 30px rgba(255, 217, 111, 0.2), 0 0 20px rgba(255, 217, 111, 0.1) inset;
+                box-shadow: 
+                    0 25px 45px rgba(255, 217, 111, 0.15),
+                    0 10px 20px rgba(0, 0, 0, 0.4),
+                    0 0 30px rgba(255, 217, 111, 0.1) inset,
+                    0 0 60px rgba(255, 217, 111, 0.05) inset;
+                filter: brightness(1.1) contrast(1.05);
             }
         }
-        .card-interactive:active { transform: scale3d(0.95, 0.95, 0.95) !important; }
+        
+        .card-interactive:active { 
+            transform: scale3d(0.95, 0.95, 0.95) !important;
+            transition: transform 0.1s ease !important;
+        }
 
-        /* SOBRE SORPRESA */
+        /* Efecto de superficie reflectante */
+        .reflection-overlay {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(
+                circle at 30% 30%,
+                rgba(255, 255, 255, 0.2) 0%,
+                rgba(255, 255, 255, 0.1) 15%,
+                transparent 40%
+            );
+            pointer-events: none;
+            z-index: 1;
+            mix-blend-mode: overlay;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        .card-interactive:hover .reflection-overlay {
+            opacity: 1;
+        }
+
+        /* Efecto especial para la carta principal */
+        .featured-card {
+            animation: featuredGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes featuredGlow {
+            0%, 100% { 
+                box-shadow: 0 0 30px rgba(255, 217, 111, 0.3), 0 0 60px rgba(255, 217, 111, 0.1);
+                border-color: rgba(255, 217, 111, 0.3);
+            }
+            50% { 
+                box-shadow: 0 0 50px rgba(255, 217, 111, 0.5), 0 0 100px rgba(255, 217, 111, 0.2);
+                border-color: rgba(255, 217, 111, 0.6);
+            }
+        }
+
+        /* SOBRE SORPRESA MEJORADO */
         .pack-container { position: relative; width: 220px; height: 310px; perspective: 1200px; cursor: pointer; margin-top: 60px; }
         .pack-container .card-surprise {
             position: absolute; width: 100%; height: 100%; border-radius: 12px; background-size: cover; background-position: center;
-            box-shadow: 0 0 15px rgba(0,0,0,0.8); z-index: 2; transition: transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.15); transform: translateY(0) scale(0.95);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8); z-index: 2; transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform: translateY(0) scale(0.95);
+            overflow: hidden;
         }
-        .pack-back { position: absolute; width: 100%; height: 100%; background: #1e293b; border-radius: 10px; z-index: 1; }
+        
+        .card-surprise::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.1) 30%,
+                rgba(255, 255, 255, 0.2) 50%,
+                rgba(255, 255, 255, 0.1) 70%,
+                transparent 100%
+            );
+            transform: skewX(-25deg);
+            z-index: 2;
+            pointer-events: none;
+        }
+        
+        .pack-container:hover .card-surprise::before {
+            animation: shimmerCard 1s ease;
+        }
+        
+        @keyframes shimmerCard {
+            0% { left: -100%; }
+            100% { left: 200%; }
+        }
+        
+        .pack-back { position: absolute; width: 100%; height: 100%; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-radius: 10px; z-index: 1; }
         .pack-front {
             position: absolute; width: 100%; height: 100%; background: linear-gradient(135deg, #ffd96f 0%, #fcc800 100%);
             border-radius: 10px; z-index: 3; display: flex; justify-content: center; align-items: center; color: #0a0e14; font-size: 20px; font-weight: 900;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(255, 217, 111, 0.3);
         }
         .pack-front::after { content: 'MYSTERY\APACK'; white-space: pre; border: 2px solid rgba(10,14,20,0.4); padding: 15px; border-radius: 8px; }
-        .pack-flap { position: absolute; top: -15px; left: 0; width: 100%; height: 30px; background: repeating-linear-gradient(45deg, #ffd96f, #ffd96f 8px, #fcc800 8px, #fcc800 16px); z-index: 4; border-radius: 6px 6px 0 0; transition: transform 0.5s ease; transform-origin: bottom; }
-        .pack-container:hover .card-surprise { transform: translateY(-115%) scale(1.1) rotateZ(3deg); z-index: 5; }
-        .pack-container:hover .pack-front { transform: rotateX(20deg); }
-        .pack-container:hover .pack-flap { transform: rotateX(180deg); opacity: 0; }
+        .pack-flap { 
+            position: absolute; top: -15px; left: 0; width: 100%; height: 30px; 
+            background: repeating-linear-gradient(45deg, #ffd96f, #ffd96f 8px, #fcc800 8px, #fcc800 16px); 
+            z-index: 4; border-radius: 6px 6px 0 0; transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-origin: bottom; 
+            box-shadow: 0 -5px 15px rgba(255, 217, 111, 0.3);
+        }
+        .pack-container:hover .card-surprise { 
+            transform: translateY(-115%) scale(1.1) rotateZ(3deg); 
+            z-index: 5; 
+            box-shadow: 0 30px 60px rgba(255, 217, 111, 0.3), 0 0 40px rgba(255, 217, 111, 0.2);
+        }
+        .pack-container:hover .pack-front { 
+            transform: rotateX(20deg) scale(0.98); 
+            box-shadow: 0 20px 40px rgba(255, 217, 111, 0.2);
+        }
+        .pack-container:hover .pack-flap { 
+            transform: rotateX(180deg); 
+            opacity: 0;
+            box-shadow: none;
+        }
 
-        /* MÁQUINA DE GARRA */
-        .claw-machine-wrap { width: 320px; height: 450px; background: #151a21; border: 6px solid #262c36; border-radius: 12px 12px 0 0; position: relative; overflow: hidden; }
+        /* MÁQUINA DE GARRA MEJORADA */
+        .claw-machine-wrap { 
+            width: 320px; height: 450px; background: linear-gradient(180deg, #151a21 0%, #0a0e14 100%); 
+            border: 6px solid #262c36; border-radius: 12px 12px 0 0; position: relative; overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), inset 0 0 100px rgba(0, 227, 253, 0.05);
+        }
         .claw-glass-area { position: absolute; inset: 10px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); overflow: hidden; }
-        #main-claw-arm { position: absolute; top: 0; left: 50%; width: 2px; height: 40px; background: #ffd96f; transition: left 0.2s linear, height 0.8s ease; z-index: 50; }
-        #main-claw-hook { position: absolute; bottom: -18px; left: -14px; font-size: 24px; transform: rotate(180deg); filter: drop-shadow(0 0 5px #ffd96f); }
-        #mini-caught-card { position: absolute; top: 25px; left: 50%; transform: translateX(-50%); width: 40px; height: 56px; border: 1px solid #ffd96f; z-index: 45; display: none; object-fit: cover; }
+        
+        #main-claw-arm { 
+            position: absolute; top: 0; left: 50%; width: 3px; height: 40px; 
+            background: linear-gradient(180deg, #ffd96f 0%, #fcc800 100%); 
+            transition: left 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), height 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55); 
+            z-index: 50; 
+            box-shadow: 0 0 10px rgba(255, 217, 111, 0.5);
+        }
+        #main-claw-hook { 
+            position: absolute; bottom: -18px; left: -14px; font-size: 24px; transform: rotate(180deg); 
+            filter: drop-shadow(0 0 5px #ffd96f);
+            animation: hookGlow 2s infinite;
+        }
+        
+        @keyframes hookGlow {
+            0%, 100% { filter: drop-shadow(0 0 5px #ffd96f); }
+            50% { filter: drop-shadow(0 0 15px #ffd96f) drop-shadow(0 0 25px rgba(255, 217, 111, 0.5)); }
+        }
+        
+        #mini-caught-card { 
+            position: absolute; top: 25px; left: 50%; transform: translateX(-50%); 
+            width: 40px; height: 56px; border: 1px solid #ffd96f; z-index: 45; display: none; object-fit: cover;
+            box-shadow: 0 0 15px rgba(255, 217, 111, 0.4);
+            animation: cardDangle 0.5s ease-in-out infinite alternate;
+        }
+        
+        @keyframes cardDangle {
+            from { transform: translateX(-50%) rotate(-3deg); }
+            to { transform: translateX(-50%) rotate(3deg); }
+        }
+        
         .claw-pile-container { position: absolute; bottom: 0; width: 100%; height: 70px; pointer-events: none; }
-        #claw-card-won { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%) scale(0); width: 170px; z-index: 100; transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); pointer-events: none; }
+        
+        #claw-card-won { 
+            position: absolute; top: 40%; left: 50%; 
+            transform: translate(-50%, -50%) scale(0); 
+            width: 170px; z-index: 100; 
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            pointer-events: none; 
+            animation: none;
+        }
+        
+        #claw-card-won.show {
+            animation: cardReveal 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        
+        @keyframes cardReveal {
+            0% { transform: translate(-50%, -50%) scale(0) rotateY(180deg); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.2) rotateY(90deg); opacity: 0.8; }
+            100% { transform: translate(-50%, -50%) scale(1) rotateY(0deg); opacity: 1; }
+        }
 
-        /* =========================================
-           EFECTOS VISUALES HOLOGRÁFICOS
-           ========================================= */
+        /* EFECTOS HOLOGRÁFICOS MEJORADOS */
         .card-interactive::after, .card-surprise::after {
             content: "";
             position: absolute;
@@ -98,14 +311,15 @@
             background: linear-gradient(
                 115deg,
                 transparent 20%,
-                rgba(255, 217, 111, 0.25) 30%,
-                rgba(255, 255, 255, 0.5) 40%,
-                rgba(0, 227, 253, 0.25) 50%,
-                transparent 60%
+                rgba(255, 217, 111, 0.15) 30%,
+                rgba(255, 255, 255, 0.3) 40%,
+                rgba(0, 227, 253, 0.15) 50%,
+                rgba(255, 217, 111, 0.15) 60%,
+                transparent 70%
             );
             background-size: 300% 300%;
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.5s ease;
             pointer-events: none;
             mix-blend-mode: color-dodge;
             z-index: 10;
@@ -113,11 +327,48 @@
         }
         .card-interactive:hover::after, .pack-container:hover .card-surprise::after {
             opacity: 1;
-            animation: holo-shimmer 2s infinite linear;
+            animation: holo-shimmer 3s infinite linear;
         }
         @keyframes holo-shimmer {
             0% { background-position: 200% 0; }
             100% { background-position: -200% 0; }
+        }
+        
+        @keyframes cardAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.8) rotateY(90deg);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) rotateY(0deg);
+            }
+        }
+        
+        .card-appear {
+            animation: cardAppear 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        /* Badge de "NUEVO" para la carta principal */
+        .new-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(135deg, #ffd96f 0%, #fcc800 100%);
+            color: #0a0e14;
+            padding: 4px 12px;
+            font-size: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+            border-radius: 4px;
+            z-index: 20;
+            animation: badgePulse 2s ease-in-out infinite;
+            letter-spacing: 1px;
+        }
+        
+        @keyframes badgePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
     </style>
 </head>
@@ -136,29 +387,47 @@
 <main class="relative min-h-screen pt-28 pb-12 px-4 md:px-12 lg:px-24">
     <div class="fixed inset-0 scanline-overlay z-10"></div>
 
+    <!-- SECCIÓN PRINCIPAL CON LA NUEVA CARTA -->
     <section class="relative mb-20 z-20">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
             <div class="space-y-6 text-center lg:text-left">
-                <div class="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 border-l-4 border-primary text-primary-fixed font-label text-xs tracking-widest uppercase">OFERTA LIMITADA</div>
-                <h1 class="text-5xl md:text-7xl font-headline font-black uppercase italic tracking-tighter leading-none">Cartas <span class="text-primary">Legendarias</span></h1>
-                <p class="text-lg text-on-surface-variant max-w-xl font-body">Explora nuestra base de datos de cartas raras del sector Legal Tech.</p>
+                <div class="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 border-l-4 border-primary text-primary-fixed font-label text-xs tracking-widest uppercase">
+                    ⚡ NUEVA CARTA LEGENDARIA
+                </div>
+                <h1 class="text-5xl md:text-7xl font-headline font-black uppercase italic tracking-tighter leading-none">
+                    Carta <span class="text-primary">Legendaria</span>
+                </h1>
+                <p class="text-lg text-on-surface-variant max-w-xl font-body">
+                    Descubre la nueva <span class="text-primary font-bold">Carta 16</span>, la más poderosa de nuestra colección Legal Tech.
+                </p>
+                <div class="flex gap-4 justify-center lg:justify-start">
+                    <button onclick="document.querySelector('.featured-card').scrollIntoView({behavior: 'smooth'})" 
+                            class="px-6 py-3 bg-primary text-black font-black uppercase text-sm chamfer-clip hover:bg-primary-fixed transition-all">
+                        Ver Carta
+                    </button>
+                    <button onclick="addToCart(inventoryData[inventoryData.length-1])" 
+                            class="px-6 py-3 bg-surface-bright border border-primary text-primary font-black uppercase text-sm chamfer-clip hover:bg-surface-container-highest transition-all">
+                        Comprar Ahora
+                    </button>
+                </div>
             </div>
             <div class="relative flex justify-center card-perspective">
-                <div class="relative w-full max-w-[300px] aspect-[3/4] bg-surface-container-low rounded-xl border border-outline-variant/30 overflow-hidden card-interactive cursor-pointer tilt-element">
-                    <img class="w-full h-full object-contain" src="carta15.png" alt="Featured"/>
+                <div class="relative w-full max-w-[300px] aspect-[3/4] bg-surface-container-low rounded-xl border-2 border-primary/30 overflow-hidden card-interactive cursor-pointer tilt-element featured-card">
+                    <div class="new-badge">NUEVO</div>
+                    <img class="w-full h-full object-contain" src="carta16.png" alt="Carta Legendaria 16"/>
+                    <div class="reflection-overlay"></div>
+                    <div class="card-particles" id="featuredParticles"></div>
                 </div>
             </div>
         </div>
     </section>
 
-    
-
-<section class="mb-24 relative z-20">
+    <section class="mb-24 relative z-20">
         <h2 class="text-3xl font-headline font-black uppercase mb-10">Inventario <span class="text-primary">Actualizado</span></h2>
         <div class="grid lg:grid-cols-3 gap-8">
             <div class="lg:col-span-2 bg-surface-container border border-outline-variant/30 chamfer-clip p-6">
                 <div id="inventoryGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4 card-perspective">
-                    </div>
+                </div>
             </div>
             
             <div class="flex flex-col gap-4">
@@ -167,7 +436,12 @@
                     <div class="space-y-4">
                         <div class="bg-surface-container p-3 border border-outline-variant/20">
                             <div class="text-[8px] text-on-surface-variant uppercase font-mono mb-1">Cartas en stock</div>
-                            <div class="text-xl font-headline font-black text-secondary">16 Items</div>
+                            <div class="text-xl font-headline font-black text-secondary" id="stockCounter">17 Items</div>
+                        </div>
+                        <div class="bg-gradient-to-r from-primary/10 to-transparent p-3 border border-primary/20">
+                            <div class="text-[8px] text-primary uppercase font-mono mb-1">⭐ Nueva Carta</div>
+                            <div class="text-sm font-headline font-bold text-primary">Carta 16 Legendaria</div>
+                            <div class="text-xs text-on-surface-variant mt-1">$2,500 MXN</div>
                         </div>
                     </div>
                 </div>
@@ -209,52 +483,62 @@
         <div class="claw-machine-wrap">
             <div class="claw-glass-area">
                 <div id="main-claw-arm"><div id="main-claw-hook">🏗️</div><img id="mini-caught-card" src=""></div>
-                <img id="claw-card-won" src="" class="card-interactive rounded border-2 border-primary shadow-2xl">
+                <img id="claw-card-won" src="" class="rounded border-2 border-primary shadow-2xl">
                 <div id="claw-pile" class="claw-pile-container"></div>
             </div>
             <div class="absolute bottom-0 w-full h-20 bg-surface-container-highest border-t border-outline-variant flex items-center justify-center gap-4 px-4">
-                <button onclick="moveClaw(-5)" class="w-12 h-12 bg-surface-bright border border-outline-variant flex items-center justify-center chamfer-clip active:scale-90"><span class="material-symbols-outlined">arrow_back</span></button>
-                <button id="dropBtn" onclick="runClawLogic()" class="px-6 py-2 bg-primary text-black font-black uppercase text-xs chamfer-clip active:scale-90">BAJAR GARRA</button>
-                <button onclick="moveClaw(5)" class="w-12 h-12 bg-surface-bright border border-outline-variant flex items-center justify-center chamfer-clip active:scale-90"><span class="material-symbols-outlined">arrow_forward</span></button>
+                <button onclick="moveClaw(-5)" class="w-12 h-12 bg-surface-bright border border-outline-variant flex items-center justify-center chamfer-clip active:scale-90 transition-all hover:bg-surface-bright/80"><span class="material-symbols-outlined">arrow_back</span></button>
+                <button id="dropBtn" onclick="runClawLogic()" class="px-6 py-2 bg-primary text-black font-black uppercase text-xs chamfer-clip active:scale-90 transition-all hover:bg-primary-fixed">BAJAR GARRA</button>
+                <button onclick="moveClaw(5)" class="w-12 h-12 bg-surface-bright border border-outline-variant flex items-center justify-center chamfer-clip active:scale-90 transition-all hover:bg-surface-bright/80"><span class="material-symbols-outlined">arrow_forward</span></button>
             </div>
         </div>
         <p id="clawMessage" class="mt-4 font-mono text-[10px] text-on-surface-variant uppercase">Usa las flechas para posicionar</p>
     </div>
 </main>
 
-<div id="sideCartPanel" class="fixed top-0 right-0 h-full w-80 bg-surface-container border-l border-outline-variant z-[150] transform translate-x-full transition-transform flex flex-col">
+<div id="sideCartPanel" class="fixed top-0 right-0 h-full w-80 bg-surface-container border-l border-outline-variant z-[150] transform translate-x-full transition-transform duration-300 flex flex-col">
     <div class="p-5 border-b border-outline-variant flex justify-between items-center bg-surface-container-highest">
         <h2 class="font-headline font-bold text-primary">CARRITO</h2>
-        <button onclick="document.getElementById('sideCartPanel').classList.add('translate-x-full')">✕</button>
+        <button onclick="document.getElementById('sideCartPanel').classList.add('translate-x-full')" class="hover:text-primary transition-colors">✕</button>
     </div>
     <div id="cartItemsContainer" class="flex-1 overflow-y-auto p-4 space-y-3 font-mono text-xs"></div>
     
     <div class="p-5 border-t border-outline-variant bg-surface-container-highest flex flex-col gap-4">
         <div class="font-headline font-black text-secondary text-xl" id="cartTotalEl">$0.00 MXN</div>
-        <button class="w-full py-3 px-4 bg-[#ffc439] hover:bg-[#e5b033] text-[#003087] font-bold rounded flex items-center justify-center gap-2 transition-colors">
+        <button class="w-full py-3 px-4 bg-[#ffc439] hover:bg-[#e5b033] text-[#003087] font-bold rounded flex items-center justify-center gap-2 transition-all hover:shadow-lg">
             Pagar con PayPal
         </button>
     </div>
 </div>
 
 <div id="cardModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/90 backdrop-blur-md p-4">
-    <button onclick="hideModal()" class="fixed top-6 right-6 text-slate-400 border border-outline-variant p-2 rounded-full">✕</button>
+    <button onclick="hideModal()" class="fixed top-6 right-6 text-slate-400 border border-outline-variant p-2 rounded-full hover:text-white hover:border-white transition-colors">✕</button>
     <div class="flex flex-col items-center gap-6">
-        <img id="modalImg" src="" class="max-h-[70vh] object-contain rounded-xl shadow-2xl tilt-element card-interactive" style="transition: transform 0.1s linear;" />
-        <button id="modalAddBtn" class="px-8 py-3 bg-primary text-black font-black chamfer-clip">AÑADIR AL CARRITO</button>
+        <img id="modalImg" src="" class="max-h-[70vh] object-contain rounded-xl shadow-2xl tilt-element card-interactive" style="transition: transform 0.3s ease;" />
+        <button id="modalAddBtn" class="px-8 py-3 bg-primary text-black font-black chamfer-clip hover:bg-primary-fixed transition-all hover:shadow-lg">AÑADIR AL CARRITO</button>
     </div>
 </div>
 
 <script>
+    // AGREGADA carta16.png como la nueva carta destacada
     const inventoryData = [
-        {img: "carta1.jpg", name: "Carta 1", price: 450}, {img: "carta2.jpeg", name: "Carta 2", price: 1200},
-        {img: "carta3.jpeg", name: "Carta 3", price: 890}, {img: "carta4.jpeg", name: "Carta 4", price: 350},
-        {img: "carta5.jpeg", name: "Carta 5", price: 600}, {img: "carta6.jpeg", name: "Carta 6", price: 150},
-        {img: "carta7.jpeg", name: "Carta 7", price: 950}, {img: "Carta8.jpeg", name: "Carta 8", price: 2100},
-        {img: "carta9.jpeg", name: "Carta 9", price: 420}, {img: "carta10.jpeg", name: "Carta 10", price: 770},
-        {img: "carta11.jpeg", name: "Carta 11", price: 3500}, {img: "doffiekang.jpeg", name: "Doffie", price: 800},
-        {img: "carta12.png", name: "Carta 12", price: 1000}, {img: "13.png", name: "Carta 13", price: 1100},
-        {img: "carta14.png", name: "Carta 14", price: 900}, {img: "carta15.png", name: "Carta 15", price: 1300}
+        {img: "carta1.jpg", name: "Carta 1", price: 450}, 
+        {img: "carta2.jpeg", name: "Carta 2", price: 1200},
+        {img: "carta3.jpeg", name: "Carta 3", price: 890}, 
+        {img: "carta4.jpeg", name: "Carta 4", price: 350},
+        {img: "carta5.jpeg", name: "Carta 5", price: 600}, 
+        {img: "carta6.jpeg", name: "Carta 6", price: 150},
+        {img: "carta7.jpeg", name: "Carta 7", price: 950}, 
+        {img: "Carta8.jpeg", name: "Carta 8", price: 2100},
+        {img: "carta9.jpeg", name: "Carta 9", price: 420}, 
+        {img: "carta10.jpeg", name: "Carta 10", price: 770},
+        {img: "carta11.jpeg", name: "Carta 11", price: 3500}, 
+        {img: "doffiekang.jpeg", name: "Doffie", price: 800},
+        {img: "carta12.png", name: "Carta 12", price: 1000}, 
+        {img: "13.png", name: "Carta 13", price: 1100},
+        {img: "carta14.png", name: "Carta 14", price: 900}, 
+        {img: "carta15.png", name: "Carta 15", price: 1300},
+        {img: "carta16.png", name: "Carta 16 Legendaria", price: 2500} // NUEVA CARTA PRINCIPAL
     ];
 
     let cart = [];
@@ -265,19 +549,44 @@
         const grid = document.getElementById('inventoryGrid');
         inventoryData.forEach((card, i) => {
             const div = document.createElement('div');
-            // Se añadió la clase tilt-element para el script 3D
-            div.className = "card-interactive tilt-element aspect-[3/4] bg-surface-container-highest border border-outline-variant/50 relative p-1 group cursor-pointer overflow-hidden rounded";
-            div.innerHTML = `<img class="w-full h-full object-cover pointer-events-none" src="${card.img}">`;
+            const isNewCard = i === inventoryData.length - 1; // La última es la nueva
+            div.className = `card-interactive tilt-element aspect-[3/4] bg-surface-container-highest border ${isNewCard ? 'border-primary/50' : 'border-outline-variant/50'} relative p-1 cursor-pointer overflow-hidden rounded card-appear`;
+            div.style.animationDelay = `${i * 0.1}s`;
+            div.innerHTML = `
+                ${isNewCard ? '<div class="new-badge" style="font-size: 8px; padding: 2px 8px;">NUEVO</div>' : ''}
+                <img class="w-full h-full object-cover pointer-events-none" src="${card.img}">
+                <div class="reflection-overlay"></div>
+                <div class="card-particles">
+                    ${generateParticles()}
+                </div>
+            `;
             div.onclick = () => handleCardClick(card);
             grid.appendChild(div);
         });
         initPile();
+        
+        // El sobre sorpresa ahora puede revelar la nueva carta también
         const rand = inventoryData[Math.floor(Math.random()*inventoryData.length)].img;
         document.getElementById('randomCardElement').style.backgroundImage = `url('${rand}')`;
         
-        // Inicializar el efecto 3D después de cargar el DOM
+        document.getElementById('featuredParticles').innerHTML = generateParticles();
         init3DTilt();
+        
+        // Actualizar el contador de stock
+        document.getElementById('stockCounter').textContent = `${inventoryData.length} Items`;
     });
+
+    function generateParticles() {
+        let particles = '';
+        for (let i = 0; i < 8; i++) {
+            const left = Math.random() * 100;
+            const top = Math.random() * 100;
+            const delay = Math.random() * 2;
+            const duration = 2 + Math.random() * 3;
+            particles += `<div class="particle" style="left: ${left}%; top: ${top}%; animation-delay: ${delay}s; animation-duration: ${duration}s;"></div>`;
+        }
+        return particles;
+    }
 
     function handleCardClick(card) {
         showModal(card);
@@ -293,7 +602,9 @@
     document.getElementById('pokedexBuyBtn').onclick = () => {
         if (selectedForPokedex) {
             addToCart(selectedForPokedex);
-            alert("Añadido desde PokeDex");
+            const btn = document.getElementById('pokedexBuyBtn');
+            btn.style.fill = '#fbbf24';
+            setTimeout(() => { btn.style.fill = '#22c55e'; }, 300);
         }
     };
 
@@ -301,31 +612,45 @@
         const modal = document.getElementById('cardModal');
         const modalImg = document.getElementById('modalImg');
         modalImg.src = card.img;
-        
-        // Resetear la rotación 3D del modal al abrir
         modalImg.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
         
-        document.getElementById('modalAddBtn').onclick = () => { addToCart(card); hideModal(); };
+        document.getElementById('modalAddBtn').onclick = () => { 
+            addToCart(card); 
+            hideModal(); 
+        };
         modal.classList.remove('hidden');
         modal.classList.add('flex');
     }
 
-    function hideModal() { document.getElementById('cardModal').classList.replace('flex', 'hidden'); }
+    function hideModal() { 
+        document.getElementById('cardModal').classList.replace('flex', 'hidden'); 
+    }
 
     function addToCart(card) {
         cart.push(card);
         updateCartUI();
+        const counter = document.getElementById('stockCounter');
+        counter.style.transform = 'scale(1.1)';
+        setTimeout(() => { counter.style.transform = 'scale(1)'; }, 200);
     }
 
     function updateCartUI() {
         const container = document.getElementById('cartItemsContainer');
         const totalEl = document.getElementById('cartTotalEl');
-        container.innerHTML = cart.map(item => `<div>${item.name} - $${item.price}</div>`).join('');
+        container.innerHTML = cart.map(item => 
+            `<div class="animate-pulse flex justify-between items-center">
+                <span>${item.name}</span>
+                <span class="text-primary">$${item.price.toLocaleString()}</span>
+            </div>`
+        ).join('');
         const total = cart.reduce((sum, item) => sum + item.price, 0);
         totalEl.innerText = `$${total.toLocaleString()} MXN`;
+        
+        setTimeout(() => {
+            container.querySelectorAll('.animate-pulse').forEach(el => el.classList.remove('animate-pulse'));
+        }, 1000);
     }
 
-    // --- LÓGICA GARRA MANUAL ---
     function moveClaw(dir) {
         clawX = Math.max(15, Math.min(85, clawX + dir));
         document.getElementById('main-claw-arm').style.left = clawX + '%';
@@ -338,21 +663,32 @@
         const big = document.getElementById('claw-card-won');
         
         btn.disabled = true;
+        big.classList.remove('show');
         big.style.transform = 'translate(-50%, -50%) scale(0)';
         
         arm.style.height = "340px";
         setTimeout(() => {
-            const win = inventoryData[Math.floor(Math.random()*inventoryData.length)];
+            // Mayor probabilidad de obtener la nueva carta en la garra
+            const win = Math.random() < 0.2 ? 
+                inventoryData[inventoryData.length - 1] : 
+                inventoryData[Math.floor(Math.random()*inventoryData.length)];
             mini.src = win.img;
             mini.style.display = 'block';
             arm.style.height = "40px";
             setTimeout(() => {
                 big.src = win.img;
-                big.style.transform = 'translate(-50%, -50%) scale(1)';
+                big.classList.add('show');
                 mini.style.display = 'none';
                 btn.disabled = false;
                 initPile();
-            }, 1000);
+                const msg = win.name.includes('Legendaria') ? 
+                    '🏆 ¡CONSEGUIDA LA CARTA LEGENDARIA!' : 
+                    '¡CARTA CONSEGUIDA! 🎉';
+                document.getElementById('clawMessage').textContent = msg;
+                setTimeout(() => {
+                    document.getElementById('clawMessage').textContent = 'Usa las flechas para posicionar';
+                }, 3000);
+            }, 1200);
         }, 1000);
     }
 
@@ -366,23 +702,18 @@
             img.style.left = (Math.random()*85) + "%";
             img.style.bottom = (Math.random()*15) + "px";
             img.style.transform = `rotate(${Math.random()*60 - 30}deg)`;
+            img.style.animation = `floatParticle ${3 + Math.random() * 4}s infinite`;
+            img.style.animationDelay = `${Math.random() * 2}s`;
             pile.appendChild(img);
         }
     }
 
-    // =========================================
-    // LÓGICA DE EFECTO 3D (MOUSE / TOUCH)
-    // =========================================
     function init3DTilt() {
-        // Seleccionamos las cartas interactivas que añadimos al DOM
         const tiltElements = document.querySelectorAll('.tilt-element');
         
         tiltElements.forEach(el => {
-            // Eventos para PC
             el.addEventListener('mousemove', handleTiltMove);
             el.addEventListener('mouseleave', handleTiltLeave);
-            
-            // Eventos para Móvil
             el.addEventListener('touchmove', handleTiltMove, {passive: true});
             el.addEventListener('touchend', handleTiltLeave);
         });
@@ -393,7 +724,6 @@
         const rect = el.getBoundingClientRect();
         let clientX, clientY;
 
-        // Detectar si es evento táctil o de mouse
         if (e.type === 'touchmove') {
             clientX = e.touches[0].clientX;
             clientY = e.touches[0].clientY;
@@ -402,25 +732,50 @@
             clientY = e.clientY;
         }
 
-        // Calcular el centro del elemento
         const centerX = rect.left + rect.width / 2;
         const centerY = rect.top + rect.height / 2;
         
-        // Calcular el porcentaje de distancia desde el centro (-1 a 1)
         const percentX = (clientX - centerX) / (rect.width / 2);
         const percentY = (clientY - centerY) / (rect.height / 2);
 
-        // Multiplicador de grados de inclinación (max 15 grados)
-        const rotateX = percentY * -15; // Invertimos Y para que se incline hacia el cursor
-        const rotateY = percentX * 15;
-
-        // Aplicamos la transformación 3D
-        el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+        const rotateX = percentY * -20;
+        const rotateY = percentX * 20;
+        
+        const shadowX = percentX * 10;
+        const shadowY = percentY * 10;
+        
+        el.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+        el.style.boxShadow = `
+            ${shadowX}px ${shadowY}px 30px rgba(255, 217, 111, 0.15),
+            ${-shadowX/2}px ${-shadowY/2}px 20px rgba(0, 0, 0, 0.4),
+            0 0 20px rgba(255, 217, 111, 0.1) inset
+        `;
+        
+        const reflection = el.querySelector('.reflection-overlay');
+        if (reflection) {
+            reflection.style.background = `radial-gradient(
+                circle at ${50 + percentX * 30}% ${50 + percentY * 30}%,
+                rgba(255, 255, 255, 0.25) 0%,
+                rgba(255, 255, 255, 0.1) 25%,
+                transparent 50%
+            )`;
+        }
     }
 
     function handleTiltLeave(e) {
-        // Restaurar la posición original suavemente al quitar el cursor/dedo
-        this.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+        this.style.transform = `perspective(1200px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+        this.style.boxShadow = '';
+        
+        const reflection = this.querySelector('.reflection-overlay');
+        if (reflection) {
+            reflection.style.background = '';
+        }
+    }
+
+    // Función para mostrar detalles de la carta principal
+    function showFeaturedCardDetails() {
+        const featuredCard = inventoryData[inventoryData.length - 1];
+        showModal(featuredCard);
     }
 </script>
 </body>
