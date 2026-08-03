@@ -1,307 +1,782 @@
 <!DOCTYPE html>
-<html lang="es">
+<html class="dark" lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LEGAL TECH TCG - Carta Legendaria</title>
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-<style>
-  *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif}
-  body{background:#0f172a;color:#e2e8f0}
-  [hidden]{display:none!important}
-  button{cursor:pointer;border:none;font-weight:700}
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>LEGAL TECH TCG - Carta Legendaria</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+          tailwind.config = {
+            darkMode: "class",
+            theme: {
+              extend: {
+                colors: {
+                  "surface": "#0a0e14",
+                  "surface-container": "#151a21",
+                  "surface-bright": "#262c36",
+                  "on-secondary-container": "#e8fbff",
+                  "on-surface-variant": "#a8abb3",
+                  "surface-container-low": "#0f141a",
+                  "surface-container-highest": "#20262f",
+                  "on-surface": "#f1f3fc",
+                  "secondary": "#00e3fd",
+                  "primary": "#ffd96f",
+                  "primary-fixed": "#fcc800",
+                  "outline-variant": "#44484f",
+                },
+                fontFamily: {
+                  "headline": ["Space Grotesk"],
+                  "body": ["Inter"],
+                  "label": ["Space Grotesk"]
+                },
+              },
+            },
+          }
+    </script>
+    <style>
+        * { -webkit-tap-highlight-color: transparent; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .scanline-overlay {
+            background: linear-gradient(to bottom, transparent 50%, rgba(241, 243, 252, 0.02) 50%);
+            background-size: 100% 4px;
+            pointer-events: none;
+        }
+        .chamfer-clip { clip-path: polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px); }
+        .card-perspective { perspective: 1200px; }
+        
+        /* MEJORAS DE ANIMACIÓN PARA CARTAS */
+        .card-interactive {
+            transform-style: preserve-3d;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                        box-shadow 0.4s ease, 
+                        filter 0.4s ease;
+            will-change: transform, box-shadow;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        /* Efecto de brillo móvil */
+        .card-interactive::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.05) 30%,
+                rgba(255, 255, 255, 0.1) 50%,
+                rgba(255, 255, 255, 0.05) 70%,
+                transparent 100%
+            );
+            transform: skewX(-25deg);
+            transition: left 0.6s ease;
+            z-index: 2;
+            pointer-events: none;
+        }
+        
+        .card-interactive:hover::before {
+            left: 150%;
+            transition: left 0.6s ease;
+        }
+        
+        /* Efecto de partículas brillantes */
+        .card-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 3;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .card-interactive:hover .card-particles {
+            opacity: 1;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #ffd96f;
+            border-radius: 50%;
+            animation: floatParticle 2s infinite;
+            box-shadow: 0 0 4px #ffd96f, 0 0 8px rgba(255, 217, 111, 0.5);
+        }
+        
+        @keyframes floatParticle {
+            0%, 100% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
+            50% { transform: translateY(-20px) translateX(10px) scale(1.5); opacity: 1; }
+            75% { transform: translateY(-30px) translateX(-5px) scale(1); opacity: 0.5; }
+        }
+        
+        /* Efecto de profundidad y sombra mejorado */
+        @media (hover: hover) {
+            .card-interactive:hover {
+                box-shadow: 
+                    0 25px 45px rgba(255, 217, 111, 0.15),
+                    0 10px 20px rgba(0, 0, 0, 0.4),
+                    0 0 30px rgba(255, 217, 111, 0.1) inset,
+                    0 0 60px rgba(255, 217, 111, 0.05) inset;
+                filter: brightness(1.1) contrast(1.05);
+            }
+        }
+        
+        .card-interactive:active { 
+            transform: scale3d(0.95, 0.95, 0.95) !important;
+            transition: transform 0.1s ease !important;
+        }
 
-  header{display:flex;justify-content:space-between;align-items:center;padding:14px 22px;
-    background:#1e293b;border-bottom:1px solid #334155;position:sticky;top:0;z-index:50}
-  .logo{font-size:1.2rem;font-weight:800}
-  .h-right{display:flex;align-items:center;gap:12px}
-  .avatar{width:40px;height:40px;border-radius:50%;background:#fff}
-  .cart-btn{position:relative;background:#334155;color:#e2e8f0;border-radius:10px;padding:8px 12px}
-  #cartCount{position:absolute;top:-8px;right:-8px;background:#f59e0b;color:#111;border-radius:999px;
-    font-size:.7rem;min-width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-weight:800}
+        /* Efecto de superficie reflectante */
+        .reflection-overlay {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(
+                circle at 30% 30%,
+                rgba(255, 255, 255, 0.2) 0%,
+                rgba(255, 255, 255, 0.1) 15%,
+                transparent 40%
+            );
+            pointer-events: none;
+            z-index: 1;
+            mix-blend-mode: overlay;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        
+        .card-interactive:hover .reflection-overlay {
+            opacity: 1;
+        }
 
-  .hero{text-align:center;padding:50px 20px 30px;position:relative}
-  .hero-badge{color:#f59e0b;font-weight:800;letter-spacing:1px;font-size:.85rem}
-  .hero h1{font-size:2.4rem;margin:12px 0}
-  .hero p{color:#94a3b8;max-width:600px;margin:0 auto}
-  .hero p b{color:#f59e0b}
-  .hero-actions{margin:22px 0;display:flex;gap:12px;justify-content:center}
-  .hero-actions button{padding:11px 24px;border-radius:10px}
-  #verCarta{background:transparent;border:2px solid #38bdf8;color:#38bdf8}
-  #comprarAhora{background:#f59e0b;color:#111}
-  .nuevo{position:absolute;top:20px;right:24px;background:#ef4444;color:#fff;border-radius:8px;
-    padding:4px 12px;font-size:.75rem;font-weight:800;transform:rotate(5deg)}
-  .hero-img{width:min(260px,70%);border-radius:14px;margin-top:10px;border:2px solid #f59e0b}
+        /* Efecto especial para la carta principal */
+        .featured-card {
+            animation: featuredGlow 3s ease-in-out infinite;
+        }
+        
+        @keyframes featuredGlow {
+            0%, 100% { 
+                box-shadow: 0 0 30px rgba(255, 217, 111, 0.3), 0 0 60px rgba(255, 217, 111, 0.1);
+                border-color: rgba(255, 217, 111, 0.3);
+            }
+            50% { 
+                box-shadow: 0 0 50px rgba(255, 217, 111, 0.5), 0 0 100px rgba(255, 217, 111, 0.2);
+                border-color: rgba(255, 217, 111, 0.6);
+            }
+        }
 
-  section{max-width:1050px;margin:0 auto;padding:30px 20px}
-  h2{margin-bottom:14px}
-  .resumen{display:flex;gap:14px;flex-wrap:wrap;background:#1e293b;border:1px solid #334155;border-radius:12px;padding:16px;margin-bottom:20px}
-  .resumen .box{flex:1;min-width:200px}
-  .resumen .t{color:#94a3b8;font-size:.78rem;text-transform:uppercase;letter-spacing:1px}
-  .resumen .v{font-weight:800;margin-top:4px}
-  .resumen .oro{color:#f59e0b}
+        /* SOBRE SORPRESA MEJORADO */
+        .pack-container { position: relative; width: 220px; height: 310px; perspective: 1200px; cursor: pointer; margin-top: 60px; }
+        .pack-container .card-surprise {
+            position: absolute; width: 100%; height: 100%; border-radius: 12px; background-size: cover; background-position: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8); z-index: 2; transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform: translateY(0) scale(0.95);
+            overflow: hidden;
+        }
+        
+        .card-surprise::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                rgba(255, 255, 255, 0.1) 30%,
+                rgba(255, 255, 255, 0.2) 50%,
+                rgba(255, 255, 255, 0.1) 70%,
+                transparent 100%
+            );
+            transform: skewX(-25deg);
+            z-index: 2;
+            pointer-events: none;
+        }
+        
+        .pack-container:hover .card-surprise::before {
+            animation: shimmerCard 1s ease;
+        }
+        
+        @keyframes shimmerCard {
+            0% { left: -100%; }
+            100% { left: 200%; }
+        }
+        
+        .pack-back { position: absolute; width: 100%; height: 100%; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-radius: 10px; z-index: 1; }
+        .pack-front {
+            position: absolute; width: 100%; height: 100%; background: linear-gradient(135deg, #ffd96f 0%, #fcc800 100%);
+            border-radius: 10px; z-index: 3; display: flex; justify-content: center; align-items: center; color: #0a0e14; font-size: 20px; font-weight: 900;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(255, 217, 111, 0.3);
+        }
+        .pack-front::after { content: 'MYSTERY\APACK'; white-space: pre; border: 2px solid rgba(10,14,20,0.4); padding: 15px; border-radius: 8px; }
+        .pack-flap { 
+            position: absolute; top: -15px; left: 0; width: 100%; height: 30px; 
+            background: repeating-linear-gradient(45deg, #ffd96f, #ffd96f 8px, #fcc800 8px, #fcc800 16px); 
+            z-index: 4; border-radius: 6px 6px 0 0; transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-origin: bottom; 
+            box-shadow: 0 -5px 15px rgba(255, 217, 111, 0.3);
+        }
+        .pack-container:hover .card-surprise { 
+            transform: translateY(-115%) scale(1.1) rotateZ(3deg); 
+            z-index: 5; 
+            box-shadow: 0 30px 60px rgba(255, 217, 111, 0.3), 0 0 40px rgba(255, 217, 111, 0.2);
+        }
+        .pack-container:hover .pack-front { 
+            transform: rotateX(20deg) scale(0.98); 
+            box-shadow: 0 20px 40px rgba(255, 217, 111, 0.2);
+        }
+        .pack-container:hover .pack-flap { 
+            transform: rotateX(180deg); 
+            opacity: 0;
+            box-shadow: none;
+        }
 
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:16px}
-  .card{background:#1e293b;border:1px solid #334155;border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
-  .card img{width:100%;height:210px;object-fit:cover;background:#000}
-  .card .info{padding:10px;display:flex;flex-direction:column;gap:6px;flex:1}
-  .card .nom{font-size:.88rem;font-weight:700}
-  .card .pre{color:#f59e0b;font-weight:800}
-  .card button{margin-top:auto;background:#334155;color:#38bdf8;border-radius:8px;padding:9px;font-size:.75rem;letter-spacing:.5px}
+        /* MÁQUINA DE GARRA MEJORADA */
+        .claw-machine-wrap { 
+            width: 320px; height: 450px; background: linear-gradient(180deg, #151a21 0%, #0a0e14 100%); 
+            border: 6px solid #262c36; border-radius: 12px 12px 0 0; position: relative; overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), inset 0 0 100px rgba(0, 227, 253, 0.05);
+        }
+        .claw-glass-area { position: absolute; inset: 10px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); overflow: hidden; }
+        
+        #main-claw-arm { 
+            position: absolute; top: 0; left: 50%; width: 3px; height: 40px; 
+            background: linear-gradient(180deg, #ffd96f 0%, #fcc800 100%); 
+            transition: left 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), height 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55); 
+            z-index: 50; 
+            box-shadow: 0 0 10px rgba(255, 217, 111, 0.5);
+        }
+        #main-claw-hook { 
+            position: absolute; bottom: -18px; left: -14px; font-size: 24px; transform: rotate(180deg); 
+            filter: drop-shadow(0 0 5px #ffd96f);
+            animation: hookGlow 2s infinite;
+        }
+        
+        @keyframes hookGlow {
+            0%, 100% { filter: drop-shadow(0 0 5px #ffd96f); }
+            50% { filter: drop-shadow(0 0 15px #ffd96f) drop-shadow(0 0 25px rgba(255, 217, 111, 0.5)); }
+        }
+        
+        #mini-caught-card { 
+            position: absolute; top: 25px; left: 50%; transform: translateX(-50%); 
+            width: 40px; height: 56px; border: 1px solid #ffd96f; z-index: 45; display: none; object-fit: cover;
+            box-shadow: 0 0 15px rgba(255, 217, 111, 0.4);
+            animation: cardDangle 0.5s ease-in-out infinite alternate;
+        }
+        
+        @keyframes cardDangle {
+            from { transform: translateX(-50%) rotate(-3deg); }
+            to { transform: translateX(-50%) rotate(3deg); }
+        }
+        
+        .claw-pile-container { position: absolute; bottom: 0; width: 100%; height: 70px; pointer-events: none; }
+        
+        #claw-card-won { 
+            position: absolute; top: 40%; left: 50%; 
+            transform: translate(-50%, -50%) scale(0); 
+            width: 170px; z-index: 100; 
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+            pointer-events: none; 
+            animation: none;
+        }
+        
+        #claw-card-won.show {
+            animation: cardReveal 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+        
+        @keyframes cardReveal {
+            0% { transform: translate(-50%, -50%) scale(0) rotateY(180deg); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.2) rotateY(90deg); opacity: 0.8; }
+            100% { transform: translate(-50%, -50%) scale(1) rotateY(0deg); opacity: 1; }
+        }
 
-  /* ===== GARRA (igual al original: 🏗️ + flechas) ===== */
-  .garra{text-align:center}
-  .machine{position:relative;height:220px;max-width:560px;margin:14px auto;background:#1e293b;
-    border:2px solid #334155;border-radius:14px;overflow:hidden}
-  #claw{position:absolute;top:18px;font-size:3rem;transform:translateX(-50%);transition:left .4s;left:50%}
-  #hook{position:absolute;top:70px;left:50%;width:3px;height:0;background:#94a3b8;transform:translateX(-50%);transition:height .8s}
-  #hook.down{height:110px}
-  #hook::after{content:'🪝';position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);font-size:1.1rem}
-  .controls{display:flex;gap:12px;justify-content:center;align-items:center;margin-top:12px}
-  .controls button{background:#334155;color:#e2e8f0;border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:6px}
-  #btnDrop{background:#f59e0b;color:#111;padding:12px 24px;letter-spacing:1px}
-  #btnDrop:disabled{opacity:.5}
-  .hint{color:#94a3b8;font-size:.85rem;margin-top:8px}
+        /* EFECTOS HOLOGRÁFICOS MEJORADOS */
+        .card-interactive::after, .card-surprise::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                115deg,
+                transparent 20%,
+                rgba(255, 217, 111, 0.15) 30%,
+                rgba(255, 255, 255, 0.3) 40%,
+                rgba(0, 227, 253, 0.15) 50%,
+                rgba(255, 217, 111, 0.15) 60%,
+                transparent 70%
+            );
+            background-size: 300% 300%;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            mix-blend-mode: color-dodge;
+            z-index: 10;
+            border-radius: inherit;
+        }
+        .card-interactive:hover::after, .pack-container:hover .card-surprise::after {
+            opacity: 1;
+            animation: holo-shimmer 3s infinite linear;
+        }
+        @keyframes holo-shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        @keyframes cardAppear {
+            from {
+                opacity: 0;
+                transform: scale(0.8) rotateY(90deg);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) rotateY(0deg);
+            }
+        }
+        
+        .card-appear {
+            animation: cardAppear 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
 
-  /* ===== CARRITO (igual al original) ===== */
-  #cartSidebar{position:fixed;top:0;right:-400px;width:min(380px,92%);height:100%;background:#1e293b;
-    border-left:1px solid #334155;z-index:100;transition:right .3s;display:flex;flex-direction:column;padding:16px}
-  #cartSidebar.open{right:0}
-  .cart-head{display:flex;justify-content:space-between;font-weight:800;letter-spacing:1px;margin-bottom:12px}
-  .cart-head button{background:transparent;color:#94a3b8;font-size:1.1rem}
-  #cartItems{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:8px}
-  .ci{display:flex;gap:10px;align-items:center;background:#334155;border-radius:10px;padding:8px;font-size:.85rem}
-  .ci img{width:44px;height:44px;object-fit:cover;border-radius:6px}
-  .ci .ic{width:44px;height:44px;border-radius:6px;background:#0f172a;display:flex;align-items:center;justify-content:center;font-size:1.3rem}
-  .ci .d{flex:1}
-  .ci .d small{color:#94a3b8;display:block}
-  .ci .p{font-weight:800;color:#f59e0b}
-  .ci .rm{background:transparent;color:#ef4444}
-  .cart-total{border-top:1px solid #334155;padding-top:10px;margin-top:10px;display:flex;justify-content:space-between;font-weight:800}
-  #descLine{color:#4ade80;font-size:.85rem;display:flex;justify-content:space-between;margin-top:6px}
-  #payPalBtn{margin-top:12px;background:#ffc439;color:#111;border-radius:10px;padding:13px;font-weight:800}
-
-  .overlay{position:fixed;inset:0;background:#000a;z-index:120;display:flex;align-items:center;justify-content:center;padding:16px}
-  .modal{background:#1e293b;border:1px solid #334155;border-radius:14px;padding:24px;width:min(400px,94%);text-align:center;position:relative}
-  .modal .x{position:absolute;top:8px;right:10px;background:transparent;color:#94a3b8;font-size:1rem}
-  .modal .em{font-size:3.4rem}
-  .modal h3{margin:10px 0 6px}
-  .modal p{color:#94a3b8;font-size:.9rem}
-  .modal button.main{margin-top:14px;background:#f59e0b;color:#111;border-radius:10px;padding:10px 24px}
-  .pp-logo{font-weight:800;font-style:italic;font-size:1.4rem;color:#003087;background:#fff;border-radius:10px;padding:8px;margin-bottom:12px}
-  .pp-logo span{color:#009cde}
-  .pp-demo{font-size:.6rem;background:#111;color:#fff;border-radius:999px;padding:3px 8px;vertical-align:middle;letter-spacing:2px}
-  #ppSummary{text-align:left;background:#0f172a;border-radius:10px;padding:10px;font-size:.83rem;max-height:160px;overflow:auto;margin-bottom:12px}
-  #ppSummary .row{display:flex;justify-content:space-between;margin:3px 0}
-  .spinner{width:42px;height:42px;margin:12px auto;border:5px solid #009cde33;border-top-color:#009cde;border-radius:50%;animation:g 1s linear infinite}
-  @keyframes g{to{transform:rotate(360deg)}}
-  .ver-box img{width:min(320px,80vw);border-radius:14px;border:2px solid #f59e0b}
-  #toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(70px);background:#4ade80;color:#052e16;
-    font-weight:800;padding:10px 20px;border-radius:999px;z-index:200;transition:.3s;opacity:0}
-  #toast.on{transform:translateX(-50%) translateY(0);opacity:1}
-</style>
+        /* Badge de "NUEVO" para la carta principal */
+        .new-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(135deg, #ffd96f 0%, #fcc800 100%);
+            color: #0a0e14;
+            padding: 4px 12px;
+            font-size: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+            border-radius: 4px;
+            z-index: 20;
+            animation: badgePulse 2s ease-in-out infinite;
+            letter-spacing: 1px;
+        }
+        
+        @keyframes badgePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+    </style>
 </head>
-<body>
+<body class="bg-surface text-on-surface font-body selection:bg-primary selection:text-on-primary">
 
-<header>
-  <div class="logo">Legal Tech TCG</div>
-  <div class="h-right">
-    <img class="avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Trainer1" alt="Trainer">
-    <button class="cart-btn" id="openCart"><span class="material-icons">shopping_cart</span><span id="cartCount">0</span></button>
-  </div>
-</header>
+<nav class="fixed top-0 z-40 flex justify-between items-center w-full px-4 md:px-6 py-4 bg-slate-950/80 backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.8)] pt-safe">
+    <div class="text-xl md:text-2xl font-black italic text-[#FFCB05] font-headline">Legal Tech TCG</div>
+    <div class="flex items-center gap-4">
+        <span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-colors" onclick="document.getElementById('sideCartPanel').classList.remove('translate-x-full')">shopping_cart</span>
+        <div class="w-10 h-10 bg-surface-container-highest border border-outline-variant rounded-full overflow-hidden">
+            <img alt="User" class="w-full h-full object-cover" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Trainer1"/>
+        </div>
+    </div>
+</nav>
 
-<div class="hero">
-  <span class="nuevo">NUEVO</span>
-  <div class="hero-badge">⚡ NUEVA CARTA LEGENDARIA</div>
-  <h1>Carta Legendaria</h1>
-  <p>Descubre la nueva <b>Poder LGBTQ+</b>, la más poderosa de nuestra colección Legal Tech del ilustrador Hugo Mendoza.</p>
-  <div class="hero-actions">
-    <button id="verCarta">Ver Carta</button>
-    <button id="comprarAhora">Comprar Ahora</button>
-  </div>
-  <img class="hero-img" src="carta16.png" alt="Carta 16 Legendaria">
+<main class="relative min-h-screen pt-28 pb-12 px-4 md:px-12 lg:px-24">
+    <div class="fixed inset-0 scanline-overlay z-10"></div>
+
+    <!-- SECCIÓN PRINCIPAL CON LA NUEVA CARTA -->
+    <section class="relative mb-20 z-20">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div class="space-y-6 text-center lg:text-left">
+                <div class="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 border-l-4 border-primary text-primary-fixed font-label text-xs tracking-widest uppercase">
+                    ⚡ NUEVA CARTA LEGENDARIA
+                </div>
+                <h1 class="text-5xl md:text-7xl font-headline font-black uppercase italic tracking-tighter leading-none">
+                    Carta <span class="text-primary">Legendaria</span>
+                </h1>
+                <p class="text-lg text-on-surface-variant max-w-xl font-body">
+                    Descubre la nueva <span class="text-primary font-bold">Poder LGBTQ+/span>, la más poderosa de nuestra colección Legal Tech del ilustrador Hugo Mendoza.
+                </p>
+                <div class="flex gap-4 justify-center lg:justify-start">
+                    <button onclick="document.querySelector('.featured-card').scrollIntoView({behavior: 'smooth'})" 
+                            class="px-6 py-3 bg-primary text-black font-black uppercase text-sm chamfer-clip hover:bg-primary-fixed transition-all">
+                        Ver Carta
+                    </button>
+                    <button onclick="addToCart(inventoryData[inventoryData.length-1])" 
+                            class="px-6 py-3 bg-surface-bright border border-primary text-primary font-black uppercase text-sm chamfer-clip hover:bg-surface-container-highest transition-all">
+                        Comprar Ahora
+                    </button>
+                </div>
+            </div>
+            <div class="relative flex justify-center card-perspective">
+                <div class="relative w-full max-w-[300px] aspect-[3/4] bg-surface-container-low rounded-xl border-2 border-primary/30 overflow-hidden card-interactive cursor-pointer tilt-element featured-card">
+                    <div class="new-badge">NUEVO</div>
+                    <img class="w-full h-full object-contain" src="carta16.png" alt="Carta Legendaria 16"/>
+                    <div class="reflection-overlay"></div>
+                    <div class="card-particles" id="featuredParticles"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="mb-24 relative z-20">
+        <h2 class="text-3xl font-headline font-black uppercase mb-10">Inventario <span class="text-primary">Actualizado</span></h2>
+        <div class="grid lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 bg-surface-container border border-outline-variant/30 chamfer-clip p-6">
+                <div id="inventoryGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4 card-perspective">
+                </div>
+            </div>
+            
+            <div class="flex flex-col gap-4">
+                <div class="bg-surface-container-highest border border-outline-variant/30 chamfer-clip p-6">
+                    <h3 class="font-headline font-bold text-sm text-primary uppercase mb-4">Resumen MXN</h3>
+                    <div class="space-y-4">
+                        <div class="bg-surface-container p-3 border border-outline-variant/20">
+                            <div class="text-[8px] text-on-surface-variant uppercase font-mono mb-1">Cartas en stock</div>
+                            <div class="text-xl font-headline font-black text-secondary" id="stockCounter">17 Items</div>
+                        </div>
+                        <div class="bg-gradient-to-r from-primary/10 to-transparent p-3 border border-primary/20">
+                            <div class="text-[8px] text-primary uppercase font-mono mb-1">⭐ Nueva Carta</div>
+                            <div class="text-sm font-headline font-bold text-primary">Carta 16 Legendaria</div>
+                            <div class="text-xs text-on-surface-variant mt-1">$2,500 MXN</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex-1 bg-surface-container-highest border border-outline-variant/30 chamfer-clip overflow-hidden relative min-h-[300px]">
+                    <video 
+                        src="https://entendiendocosas.lat/tcg/tcg.mp4" 
+                        class="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity"
+                        autoplay 
+                        muted 
+                        loop 
+                        playsinline>
+                    </video>
+                    <div class="absolute inset-0 pointer-events-none border-1 border-primary/10 shadow-[inset_0_0_20px_rgba(0,227,253,0.1)]"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="flex flex-col lg:flex-row justify-center items-center py-16 gap-16 lg:gap-32 relative z-20">
+        <svg id="pokedexElement" width="180" height="240" viewBox="0 0 150 200" fill="none" class="transition-all duration-500 drop-shadow-[0_0_15px_rgba(255,50,50,0.3)]">
+            <rect x="10" y="10" width="130" height="180" rx="15" fill="#dc2626"/>
+            <circle cx="45" cy="40" r="14" fill="#3b82f6" class="animate-pulse"/>
+            <circle id="pokedexBuyBtn" cx="115" cy="25" r="5" fill="#22c55e" class="cursor-pointer hover:fill-green-400 transition-colors"/>
+            <rect x="25" y="100" width="100" height="65" rx="5" fill="#1e293b"/>
+            <image id="pokedexScreenImg" x="35" y="110" width="80" height="45" preserveAspectRatio="xMidYMid meet" opacity="0" href="" />
+        </svg>
+
+        <div class="pack-container">
+            <div class="pack-flap"></div>
+            <div class="pack-back"></div>
+            <div class="card-surprise" id="randomCardElement"></div>
+            <div class="pack-front"></div>
+        </div>
+    </div>
+
+    <div class="flex flex-col items-center py-20 relative z-20 border-t border-outline-variant/20 mt-10">
+        <h2 class="text-3xl font-headline font-black uppercase text-secondary mb-10">🕹️ La Garra Legal Tech</h2>
+        <div class="claw-machine-wrap">
+            <div class="claw-glass-area">
+                <div id="main-claw-arm"><div id="main-claw-hook">🏗️</div><img id="mini-caught-card" src=""></div>
+                <img id="claw-card-won" src="" class="rounded border-2 border-primary shadow-2xl">
+                <div id="claw-pile" class="claw-pile-container"></div>
+            </div>
+            <div class="absolute bottom-0 w-full h-20 bg-surface-container-highest border-t border-outline-variant flex items-center justify-center gap-4 px-4">
+                <button onclick="moveClaw(-5)" class="w-12 h-12 bg-surface-bright border border-outline-variant flex items-center justify-center chamfer-clip active:scale-90 transition-all hover:bg-surface-bright/80"><span class="material-symbols-outlined">arrow_back</span></button>
+                <button id="dropBtn" onclick="runClawLogic()" class="px-6 py-2 bg-primary text-black font-black uppercase text-xs chamfer-clip active:scale-90 transition-all hover:bg-primary-fixed">BAJAR GARRA</button>
+                <button onclick="moveClaw(5)" class="w-12 h-12 bg-surface-bright border border-outline-variant flex items-center justify-center chamfer-clip active:scale-90 transition-all hover:bg-surface-bright/80"><span class="material-symbols-outlined">arrow_forward</span></button>
+            </div>
+        </div>
+        <p id="clawMessage" class="mt-4 font-mono text-[10px] text-on-surface-variant uppercase">Usa las flechas para posicionar</p>
+    </div>
+</main>
+
+<div id="sideCartPanel" class="fixed top-0 right-0 h-full w-80 bg-surface-container border-l border-outline-variant z-[150] transform translate-x-full transition-transform duration-300 flex flex-col">
+    <div class="p-5 border-b border-outline-variant flex justify-between items-center bg-surface-container-highest">
+        <h2 class="font-headline font-bold text-primary">CARRITO</h2>
+        <button onclick="document.getElementById('sideCartPanel').classList.add('translate-x-full')" class="hover:text-primary transition-colors">✕</button>
+    </div>
+    <div id="cartItemsContainer" class="flex-1 overflow-y-auto p-4 space-y-3 font-mono text-xs"></div>
+    
+    <div class="p-5 border-t border-outline-variant bg-surface-container-highest flex flex-col gap-4">
+        <div class="font-headline font-black text-secondary text-xl" id="cartTotalEl">$0.00 MXN</div>
+        <button class="w-full py-3 px-4 bg-[#ffc439] hover:bg-[#e5b033] text-[#003087] font-bold rounded flex items-center justify-center gap-2 transition-all hover:shadow-lg">
+            Pagar con PayPal
+        </button>
+    </div>
 </div>
 
-<section>
-  <h2>Inventario Actualizado</h2>
-  <div class="resumen">
-    <div class="box"><div class="t">Resumen MXN</div><div class="v">Cartas en stock<br>17 Items</div></div>
-    <div class="box"><div class="t">⭐ Nueva Carta</div><div class="v oro">Carta 16 Legendaria<br>$2,500 MXN</div></div>
-  </div>
-  <div class="grid" id="grid"></div>
-</section>
-
-<section class="garra">
-  <h2>🕹️ La Garra Legal Tech</h2>
-  <div class="machine">
-    <div id="claw">🏗️</div>
-    <div id="hook"></div>
-  </div>
-  <div class="controls">
-    <button id="btnLeft"><span class="material-icons">arrow_back</span></button>
-    <button id="btnDrop">BAJAR GARRA</button>
-    <button id="btnRight"><span class="material-icons">arrow_forward</span></button>
-  </div>
-  <p class="hint">Usa las flechas para posicionar</p>
-</section>
-
-<aside id="cartSidebar">
-  <div class="cart-head">CARRITO <button id="closeCart">✕</button></div>
-  <div id="cartItems"></div>
-  <div id="descLine" hidden><span id="dLbl"></span><span id="dVal"></span></div>
-  <div class="cart-total"><span>Total</span><span id="cartTotal">$0.00 MXN</span></div>
-  <button id="payPalBtn">Pagar con PayPal</button>
-</aside>
-
-<!-- PayPal DEMO -->
-<div class="overlay" id="ppOverlay" hidden>
-  <div class="modal">
-    <button class="x" id="ppCancel">✕</button>
-    <div class="pp-logo">Pay<span>Pal</span> <span class="pp-demo">DEMO</span></div>
-    <div id="ppSummary"></div>
-    <div id="ppSteps"><button class="main" id="ppConfirm" style="background:#009cde;color:#fff">Confirmar pago</button>
-      <p style="margin-top:8px;font-size:.7rem">Simulación: no se realizará ningún cargo real.</p></div>
-    <div id="ppProc" hidden><div class="spinner"></div><p>Procesando pago…</p></div>
-    <div id="ppOk" hidden><div class="em">✅</div><h3>¡Pago exitoso!</h3><p id="ppTx"></p><button class="main" id="ppDone">Continuar</button></div>
-  </div>
+<div id="cardModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/90 backdrop-blur-md p-4">
+    <button onclick="hideModal()" class="fixed top-6 right-6 text-slate-400 border border-outline-variant p-2 rounded-full hover:text-white hover:border-white transition-colors">✕</button>
+    <div class="flex flex-col items-center gap-6">
+        <img id="modalImg" src="" class="max-h-[70vh] object-contain rounded-xl shadow-2xl tilt-element card-interactive" style="transition: transform 0.3s ease;" />
+        <button id="modalAddBtn" class="px-8 py-3 bg-primary text-black font-black chamfer-clip hover:bg-primary-fixed transition-all hover:shadow-lg">AÑADIR AL CARRITO</button>
+    </div>
 </div>
-
-<!-- Premio garra -->
-<div class="overlay" id="pzOverlay" hidden>
-  <div class="modal">
-    <div class="em" id="pzEm">🎟️</div>
-    <h3 id="pzTitle"></h3>
-    <p id="pzDesc"></p>
-    <button class="main" id="pzClose">Continuar</button>
-  </div>
-</div>
-
-<!-- Ver carta -->
-<div class="overlay" id="verOverlay" hidden>
-  <div class="modal" style="background:transparent;border:none">
-    <button class="x" id="verClose">✕</button>
-    <div class="ver-box"><img src="carta16.png" alt="Carta Legendaria"></div>
-  </div>
-</div>
-
-<div id="toast"></div>
 
 <script>
-const $=s=>document.querySelector(s);
-const sleep=ms=>new Promise(r=>setTimeout(r,ms));
-const fmt=n=>'$'+n.toLocaleString('es-MX',{minimumFractionDigits:2,maximumFractionDigits:2})+' MXN';
+    // AGREGADA carta16.png como la nueva carta destacada
+    const inventoryData = [
+        {img: "carta1.jpg", name: "Carta 1", price: 450}, 
+        {img: "carta2.jpeg", name: "Carta 2", price: 1200},
+        {img: "carta3.jpeg", name: "Carta 3", price: 890}, 
+        {img: "carta4.jpeg", name: "Carta 4", price: 350},
+        {img: "carta5.jpeg", name: "Carta 5", price: 600}, 
+        {img: "carta6.jpeg", name: "Carta 6", price: 150},
+        {img: "carta7.jpeg", name: "Carta 7", price: 950}, 
+        {img: "Carta8.jpeg", name: "Carta 8", price: 2100},
+        {img: "carta9.jpeg", name: "Carta 9", price: 420}, 
+        {img: "carta10.jpeg", name: "Carta 10", price: 770},
+        {img: "carta11.jpeg", name: "Carta 11", price: 3500}, 
+        {img: "doffiekang.jpeg", name: "Doffie", price: 800},
+        {img: "carta12.png", name: "Carta 12", price: 1000}, 
+        {img: "13.png", name: "Carta 13", price: 1100},
+        {img: "carta14.png", name: "Carta 14", price: 900}, 
+        {img: "carta15.png", name: "Carta 15", price: 1300},
+        {img: "carta16.png", name: "Carta 16 Legendaria", price: 2500} // NUEVA CARTA PRINCIPAL
+    ];
 
-/* Rutas de las cartas SIN cambios (raíz) */
-const CARTAS=[
- {id:1,img:'carta1.jpg',nombre:'Carta 1',precio:150},
- {id:2,img:'carta2.jpeg',nombre:'Carta 2',precio:150},
- {id:3,img:'carta3.jpeg',nombre:'Carta 3',precio:180},
- {id:4,img:'carta4.jpeg',nombre:'Carta 4',precio:200},
- {id:5,img:'carta5.jpeg',nombre:'Carta 5',precio:160},
- {id:6,img:'carta6.jpeg',nombre:'Carta 6',precio:220},
- {id:7,img:'carta7.jpeg',nombre:'Carta 7',precio:190},
- {id:8,img:'Carta8.jpeg',nombre:'Carta 8',precio:210},
- {id:9,img:'carta9.jpeg',nombre:'Carta 9',precio:170},
- {id:10,img:'carta10.jpeg',nombre:'Carta 10',precio:230},
- {id:11,img:'carta11.jpeg',nombre:'Carta 11',precio:180},
- {id:12,img:'carta12.png',nombre:'Carta 12',precio:200},
- {id:13,img:'13.png',nombre:'Carta 13',precio:240},
- {id:14,img:'carta14.png',nombre:'Carta 14',precio:210},
- {id:15,img:'carta15.png',nombre:'Carta 15',precio:190},
- {id:16,img:'carta16.png',nombre:'Carta 16 Legendaria',precio:2500},
- {id:17,img:'doffiekang.jpeg',nombre:'Doffie Kang',precio:300},
-];
+    let cart = [];
+    let clawX = 50;
+    let selectedForPokedex = null;
 
-let carrito=[],cuponSeq=0;
-function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2200);}
-function agregarCarta(id){const c=CARTAS.find(x=>x.id===id);carrito.push({tipo:'carta',...c});render();toast('🛒 '+c.nombre+' agregada');}
-function agregarCupon(p){carrito.push({tipo:'cupon',pct:p,code:'GARRA'+p+'-'+(++cuponSeq)});render();}
-function agregarSobre(){carrito.push({tipo:'sobre',nombre:'Sobre Gratis 🎁',precio:0});render();}
-function calc(){
-  const sub=carrito.filter(i=>i.tipo!=='cupon').reduce((s,i)=>s+i.precio,0);
-  const pct=Math.min(carrito.filter(i=>i.tipo==='cupon').reduce((s,i)=>s+i.pct,0),50);
-  return{sub,pct,desc:sub*pct/100,total:sub*(1-pct/100)};
-}
-function render(){
-  const b=$('#cartItems');b.innerHTML='';
-  carrito.forEach((it,i)=>{
-    const d=document.createElement('div');d.className='ci';
-    if(it.tipo==='cupon')d.innerHTML=`<div class="ic">🎟️</div><div class="d"><b>Cupón ${it.pct}%</b><small>${it.code}</small></div><div class="p">−${it.pct}%</div>`;
-    else if(it.tipo==='sobre')d.innerHTML=`<div class="ic">🎁</div><div class="d"><b>${it.nombre}</b></div><div class="p" style="color:#4ade80">GRATIS</div>`;
-    else d.innerHTML=`<img src="${it.img}"><div class="d"><b>${it.nombre}</b></div><div class="p">${fmt(it.precio)}</div>`;
-    const rm=document.createElement('button');rm.className='rm';rm.textContent='✕';
-    rm.onclick=()=>{carrito.splice(i,1);render();};
-    d.appendChild(rm);b.appendChild(d);
-  });
-  const t=calc();
-  $('#cartCount').textContent=carrito.filter(i=>i.tipo!=='cupon').length;
-  $('#descLine').hidden=t.pct===0;
-  $('#dLbl').textContent='Cupones ('+t.pct+'%)';
-  $('#dVal').textContent='-'+fmt(t.desc);
-  $('#cartTotal').textContent=fmt(t.total);
-}
-$('#openCart').onclick=()=>$('#cartSidebar').classList.add('open');
-$('#closeCart').onclick=()=>$('#cartSidebar').classList.remove('open');
+    document.addEventListener("DOMContentLoaded", () => {
+        const grid = document.getElementById('inventoryGrid');
+        inventoryData.forEach((card, i) => {
+            const div = document.createElement('div');
+            const isNewCard = i === inventoryData.length - 1; // La última es la nueva
+            div.className = `card-interactive tilt-element aspect-[3/4] bg-surface-container-highest border ${isNewCard ? 'border-primary/50' : 'border-outline-variant/50'} relative p-1 cursor-pointer overflow-hidden rounded card-appear`;
+            div.style.animationDelay = `${i * 0.1}s`;
+            div.innerHTML = `
+                ${isNewCard ? '<div class="new-badge" style="font-size: 8px; padding: 2px 8px;">NUEVO</div>' : ''}
+                <img class="w-full h-full object-cover pointer-events-none" src="${card.img}">
+                <div class="reflection-overlay"></div>
+                <div class="card-particles">
+                    ${generateParticles()}
+                </div>
+            `;
+            div.onclick = () => handleCardClick(card);
+            grid.appendChild(div);
+        });
+        initPile();
+        
+        // El sobre sorpresa ahora puede revelar la nueva carta también
+        const rand = inventoryData[Math.floor(Math.random()*inventoryData.length)].img;
+        document.getElementById('randomCardElement').style.backgroundImage = `url('${rand}')`;
+        
+        document.getElementById('featuredParticles').innerHTML = generateParticles();
+        init3DTilt();
+        
+        // Actualizar el contador de stock
+        document.getElementById('stockCounter').textContent = `${inventoryData.length} Items`;
+    });
 
-CARTAS.forEach(c=>{
-  const d=document.createElement('div');d.className='card';
-  d.innerHTML=`<img src="${c.img}"><div class="info"><div class="nom">${c.nombre}</div>
-   <div class="pre">${fmt(c.precio)}</div><button>AÑADIR AL CARRITO</button></div>`;
-  d.querySelector('button').onclick=()=>agregarCarta(c.id);
-  $('#grid').appendChild(d);
-});
+    function generateParticles() {
+        let particles = '';
+        for (let i = 0; i < 8; i++) {
+            const left = Math.random() * 100;
+            const top = Math.random() * 100;
+            const delay = Math.random() * 2;
+            const duration = 2 + Math.random() * 3;
+            particles += `<div class="particle" style="left: ${left}%; top: ${top}%; animation-delay: ${delay}s; animation-duration: ${duration}s;"></div>`;
+        }
+        return particles;
+    }
 
-$('#verCarta').onclick=()=>$('#verOverlay').hidden=false;
-$('#verClose').onclick=()=>$('#verOverlay').hidden=true;
-$('#comprarAhora').onclick=()=>{agregarCarta(16);$('#cartSidebar').classList.add('open');};
+    function handleCardClick(card) {
+        showModal(card);
+        
+        const screen = document.getElementById('pokedexScreenImg');
+        if(screen) {
+            screen.setAttribute('href', card.img);
+            screen.style.opacity = "1";
+            selectedForPokedex = card;
+        }
+    }
 
-/* ===== GARRA: mismos controles, premios nuevos ===== */
-const POS=[12,31,50,69,88];let pos=2,busy=false;
-$('#btnLeft').onclick=()=>{if(!busy&&pos>0){pos--;$('#claw').style.left=POS[pos]+'%';}};
-$('#btnRight').onclick=()=>{if(!busy&&pos<4){pos++;$('#claw').style.left=POS[pos]+'%';}};
-$('#btnDrop').onclick=async()=>{
-  if(busy)return;busy=true;$('#btnDrop').disabled=true;
-  $('#hook').style.left=POS[pos]+'%';
-  $('#hook').classList.add('down');await sleep(900);
-  $('#hook').classList.remove('down');await sleep(500);
-  busy=false;$('#btnDrop').disabled=false;
-  const r=Math.random();
-  let p=r<.25?'d5':r<.40?'d10':r<.65?'sobre':'nada';
-  const P={
-    d5:{em:'🎟️',t:'¡Cupón 5% de descuento!',d:'Se agregó a tu carrito.',fn:()=>{agregarCupon(5);toast('🎟️ Cupón 5% agregado al carrito');}},
-    d10:{em:'🎟️',t:'¡Cupón 10% de descuento!',d:'Se agregó a tu carrito.',fn:()=>{agregarCupon(10);toast('🎟️ Cupón 10% agregado al carrito');}},
-    sobre:{em:'🎁',t:'¡Sobre GRATIS!',d:'Se agregó a tu carrito sin costo.',fn:()=>{agregarSobre();toast('🎁 Sobre gratis agregado');}},
-    nada:{em:'🍀',t:'Mejor suerte para la próxima',d:'La garra no atrapó premio esta vez.',fn:null}
-  }[p];
-  if(P.fn)P.fn();
-  $('#pzEm').textContent=P.em;$('#pzTitle').textContent=P.t;$('#pzDesc').textContent=P.d;
-  $('#pzOverlay').hidden=false;
-};
-$('#pzClose').onclick=()=>$('#pzOverlay').hidden=true;
+    document.getElementById('pokedexBuyBtn').onclick = () => {
+        if (selectedForPokedex) {
+            addToCart(selectedForPokedex);
+            const btn = document.getElementById('pokedexBuyBtn');
+            btn.style.fill = '#fbbf24';
+            setTimeout(() => { btn.style.fill = '#22c55e'; }, 300);
+        }
+    };
 
-/* ===== PAYPAL DEMO ===== */
-$('#payPalBtn').onclick=()=>{
-  if(!carrito.length){toast('🛒 Carrito vacío');return;}
-  const t=calc();
-  $('#ppSummary').innerHTML=carrito.map(i=>`<div class="row"><span>${i.tipo==='cupon'?'🎟️ '+i.code+' (−'+i.pct+'%)':i.nombre}</span><span>${i.tipo==='sobre'?'GRATIS':fmt(i.precio)}</span></div>`).join('')
-   +`<div class="row" style="font-weight:800;border-top:1px solid #334155;margin-top:6px;padding-top:6px"><span>TOTAL</span><span>${fmt(t.total)}</span></div>`;
-  $('#ppSteps').hidden=false;$('#ppProc').hidden=true;$('#ppOk').hidden=true;
-  $('#ppOverlay').hidden=false;
-};
-$('#ppCancel').onclick=()=>{if($('#ppProc').hidden)$('#ppOverlay').hidden=true;};
-$('#ppConfirm').onclick=async()=>{
-  $('#ppSteps').hidden=true;$('#ppProc').hidden=false;
-  await sleep(2000);
-  $('#ppProc').hidden=true;$('#ppOk').hidden=false;
-  $('#ppTx').textContent='Transacción simulada #LT-'+Date.now()+' · Autorizada ✔';
-};
-$('#ppDone').onclick=()=>{
-  $('#ppOverlay').hidden=true;carrito=[];render();
-  $('#cartSidebar').classList.remove('open');
-  toast('🎉 ¡Gracias por tu compra! (pago simulado)');
-};
-render();
+    function showModal(card) {
+        const modal = document.getElementById('cardModal');
+        const modalImg = document.getElementById('modalImg');
+        modalImg.src = card.img;
+        modalImg.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+        
+        document.getElementById('modalAddBtn').onclick = () => { 
+            addToCart(card); 
+            hideModal(); 
+        };
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+
+    function hideModal() { 
+        document.getElementById('cardModal').classList.replace('flex', 'hidden'); 
+    }
+
+    function addToCart(card) {
+        cart.push(card);
+        updateCartUI();
+        const counter = document.getElementById('stockCounter');
+        counter.style.transform = 'scale(1.1)';
+        setTimeout(() => { counter.style.transform = 'scale(1)'; }, 200);
+    }
+
+    function updateCartUI() {
+        const container = document.getElementById('cartItemsContainer');
+        const totalEl = document.getElementById('cartTotalEl');
+        container.innerHTML = cart.map(item => 
+            `<div class="animate-pulse flex justify-between items-center">
+                <span>${item.name}</span>
+                <span class="text-primary">$${item.price.toLocaleString()}</span>
+            </div>`
+        ).join('');
+        const total = cart.reduce((sum, item) => sum + item.price, 0);
+        totalEl.innerText = `$${total.toLocaleString()} MXN`;
+        
+        setTimeout(() => {
+            container.querySelectorAll('.animate-pulse').forEach(el => el.classList.remove('animate-pulse'));
+        }, 1000);
+    }
+
+    function moveClaw(dir) {
+        clawX = Math.max(15, Math.min(85, clawX + dir));
+        document.getElementById('main-claw-arm').style.left = clawX + '%';
+    }
+
+    function runClawLogic() {
+        const btn = document.getElementById('dropBtn');
+        const arm = document.getElementById('main-claw-arm');
+        const mini = document.getElementById('mini-caught-card');
+        const big = document.getElementById('claw-card-won');
+        
+        btn.disabled = true;
+        big.classList.remove('show');
+        big.style.transform = 'translate(-50%, -50%) scale(0)';
+        
+        arm.style.height = "340px";
+        setTimeout(() => {
+            // Mayor probabilidad de obtener la nueva carta en la garra
+            const win = Math.random() < 0.2 ? 
+                inventoryData[inventoryData.length - 1] : 
+                inventoryData[Math.floor(Math.random()*inventoryData.length)];
+            mini.src = win.img;
+            mini.style.display = 'block';
+            arm.style.height = "40px";
+            setTimeout(() => {
+                big.src = win.img;
+                big.classList.add('show');
+                mini.style.display = 'none';
+                btn.disabled = false;
+                initPile();
+                const msg = win.name.includes('Legendaria') ? 
+                    '🏆 ¡CONSEGUIDA LA CARTA LEGENDARIA!' : 
+                    '¡CARTA CONSEGUIDA! 🎉';
+                document.getElementById('clawMessage').textContent = msg;
+                setTimeout(() => {
+                    document.getElementById('clawMessage').textContent = 'Usa las flechas para posicionar';
+                }, 3000);
+            }, 1200);
+        }, 1000);
+    }
+
+    function initPile() {
+        const pile = document.getElementById('claw-pile');
+        pile.innerHTML = '';
+        for(let i=0; i<20; i++) {
+            const img = document.createElement('img');
+            img.src = inventoryData[Math.floor(Math.random()*inventoryData.length)].img;
+            img.className = "absolute w-12 h-16 object-cover border border-white/10 rounded shadow-md pointer-events-none";
+            img.style.left = (Math.random()*85) + "%";
+            img.style.bottom = (Math.random()*15) + "px";
+            img.style.transform = `rotate(${Math.random()*60 - 30}deg)`;
+            img.style.animation = `floatParticle ${3 + Math.random() * 4}s infinite`;
+            img.style.animationDelay = `${Math.random() * 2}s`;
+            pile.appendChild(img);
+        }
+    }
+
+    function init3DTilt() {
+        const tiltElements = document.querySelectorAll('.tilt-element');
+        
+        tiltElements.forEach(el => {
+            el.addEventListener('mousemove', handleTiltMove);
+            el.addEventListener('mouseleave', handleTiltLeave);
+            el.addEventListener('touchmove', handleTiltMove, {passive: true});
+            el.addEventListener('touchend', handleTiltLeave);
+        });
+    }
+
+    function handleTiltMove(e) {
+        const el = this;
+        const rect = el.getBoundingClientRect();
+        let clientX, clientY;
+
+        if (e.type === 'touchmove') {
+            clientX = e.touches[0].clientX;
+            clientY = e.touches[0].clientY;
+        } else {
+            clientX = e.clientX;
+            clientY = e.clientY;
+        }
+
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        const percentX = (clientX - centerX) / (rect.width / 2);
+        const percentY = (clientY - centerY) / (rect.height / 2);
+
+        const rotateX = percentY * -20;
+        const rotateY = percentX * 20;
+        
+        const shadowX = percentX * 10;
+        const shadowY = percentY * 10;
+        
+        el.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+        el.style.boxShadow = `
+            ${shadowX}px ${shadowY}px 30px rgba(255, 217, 111, 0.15),
+            ${-shadowX/2}px ${-shadowY/2}px 20px rgba(0, 0, 0, 0.4),
+            0 0 20px rgba(255, 217, 111, 0.1) inset
+        `;
+        
+        const reflection = el.querySelector('.reflection-overlay');
+        if (reflection) {
+            reflection.style.background = `radial-gradient(
+                circle at ${50 + percentX * 30}% ${50 + percentY * 30}%,
+                rgba(255, 255, 255, 0.25) 0%,
+                rgba(255, 255, 255, 0.1) 25%,
+                transparent 50%
+            )`;
+        }
+    }
+
+    function handleTiltLeave(e) {
+        this.style.transform = `perspective(1200px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+        this.style.boxShadow = '';
+        
+        const reflection = this.querySelector('.reflection-overlay');
+        if (reflection) {
+            reflection.style.background = '';
+        }
+    }
+
+    // Función para mostrar detalles de la carta principal
+    function showFeaturedCardDetails() {
+        const featuredCard = inventoryData[inventoryData.length - 1];
+        showModal(featuredCard);
+    }
 </script>
 </body>
 </html>
