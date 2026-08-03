@@ -3,262 +3,185 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Legal Tech TCG - Carta Legendaria</title>
+<title>LEGAL TECH TCG - Carta Legendaria</title>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <style>
-  :root{
-    --bg:#0d1022; --panel:#161a35; --panel2:#1d2247; --borde:#2c3565;
-    --oro:#f5c542; --cyan:#4dd7fa; --texto:#eef1ff; --muted:#9aa3c7;
-    --verde:#3ddc84; --rojo:#ff5470;
-  }
   *{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',system-ui,sans-serif}
-  body{background:var(--bg);color:var(--texto)}
+  body{background:#0f172a;color:#e2e8f0}
   [hidden]{display:none!important}
   button{cursor:pointer;border:none;font-weight:700}
 
-  /* HEADER */
-  header{position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center;
-    padding:14px 22px;background:#0d1022ee;border-bottom:1px solid var(--borde)}
-  .logo{font-size:1.25rem;font-weight:800;letter-spacing:.5px}
-  .logo b{color:var(--oro)}
-  .cart-btn{position:relative;background:var(--panel2);color:var(--texto);border:1px solid var(--borde);
-    border-radius:12px;padding:8px 12px;display:flex;align-items:center;gap:6px}
-  .badge{position:absolute;top:-8px;right:-8px;background:var(--oro);color:#111;border-radius:999px;
-    font-size:.72rem;min-width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-weight:800}
+  header{display:flex;justify-content:space-between;align-items:center;padding:14px 22px;
+    background:#1e293b;border-bottom:1px solid #334155;position:sticky;top:0;z-index:50}
+  .logo{font-size:1.2rem;font-weight:800}
+  .h-right{display:flex;align-items:center;gap:12px}
+  .avatar{width:40px;height:40px;border-radius:50%;background:#fff}
+  .cart-btn{position:relative;background:#334155;color:#e2e8f0;border-radius:10px;padding:8px 12px}
+  #cartCount{position:absolute;top:-8px;right:-8px;background:#f59e0b;color:#111;border-radius:999px;
+    font-size:.7rem;min-width:18px;height:18px;display:flex;align-items:center;justify-content:center;font-weight:800}
 
-  /* HERO */
-  .hero{position:relative;text-align:center;padding:60px 20px 40px;overflow:hidden}
-  .hero-badge{display:inline-block;background:#f5c54222;color:var(--oro);border:1px solid var(--oro);
-    padding:6px 16px;border-radius:999px;font-size:.8rem;font-weight:800;letter-spacing:1px}
-  .hero h1{font-size:2.6rem;margin:16px 0 10px}
-  .hero p{max-width:640px;margin:0 auto;color:var(--muted)}
-  .hl{color:var(--oro);font-weight:800}
-  .hero-actions{display:flex;gap:14px;justify-content:center;margin:24px 0}
-  .hero-actions button{padding:12px 26px;border-radius:12px;font-size:1rem}
-  #verCarta{background:transparent;color:var(--cyan);border:2px solid var(--cyan)}
-  #comprarAhora{background:var(--oro);color:#111}
-  .tag-nuevo{position:absolute;top:22px;right:26px;background:var(--rojo);color:#fff;font-size:.75rem;
-    padding:5px 12px;border-radius:8px;transform:rotate(6deg);font-weight:800}
-  .hero-img{width:min(280px,70%);border-radius:16px;border:3px solid var(--oro);
-    box-shadow:0 0 45px #f5c54255;margin-top:8px}
+  .hero{text-align:center;padding:50px 20px 30px;position:relative}
+  .hero-badge{color:#f59e0b;font-weight:800;letter-spacing:1px;font-size:.85rem}
+  .hero h1{font-size:2.4rem;margin:12px 0}
+  .hero p{color:#94a3b8;max-width:600px;margin:0 auto}
+  .hero p b{color:#f59e0b}
+  .hero-actions{margin:22px 0;display:flex;gap:12px;justify-content:center}
+  .hero-actions button{padding:11px 24px;border-radius:10px}
+  #verCarta{background:transparent;border:2px solid #38bdf8;color:#38bdf8}
+  #comprarAhora{background:#f59e0b;color:#111}
+  .nuevo{position:absolute;top:20px;right:24px;background:#ef4444;color:#fff;border-radius:8px;
+    padding:4px 12px;font-size:.75rem;font-weight:800;transform:rotate(5deg)}
+  .hero-img{width:min(260px,70%);border-radius:14px;margin-top:10px;border:2px solid #f59e0b}
 
-  /* INVENTARIO */
-  section{padding:34px 20px;max-width:1100px;margin:0 auto}
-  h2{font-size:1.5rem;margin-bottom:14px}
-  .resumen{display:flex;gap:14px;flex-wrap:wrap;background:var(--panel);border:1px solid var(--borde);
-    border-radius:14px;padding:16px;margin-bottom:22px}
+  section{max-width:1050px;margin:0 auto;padding:30px 20px}
+  h2{margin-bottom:14px}
+  .resumen{display:flex;gap:14px;flex-wrap:wrap;background:#1e293b;border:1px solid #334155;border-radius:12px;padding:16px;margin-bottom:20px}
   .resumen .box{flex:1;min-width:200px}
-  .resumen .t{color:var(--muted);font-size:.8rem;text-transform:uppercase;letter-spacing:1px}
-  .resumen .v{font-size:1.15rem;font-weight:800;margin-top:4px}
-  .resumen .oro{color:var(--oro)}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:18px}
-  .card{background:var(--panel);border:1px solid var(--borde);border-radius:14px;overflow:hidden;
-    display:flex;flex-direction:column;transition:transform .2s}
-  .card:hover{transform:translateY(-4px)}
-  .card img{width:100%;height:220px;object-fit:cover;background:#000}
-  .card .info{padding:12px;display:flex;flex-direction:column;gap:8px;flex:1}
-  .card .nom{font-weight:700;font-size:.92rem}
-  .card .pre{color:var(--oro);font-weight:800}
-  .card button{margin-top:auto;background:var(--panel2);color:var(--cyan);border:1px solid var(--cyan);
-    border-radius:10px;padding:9px;font-size:.8rem;letter-spacing:.5px}
-  .card.leg{border-color:var(--oro);box-shadow:0 0 22px #f5c54233}
+  .resumen .t{color:#94a3b8;font-size:.78rem;text-transform:uppercase;letter-spacing:1px}
+  .resumen .v{font-weight:800;margin-top:4px}
+  .resumen .oro{color:#f59e0b}
 
-  /* ===== GARRA MEJORADA ===== */
-  .garra-wrap{text-align:center}
-  .machine{position:relative;width:min(600px,94%);height:360px;margin:18px auto;background:linear-gradient(#1b2140,#141830);
-    border:4px solid var(--borde);border-radius:18px;overflow:hidden;box-shadow:inset 0 0 50px #0009}
-  .glass{position:absolute;inset:0;background:linear-gradient(120deg,#ffffff14,transparent 45%);pointer-events:none;z-index:5}
-  .rail{position:absolute;top:14px;left:4%;right:4%;height:8px;background:#39406e;border-radius:4px}
-  .claw-assembly{position:absolute;top:20px;width:70px;transform:translateX(-50%);transition:left .5s ease;z-index:4}
-  .rope{width:4px;height:42px;background:#cfd4e8;margin:0 auto;transition:height .9s ease}
-  .rope.drop{height:200px}
-  .claw-head{position:relative;width:46px;height:36px;margin:0 auto}
-  .claw-head::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);
-    width:28px;height:15px;background:var(--oro);border-radius:7px 7px 3px 3px}
-  .prong{position:absolute;top:11px;width:5px;height:25px;background:linear-gradient(#d9d9d9,#8a8a8a);
-    border-radius:0 0 5px 5px;transform-origin:top center;transition:transform .3s}
-  .p-l{left:7px;transform:rotate(26deg)} .p-c{left:50%;margin-left:-2.5px} .p-r{right:7px;transform:rotate(-26deg)}
-  .claw-head.close .p-l{transform:rotate(7deg)} .claw-head.close .p-r{transform:rotate(-7deg)}
-  .grabbed{width:34px;height:34px;margin:2px auto 0;border-radius:50%;display:none;
-    background:radial-gradient(circle at 32% 30%,#fff3,#0000 45%),var(--cyan);
-    color:#06263a;font-weight:800;display:none;align-items:center;justify-content:center;font-size:1rem}
-  .grabbed.on{display:flex}
-  .prizes{position:absolute;bottom:10px;left:0;right:0;display:flex;justify-content:space-around;padding:0 12%}
-  .capsule{width:44px;height:44px;border-radius:50%;background:radial-gradient(circle at 32% 30%,#fff4,#0000 45%),#7b53f0;
-    color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;box-shadow:0 4px 10px #0007}
-  .capsule:nth-child(2n){background:radial-gradient(circle at 32% 30%,#fff4,#0000 45%),var(--rojo)}
-  .capsule:nth-child(3n){background:radial-gradient(circle at 32% 30%,#fff4,#0000 45%),var(--verde)}
-  .chute{position:absolute;left:2%;bottom:8px;width:13%;height:70px;background:#0a0d1d;border:3px solid var(--borde);
-    border-radius:10px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px;
-    color:var(--muted);font-size:.6rem;letter-spacing:1px;font-weight:800}
-  .fall-capsule{position:absolute;width:34px;height:34px;border-radius:50%;background:var(--cyan);z-index:3;
-    transform:translateX(-50%);animation:caer .8s ease-in forwards}
-  @keyframes caer{from{top:150px;opacity:1}to{top:290px;opacity:.2}}
-  .controls{display:flex;gap:14px;justify-content:center;align-items:center;margin-top:14px}
-  .controls button{background:var(--panel2);color:var(--texto);border:1px solid var(--borde);border-radius:12px;
-    padding:10px 16px;display:flex;align-items:center}
-  #btnDrop{background:var(--oro);color:#111;font-size:.95rem;letter-spacing:1px;padding:12px 26px}
-  #btnDrop:disabled{opacity:.5;cursor:not-allowed}
-  .hint{color:var(--muted);font-size:.85rem;margin-top:8px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:16px}
+  .card{background:#1e293b;border:1px solid #334155;border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+  .card img{width:100%;height:210px;object-fit:cover;background:#000}
+  .card .info{padding:10px;display:flex;flex-direction:column;gap:6px;flex:1}
+  .card .nom{font-size:.88rem;font-weight:700}
+  .card .pre{color:#f59e0b;font-weight:800}
+  .card button{margin-top:auto;background:#334155;color:#38bdf8;border-radius:8px;padding:9px;font-size:.75rem;letter-spacing:.5px}
 
-  /* CARRITO */
-  .overlay{position:fixed;inset:0;background:#000a;z-index:90;display:flex;align-items:center;justify-content:center;padding:16px}
-  #cartSidebar{position:fixed;top:0;right:-420px;width:min(400px,92%);height:100%;background:var(--panel);
-    border-left:1px solid var(--borde);z-index:100;transition:right .35s;display:flex;flex-direction:column;padding:18px}
+  /* ===== GARRA (igual al original: 🏗️ + flechas) ===== */
+  .garra{text-align:center}
+  .machine{position:relative;height:220px;max-width:560px;margin:14px auto;background:#1e293b;
+    border:2px solid #334155;border-radius:14px;overflow:hidden}
+  #claw{position:absolute;top:18px;font-size:3rem;transform:translateX(-50%);transition:left .4s;left:50%}
+  #hook{position:absolute;top:70px;left:50%;width:3px;height:0;background:#94a3b8;transform:translateX(-50%);transition:height .8s}
+  #hook.down{height:110px}
+  #hook::after{content:'🪝';position:absolute;bottom:-20px;left:50%;transform:translateX(-50%);font-size:1.1rem}
+  .controls{display:flex;gap:12px;justify-content:center;align-items:center;margin-top:12px}
+  .controls button{background:#334155;color:#e2e8f0;border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:6px}
+  #btnDrop{background:#f59e0b;color:#111;padding:12px 24px;letter-spacing:1px}
+  #btnDrop:disabled{opacity:.5}
+  .hint{color:#94a3b8;font-size:.85rem;margin-top:8px}
+
+  /* ===== CARRITO (igual al original) ===== */
+  #cartSidebar{position:fixed;top:0;right:-400px;width:min(380px,92%);height:100%;background:#1e293b;
+    border-left:1px solid #334155;z-index:100;transition:right .3s;display:flex;flex-direction:column;padding:16px}
   #cartSidebar.open{right:0}
-  .cart-head{display:flex;justify-content:space-between;align-items:center;font-weight:800;letter-spacing:1px;margin-bottom:12px}
-  .cart-head button{background:transparent;color:var(--muted);font-size:1.1rem}
-  #cartItems{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px}
-  .ci{display:flex;gap:10px;align-items:center;background:var(--panel2);border:1px solid var(--borde);border-radius:12px;padding:8px}
-  .ci img{width:46px;height:46px;object-fit:cover;border-radius:8px}
-  .ci .ic{width:46px;height:46px;border-radius:8px;background:#f5c54222;display:flex;align-items:center;justify-content:center;font-size:1.4rem}
-  .ci .d{flex:1;font-size:.85rem}
-  .ci .d small{color:var(--muted);display:block}
-  .ci .p{font-weight:800;color:var(--oro);font-size:.85rem}
-  .ci .rm{background:transparent;color:var(--rojo);font-size:1rem}
-  .cart-totals{border-top:1px solid var(--borde);padding-top:12px;margin-top:10px;font-size:.9rem}
-  .cart-totals .row{display:flex;justify-content:space-between;margin:4px 0;color:var(--muted)}
-  .cart-totals .row.final{color:var(--texto);font-size:1.15rem;font-weight:800}
-  .cart-totals .desc{color:var(--verde)}
-  #payPalBtn{margin-top:12px;background:#ffc439;color:#111;border-radius:12px;padding:14px;font-size:1rem;font-weight:800}
+  .cart-head{display:flex;justify-content:space-between;font-weight:800;letter-spacing:1px;margin-bottom:12px}
+  .cart-head button{background:transparent;color:#94a3b8;font-size:1.1rem}
+  #cartItems{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:8px}
+  .ci{display:flex;gap:10px;align-items:center;background:#334155;border-radius:10px;padding:8px;font-size:.85rem}
+  .ci img{width:44px;height:44px;object-fit:cover;border-radius:6px}
+  .ci .ic{width:44px;height:44px;border-radius:6px;background:#0f172a;display:flex;align-items:center;justify-content:center;font-size:1.3rem}
+  .ci .d{flex:1}
+  .ci .d small{color:#94a3b8;display:block}
+  .ci .p{font-weight:800;color:#f59e0b}
+  .ci .rm{background:transparent;color:#ef4444}
+  .cart-total{border-top:1px solid #334155;padding-top:10px;margin-top:10px;display:flex;justify-content:space-between;font-weight:800}
+  #descLine{color:#4ade80;font-size:.85rem;display:flex;justify-content:space-between;margin-top:6px}
+  #payPalBtn{margin-top:12px;background:#ffc439;color:#111;border-radius:10px;padding:13px;font-weight:800}
 
-  /* PAYPAL DEMO */
-  .pp-box{position:relative;background:#fff;color:#111;border-radius:16px;width:min(430px,94%);padding:22px;text-align:center}
-  .pp-head{display:flex;justify-content:center;align-items:center;gap:10px;margin-bottom:14px}
-  .pp-logo{font-size:1.5rem;font-weight:800;font-style:italic;color:#003087}
+  .overlay{position:fixed;inset:0;background:#000a;z-index:120;display:flex;align-items:center;justify-content:center;padding:16px}
+  .modal{background:#1e293b;border:1px solid #334155;border-radius:14px;padding:24px;width:min(400px,94%);text-align:center;position:relative}
+  .modal .x{position:absolute;top:8px;right:10px;background:transparent;color:#94a3b8;font-size:1rem}
+  .modal .em{font-size:3.4rem}
+  .modal h3{margin:10px 0 6px}
+  .modal p{color:#94a3b8;font-size:.9rem}
+  .modal button.main{margin-top:14px;background:#f59e0b;color:#111;border-radius:10px;padding:10px 24px}
+  .pp-logo{font-weight:800;font-style:italic;font-size:1.4rem;color:#003087;background:#fff;border-radius:10px;padding:8px;margin-bottom:12px}
   .pp-logo span{color:#009cde}
-  .pp-demo{background:#111;color:#fff;font-size:.65rem;padding:3px 10px;border-radius:999px;letter-spacing:2px}
-  #ppSummary{max-height:180px;overflow:auto;text-align:left;background:#f4f6fb;border-radius:10px;padding:12px;font-size:.85rem;margin-bottom:14px}
+  .pp-demo{font-size:.6rem;background:#111;color:#fff;border-radius:999px;padding:3px 8px;vertical-align:middle;letter-spacing:2px}
+  #ppSummary{text-align:left;background:#0f172a;border-radius:10px;padding:10px;font-size:.83rem;max-height:160px;overflow:auto;margin-bottom:12px}
   #ppSummary .row{display:flex;justify-content:space-between;margin:3px 0}
-  .pp-pay{background:#009cde;color:#fff;border-radius:999px;padding:12px 30px;font-size:1rem}
-  .pp-note{color:#777;font-size:.72rem;margin-top:10px}
-  .spinner{width:46px;height:46px;margin:14px auto;border:5px solid #009cde33;border-top-color:#009cde;border-radius:50%;animation:girar 1s linear infinite}
-  @keyframes girar{to{transform:rotate(360deg)}}
-  .check{font-size:3rem;animation:pop .5s ease}
-  @keyframes pop{0%{transform:scale(0)}70%{transform:scale(1.25)}100%{transform:scale(1)}}
-  .pp-close{position:absolute;top:10px;right:12px;background:transparent;color:#999;font-size:1rem}
-  #ppDone{margin-top:12px;background:#003087;color:#fff;border-radius:999px;padding:10px 28px}
-
-  /* MODAL PREMIO / VER CARTA */
-  .prize-box{background:var(--panel);border:2px solid var(--oro);border-radius:18px;padding:30px;text-align:center;width:min(380px,92%)}
-  .prize-box .em{font-size:4rem}
-  .prize-box h3{margin:10px 0 6px;font-size:1.3rem}
-  .prize-box p{color:var(--muted);font-size:.9rem}
-  .prize-box button{margin-top:16px;background:var(--oro);color:#111;border-radius:10px;padding:10px 26px}
-  .ver-box{position:relative}
-  .ver-box img{width:min(340px,88vw);border-radius:16px;border:3px solid var(--oro);box-shadow:0 0 60px #f5c54266}
-  .ver-box button{position:absolute;top:-14px;right:-14px;background:var(--rojo);color:#fff;border-radius:50%;width:34px;height:34px}
-
-  #toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--verde);color:#063;
-    font-weight:800;padding:12px 22px;border-radius:999px;z-index:200;transition:transform .3s;opacity:0}
+  .spinner{width:42px;height:42px;margin:12px auto;border:5px solid #009cde33;border-top-color:#009cde;border-radius:50%;animation:g 1s linear infinite}
+  @keyframes g{to{transform:rotate(360deg)}}
+  .ver-box img{width:min(320px,80vw);border-radius:14px;border:2px solid #f59e0b}
+  #toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%) translateY(70px);background:#4ade80;color:#052e16;
+    font-weight:800;padding:10px 20px;border-radius:999px;z-index:200;transition:.3s;opacity:0}
   #toast.on{transform:translateX(-50%) translateY(0);opacity:1}
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">⚖️ Legal <b>Tech</b> TCG</div>
-  <button class="cart-btn" id="openCart"><span class="material-icons">shopping_cart</span><span class="badge" id="cartCount">0</span></button>
+  <div class="logo">Legal Tech TCG</div>
+  <div class="h-right">
+    <img class="avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Trainer1" alt="Trainer">
+    <button class="cart-btn" id="openCart"><span class="material-icons">shopping_cart</span><span id="cartCount">0</span></button>
+  </div>
 </header>
 
-<!-- HERO -->
 <div class="hero">
-  <span class="tag-nuevo">NUEVO</span>
-  <span class="hero-badge">⚡ NUEVA CARTA LEGENDARIA</span>
+  <span class="nuevo">NUEVO</span>
+  <div class="hero-badge">⚡ NUEVA CARTA LEGENDARIA</div>
   <h1>Carta Legendaria</h1>
-  <p>Descubre la nueva <span class="hl">Poder LGBTQ+</span>, la más poderosa de nuestra colección Legal Tech del ilustrador Hugo Mendoza.</p>
+  <p>Descubre la nueva <b>Poder LGBTQ+</b>, la más poderosa de nuestra colección Legal Tech del ilustrador Hugo Mendoza.</p>
   <div class="hero-actions">
     <button id="verCarta">Ver Carta</button>
     <button id="comprarAhora">Comprar Ahora</button>
   </div>
-  <!-- Ruta de la carta SIN cambios (raíz) -->
   <img class="hero-img" src="carta16.png" alt="Carta 16 Legendaria">
 </div>
 
-<!-- INVENTARIO -->
-<section id="inventario">
+<section>
   <h2>Inventario Actualizado</h2>
   <div class="resumen">
-    <div class="box"><div class="t">Resumen MXN</div><div class="v" id="stockVal">Cartas en stock: 17 Items</div></div>
-    <div class="box"><div class="t">⭐ Nueva Carta</div><div class="v oro">Carta 16 Legendaria · $2,500 MXN</div></div>
+    <div class="box"><div class="t">Resumen MXN</div><div class="v">Cartas en stock<br>17 Items</div></div>
+    <div class="box"><div class="t">⭐ Nueva Carta</div><div class="v oro">Carta 16 Legendaria<br>$2,500 MXN</div></div>
   </div>
   <div class="grid" id="grid"></div>
 </section>
 
-<!-- GARRA -->
-<section class="garra-wrap" id="garra">
+<section class="garra">
   <h2>🕹️ La Garra Legal Tech</h2>
-  <div class="machine" id="machine">
-    <div class="rail"></div>
-    <div class="claw-assembly" id="clawAsm" style="left:52%">
-      <div class="rope" id="rope"></div>
-      <div class="claw-head" id="clawHead">
-        <span class="prong p-l"></span><span class="prong p-c"></span><span class="prong p-r"></span>
-      </div>
-      <div class="grabbed" id="grabbed">?</div>
-    </div>
-    <div class="prizes">
-      <div class="capsule">?</div><div class="capsule">?</div><div class="capsule">?</div>
-      <div class="capsule">?</div><div class="capsule">?</div>
-    </div>
-    <div class="chute">PREMIOS</div>
-    <div class="glass"></div>
+  <div class="machine">
+    <div id="claw">🏗️</div>
+    <div id="hook"></div>
   </div>
   <div class="controls">
     <button id="btnLeft"><span class="material-icons">arrow_back</span></button>
     <button id="btnDrop">BAJAR GARRA</button>
     <button id="btnRight"><span class="material-icons">arrow_forward</span></button>
   </div>
-  <p class="hint">Usa las flechas para posicionar · Premios: 🎟️ 5% · 🎟️ 10% · 🎁 Sobre gratis · 🍀 Mejor suerte</p>
+  <p class="hint">Usa las flechas para posicionar</p>
 </section>
 
-<!-- CARRITO -->
 <aside id="cartSidebar">
   <div class="cart-head">CARRITO <button id="closeCart">✕</button></div>
   <div id="cartItems"></div>
-  <div class="cart-totals">
-    <div class="row"><span>Subtotal</span><span id="tSub">$0.00 MXN</span></div>
-    <div class="row desc"><span id="tCupLbl">Cupones (0%)</span><span id="tDesc">-$0.00 MXN</span></div>
-    <div class="row final"><span>Total</span><span id="cartTotal">$0.00 MXN</span></div>
-  </div>
+  <div id="descLine" hidden><span id="dLbl"></span><span id="dVal"></span></div>
+  <div class="cart-total"><span>Total</span><span id="cartTotal">$0.00 MXN</span></div>
   <button id="payPalBtn">Pagar con PayPal</button>
 </aside>
 
-<!-- PAYPAL DEMO -->
+<!-- PayPal DEMO -->
 <div class="overlay" id="ppOverlay" hidden>
-  <div class="pp-box">
-    <button class="pp-close" id="ppCancel">✕</button>
-    <div class="pp-head"><span class="pp-logo">Pay<span>Pal</span></span><span class="pp-demo">DEMO</span></div>
+  <div class="modal">
+    <button class="x" id="ppCancel">✕</button>
+    <div class="pp-logo">Pay<span>Pal</span> <span class="pp-demo">DEMO</span></div>
     <div id="ppSummary"></div>
-    <div id="ppSteps">
-      <button class="pp-pay" id="ppConfirm">Pagar <span id="ppAmount"></span></button>
-      <p class="pp-note">Simulación con fines de demostración: no se realizará ningún cargo real.</p>
-    </div>
-    <div id="ppProcessing" hidden><div class="spinner"></div><p>Procesando pago…</p></div>
-    <div id="ppSuccess" hidden>
-      <div class="check">✅</div>
-      <h3>¡Pago exitoso!</h3>
-      <p id="ppTx" style="color:#666;font-size:.8rem;margin-top:6px"></p>
-      <button id="ppDone">Continuar</button>
-    </div>
+    <div id="ppSteps"><button class="main" id="ppConfirm" style="background:#009cde;color:#fff">Confirmar pago</button>
+      <p style="margin-top:8px;font-size:.7rem">Simulación: no se realizará ningún cargo real.</p></div>
+    <div id="ppProc" hidden><div class="spinner"></div><p>Procesando pago…</p></div>
+    <div id="ppOk" hidden><div class="em">✅</div><h3>¡Pago exitoso!</h3><p id="ppTx"></p><button class="main" id="ppDone">Continuar</button></div>
   </div>
 </div>
 
-<!-- PREMIO GARRA -->
-<div class="overlay" id="prizeOverlay" hidden>
-  <div class="prize-box">
+<!-- Premio garra -->
+<div class="overlay" id="pzOverlay" hidden>
+  <div class="modal">
     <div class="em" id="pzEm">🎟️</div>
     <h3 id="pzTitle"></h3>
     <p id="pzDesc"></p>
-    <button id="pzClose">Continuar</button>
+    <button class="main" id="pzClose">Continuar</button>
   </div>
 </div>
 
-<!-- VER CARTA -->
+<!-- Ver carta -->
 <div class="overlay" id="verOverlay" hidden>
-  <div class="ver-box">
-    <img src="carta16.png" alt="Carta Legendaria">
-    <button id="verClose">✕</button>
+  <div class="modal" style="background:transparent;border:none">
+    <button class="x" id="verClose">✕</button>
+    <div class="ver-box"><img src="carta16.png" alt="Carta Legendaria"></div>
   </div>
 </div>
 
@@ -269,156 +192,116 @@ const $=s=>document.querySelector(s);
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const fmt=n=>'$'+n.toLocaleString('es-MX',{minimumFractionDigits:2,maximumFractionDigits:2})+' MXN';
 
-/* ====== CARTAS: rutas de la raíz SIN cambios ====== */
+/* Rutas de las cartas SIN cambios (raíz) */
 const CARTAS=[
- {id:1, img:'carta1.jpg',   nombre:'Carta 1 · Amparo Digital',      precio:150},
- {id:2, img:'carta2.jpeg',  nombre:'Carta 2 · Habeas Data',         precio:150},
- {id:3, img:'carta3.jpeg',  nombre:'Carta 3 · Lex Bot',             precio:180},
- {id:4, img:'carta4.jpeg',  nombre:'Carta 4 · Contrato Inteligente',precio:200},
- {id:5, img:'carta5.jpeg',  nombre:'Carta 5 · Firma Electrónica',   precio:160},
- {id:6, img:'carta6.jpeg',  nombre:'Carta 6 · Jurisprudencia IA',   precio:220},
- {id:7, img:'carta7.jpeg',  nombre:'Carta 7 · Notario Drone',       precio:190},
- {id:8, img:'Carta8.jpeg',  nombre:'Carta 8 · Custodia Digital',    precio:210},
- {id:9, img:'carta9.jpeg',  nombre:'Carta 9 · Litigio Virtual',     precio:170},
- {id:10,img:'carta10.jpeg', nombre:'Carta 10 · Blockchain Legal',   precio:230},
- {id:11,img:'carta11.jpeg', nombre:'Carta 11 · Datos Protegidos',   precio:180},
- {id:12,img:'carta12.png',  nombre:'Carta 12 · Tribunal Cloud',     precio:200},
- {id:13,img:'13.png',       nombre:'Carta 13 · Abogado Holograma',  precio:240},
- {id:14,img:'carta14.png',  nombre:'Carta 14 · Ética Artificial',   precio:210},
- {id:15,img:'carta15.png',  nombre:'Carta 15 · Código Civil++',     precio:190},
- {id:16,img:'carta16.png',  nombre:'Carta 16 Legendaria · Poder LGBTQ+', precio:2500, leg:true},
- {id:17,img:'doffiekang.jpeg',nombre:'Carta 17 · Doffie Kang',      precio:300},
+ {id:1,img:'carta1.jpg',nombre:'Carta 1',precio:150},
+ {id:2,img:'carta2.jpeg',nombre:'Carta 2',precio:150},
+ {id:3,img:'carta3.jpeg',nombre:'Carta 3',precio:180},
+ {id:4,img:'carta4.jpeg',nombre:'Carta 4',precio:200},
+ {id:5,img:'carta5.jpeg',nombre:'Carta 5',precio:160},
+ {id:6,img:'carta6.jpeg',nombre:'Carta 6',precio:220},
+ {id:7,img:'carta7.jpeg',nombre:'Carta 7',precio:190},
+ {id:8,img:'Carta8.jpeg',nombre:'Carta 8',precio:210},
+ {id:9,img:'carta9.jpeg',nombre:'Carta 9',precio:170},
+ {id:10,img:'carta10.jpeg',nombre:'Carta 10',precio:230},
+ {id:11,img:'carta11.jpeg',nombre:'Carta 11',precio:180},
+ {id:12,img:'carta12.png',nombre:'Carta 12',precio:200},
+ {id:13,img:'13.png',nombre:'Carta 13',precio:240},
+ {id:14,img:'carta14.png',nombre:'Carta 14',precio:210},
+ {id:15,img:'carta15.png',nombre:'Carta 15',precio:190},
+ {id:16,img:'carta16.png',nombre:'Carta 16 Legendaria',precio:2500},
+ {id:17,img:'doffiekang.jpeg',nombre:'Doffie Kang',precio:300},
 ];
 
-/* ====== CARRITO ====== */
-let carrito=[], cuponSeq=0;
-function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2200);}
-function agregarCarta(id){const c=CARTAS.find(x=>x.id===id);carrito.push({tipo:'carta',...c});renderCarrito();toast('🛒 '+c.nombre+' agregada');}
-function agregarCupon(pct){carrito.push({tipo:'cupon',pct,code:'GARRA-'+pct+'-'+String(++cuponSeq).padStart(3,'0')});renderCarrito();}
-function agregarSobre(){carrito.push({tipo:'sobre',nombre:'Sobre Gratis 🎁',precio:0});renderCarrito();}
+let carrito=[],cuponSeq=0;
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2200);}
+function agregarCarta(id){const c=CARTAS.find(x=>x.id===id);carrito.push({tipo:'carta',...c});render();toast('🛒 '+c.nombre+' agregada');}
+function agregarCupon(p){carrito.push({tipo:'cupon',pct:p,code:'GARRA'+p+'-'+(++cuponSeq)});render();}
+function agregarSobre(){carrito.push({tipo:'sobre',nombre:'Sobre Gratis 🎁',precio:0});render();}
 function calc(){
   const sub=carrito.filter(i=>i.tipo!=='cupon').reduce((s,i)=>s+i.precio,0);
   const pct=Math.min(carrito.filter(i=>i.tipo==='cupon').reduce((s,i)=>s+i.pct,0),50);
-  const desc=sub*pct/100;
-  return{sub,pct,desc,total:sub-desc};
+  return{sub,pct,desc:sub*pct/100,total:sub*(1-pct/100)};
 }
-function renderCarrito(){
-  const box=$('#cartItems');box.innerHTML='';
+function render(){
+  const b=$('#cartItems');b.innerHTML='';
   carrito.forEach((it,i)=>{
     const d=document.createElement('div');d.className='ci';
-    if(it.tipo==='cupon'){
-      d.innerHTML=`<div class="ic">🎟️</div><div class="d"><b>Cupón ${it.pct}% desc.</b><small>${it.code}</small></div><div class="p">−${it.pct}%</div>`;
-    }else if(it.tipo==='sobre'){
-      d.innerHTML=`<div class="ic">🎁</div><div class="d"><b>${it.nombre}</b><small>Premio de la garra</small></div><div class="p" style="color:var(--verde)">GRATIS</div>`;
-    }else{
-      d.innerHTML=`<img src="${it.img}"><div class="d"><b>${it.nombre}</b></div><div class="p">${fmt(it.precio)}</div>`;
-    }
+    if(it.tipo==='cupon')d.innerHTML=`<div class="ic">🎟️</div><div class="d"><b>Cupón ${it.pct}%</b><small>${it.code}</small></div><div class="p">−${it.pct}%</div>`;
+    else if(it.tipo==='sobre')d.innerHTML=`<div class="ic">🎁</div><div class="d"><b>${it.nombre}</b></div><div class="p" style="color:#4ade80">GRATIS</div>`;
+    else d.innerHTML=`<img src="${it.img}"><div class="d"><b>${it.nombre}</b></div><div class="p">${fmt(it.precio)}</div>`;
     const rm=document.createElement('button');rm.className='rm';rm.textContent='✕';
-    rm.onclick=()=>{carrito.splice(i,1);renderCarrito();};
-    d.appendChild(rm);box.appendChild(d);
+    rm.onclick=()=>{carrito.splice(i,1);render();};
+    d.appendChild(rm);b.appendChild(d);
   });
   const t=calc();
   $('#cartCount').textContent=carrito.filter(i=>i.tipo!=='cupon').length;
-  $('#tSub').textContent=fmt(t.sub);
-  $('#tCupLbl').textContent=`Cupones (${t.pct}%)`;
-  $('#tDesc').textContent='-'+fmt(t.desc);
+  $('#descLine').hidden=t.pct===0;
+  $('#dLbl').textContent='Cupones ('+t.pct+'%)';
+  $('#dVal').textContent='-'+fmt(t.desc);
   $('#cartTotal').textContent=fmt(t.total);
 }
 $('#openCart').onclick=()=>$('#cartSidebar').classList.add('open');
 $('#closeCart').onclick=()=>$('#cartSidebar').classList.remove('open');
 
-/* ====== INVENTARIO ====== */
-const grid=$('#grid');
 CARTAS.forEach(c=>{
-  const d=document.createElement('div');d.className='card'+(c.leg?' leg':'');
-  d.innerHTML=`<img src="${c.img}" alt="${c.nombre}"><div class="info">
-    <div class="nom">${c.nombre}</div><div class="pre">${fmt(c.precio)}</div>
-    <button data-id="${c.id}">AÑADIR AL CARRITO</button></div>`;
+  const d=document.createElement('div');d.className='card';
+  d.innerHTML=`<img src="${c.img}"><div class="info"><div class="nom">${c.nombre}</div>
+   <div class="pre">${fmt(c.precio)}</div><button>AÑADIR AL CARRITO</button></div>`;
   d.querySelector('button').onclick=()=>agregarCarta(c.id);
-  grid.appendChild(d);
+  $('#grid').appendChild(d);
 });
 
-/* ====== HERO ====== */
 $('#verCarta').onclick=()=>$('#verOverlay').hidden=false;
 $('#verClose').onclick=()=>$('#verOverlay').hidden=true;
 $('#comprarAhora').onclick=()=>{agregarCarta(16);$('#cartSidebar').classList.add('open');};
 
-/* ====== GARRA MEJORADA ====== */
-const POS=[16,34,52,70,88], CHUTE_X=7;
-let pos=2, busy=false;
-const asm=$('#clawAsm'), rope=$('#rope'), head=$('#clawHead'), grabbed=$('#grabbed');
-function mover(d){if(busy)return;pos=Math.max(0,Math.min(4,pos+d));asm.style.left=POS[pos]+'%';}
-$('#btnLeft').onclick=()=>mover(-1);
-$('#btnRight').onclick=()=>mover(1);
-
-function sorteo(){
-  const r=Math.random();
-  if(r<0.25)return'd5';      // 25% cupón 5%
-  if(r<0.40)return'd10';     // 15% cupón 10%
-  if(r<0.65)return'sobre';   // 25% sobre gratis
-  return'nada';              // 35% mejor suerte
-}
+/* ===== GARRA: mismos controles, premios nuevos ===== */
+const POS=[12,31,50,69,88];let pos=2,busy=false;
+$('#btnLeft').onclick=()=>{if(!busy&&pos>0){pos--;$('#claw').style.left=POS[pos]+'%';}};
+$('#btnRight').onclick=()=>{if(!busy&&pos<4){pos++;$('#claw').style.left=POS[pos]+'%';}};
 $('#btnDrop').onclick=async()=>{
   if(busy)return;busy=true;$('#btnDrop').disabled=true;
-  const premio=sorteo();
-  rope.classList.add('drop');            await sleep(950);   // baja
-  head.classList.add('close');           await sleep(350);   // sujeta
-  if(premio!=='nada')grabbed.classList.add('on');
-  rope.classList.remove('drop');         await sleep(950);   // sube
-  asm.style.left=CHUTE_X+'%';            await sleep(600);   // lleva al buzón
-  head.classList.remove('close');
-  if(premio!=='nada'){
-    const f=document.createElement('div');f.className='fall-capsule';
-    f.style.left=CHUTE_X+'%';$('#machine').appendChild(f);
-    setTimeout(()=>f.remove(),900);
-    grabbed.classList.remove('on');
-  }
-  await sleep(600);
-  asm.style.left=POS[2]+'%';pos=2;       await sleep(500);   // regresa al centro
+  $('#hook').style.left=POS[pos]+'%';
+  $('#hook').classList.add('down');await sleep(900);
+  $('#hook').classList.remove('down');await sleep(500);
   busy=false;$('#btnDrop').disabled=false;
-  mostrarPremio(premio);
+  const r=Math.random();
+  let p=r<.25?'d5':r<.40?'d10':r<.65?'sobre':'nada';
+  const P={
+    d5:{em:'🎟️',t:'¡Cupón 5% de descuento!',d:'Se agregó a tu carrito.',fn:()=>{agregarCupon(5);toast('🎟️ Cupón 5% agregado al carrito');}},
+    d10:{em:'🎟️',t:'¡Cupón 10% de descuento!',d:'Se agregó a tu carrito.',fn:()=>{agregarCupon(10);toast('🎟️ Cupón 10% agregado al carrito');}},
+    sobre:{em:'🎁',t:'¡Sobre GRATIS!',d:'Se agregó a tu carrito sin costo.',fn:()=>{agregarSobre();toast('🎁 Sobre gratis agregado');}},
+    nada:{em:'🍀',t:'Mejor suerte para la próxima',d:'La garra no atrapó premio esta vez.',fn:null}
+  }[p];
+  if(P.fn)P.fn();
+  $('#pzEm').textContent=P.em;$('#pzTitle').textContent=P.t;$('#pzDesc').textContent=P.d;
+  $('#pzOverlay').hidden=false;
 };
+$('#pzClose').onclick=()=>$('#pzOverlay').hidden=true;
 
-const PREMIOS={
- d5:   {em:'🎟️',t:'¡Cupón 5% de descuento!',d:'Se agregó automáticamente a tu carrito.',fn:()=>{agregarCupon(5);toast('🎟️ Cupón 5% agregado al carrito');}},
- d10:  {em:'🎟️',t:'¡Cupón 10% de descuento!',d:'Se agregó automáticamente a tu carrito.',fn:()=>{agregarCupon(10);toast('🎟️ Cupón 10% agregado al carrito');}},
- sobre:{em:'🎁',t:'¡Sobre GRATIS!',d:'Se agregó a tu carrito sin costo.',fn:()=>{agregarSobre();toast('🎁 Sobre gratis agregado al carrito');}},
- nada: {em:'🍀',t:'Mejor suerte para la próxima',d:'La garra no atrapó premio esta vez. ¡Inténtalo de nuevo!',fn:null},
-};
-function mostrarPremio(k){
-  const p=PREMIOS[k];
-  $('#pzEm').textContent=p.em;$('#pzTitle').textContent=p.t;$('#pzDesc').textContent=p.d;
-  if(p.fn)p.fn();
-  $('#prizeOverlay').hidden=false;
-}
-$('#pzClose').onclick=()=>$('#prizeOverlay').hidden=true;
-
-/* ====== PAYPAL DEMO (pago simulado) ====== */
+/* ===== PAYPAL DEMO ===== */
 $('#payPalBtn').onclick=()=>{
+  if(!carrito.length){toast('🛒 Carrito vacío');return;}
   const t=calc();
-  if(carrito.filter(i=>i.tipo!=='cupon').length===0){toast('🛒 Tu carrito está vacío');return;}
-  $('#ppSummary').innerHTML=carrito.map(i=>
-    `<div class="row"><span>${i.tipo==='cupon'?'🎟️ '+i.code+' (−'+i.pct+'%)':i.nombre}</span><span>${i.tipo==='sobre'?'GRATIS':fmt(i.precio)}</span></div>`
-  ).join('')+`<div class="row" style="font-weight:800;border-top:1px solid #ddd;margin-top:6px;padding-top:6px"><span>TOTAL</span><span>${fmt(t.total)}</span></div>`;
-  $('#ppAmount').textContent=fmt(t.total);
-  $('#ppSteps').hidden=false;$('#ppProcessing').hidden=true;$('#ppSuccess').hidden=true;
+  $('#ppSummary').innerHTML=carrito.map(i=>`<div class="row"><span>${i.tipo==='cupon'?'🎟️ '+i.code+' (−'+i.pct+'%)':i.nombre}</span><span>${i.tipo==='sobre'?'GRATIS':fmt(i.precio)}</span></div>`).join('')
+   +`<div class="row" style="font-weight:800;border-top:1px solid #334155;margin-top:6px;padding-top:6px"><span>TOTAL</span><span>${fmt(t.total)}</span></div>`;
+  $('#ppSteps').hidden=false;$('#ppProc').hidden=true;$('#ppOk').hidden=true;
   $('#ppOverlay').hidden=false;
 };
-$('#ppCancel').onclick=()=>{if(!$('#ppProcessing').hidden)return;$('#ppOverlay').hidden=true;};
+$('#ppCancel').onclick=()=>{if($('#ppProc').hidden)$('#ppOverlay').hidden=true;};
 $('#ppConfirm').onclick=async()=>{
-  $('#ppSteps').hidden=true;$('#ppProcessing').hidden=false;
-  await sleep(2000); // simulación de procesamiento
-  $('#ppProcessing').hidden=true;$('#ppSuccess').hidden=false;
+  $('#ppSteps').hidden=true;$('#ppProc').hidden=false;
+  await sleep(2000);
+  $('#ppProc').hidden=true;$('#ppOk').hidden=false;
   $('#ppTx').textContent='Transacción simulada #LT-'+Date.now()+' · Autorizada ✔';
 };
 $('#ppDone').onclick=()=>{
-  $('#ppOverlay').hidden=true;
-  carrito=[];renderCarrito();
+  $('#ppOverlay').hidden=true;carrito=[];render();
   $('#cartSidebar').classList.remove('open');
   toast('🎉 ¡Gracias por tu compra! (pago simulado)');
 };
-
-renderCarrito();
+render();
 </script>
 </body>
 </html>
