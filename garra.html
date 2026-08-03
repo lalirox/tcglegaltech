@@ -39,7 +39,7 @@
     </script>
     <style>
         * { -webkit-tap-highlight-color: transparent; }
-        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
         .scanline-overlay {
             background: linear-gradient(to bottom, transparent 50%, rgba(241, 243, 252, 0.02) 50%);
             background-size: 100% 4px;
@@ -162,6 +162,7 @@
     <!-- MÁQUINA DE GARRA -->
     <div class="flex flex-col items-center py-20 relative z-20">
         <h2 class="text-3xl font-headline font-black uppercase text-secondary mb-10 drop-shadow-[0_0_15px_rgba(0,227,253,0.3)]">🕹️ La Garra Legal Tech</h2>
+        <p class="text-on-surface-variant text-sm mb-4 text-center max-w-md">¡Juega y gana premios! Puedes obtener: 5% de descuento, Sobre Gratis, Cita Erótica con Hugo, o el premio consuelo.</p>
         <div class="claw-machine-wrap">
             <div class="claw-glass-area">
                 <div id="main-claw-arm">
@@ -171,24 +172,96 @@
                 <img id="claw-card-won" src="" class="card-interactive rounded border-2 border-primary shadow-2xl" style="position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%) scale(0); z-index: 100; width: 170px;">
                 <div id="claw-pile" class="claw-pile-container"></div>
             </div>
-            <div class="absolute bottom-0 w-full h-16 bg-surface-container-highest border-t border-outline-variant flex items-center justify-center">
-                <button id="startClawGame" onclick="runClawLogic()" class="px-8 py-2 bg-primary text-black font-black uppercase text-xs chamfer-clip hover:bg-white active:scale-90">Lanzar Garra</button>
+            <div class="absolute bottom-0 w-full h-16 bg-surface-container-highest border-t border-outline-variant flex items-center justify-center gap-2">
+                <button onclick="moveClaw(-5)" class="w-10 h-10 bg-surface-bright border border-outline-variant flex items-center justify-center chamfer-clip active:scale-90 transition-all hover:bg-surface-bright/80"><span class="material-symbols-outlined text-sm">arrow_back</span></button>
+                <button id="startClawGame" onclick="runClawLogic()" class="px-6 py-2 bg-primary text-black font-black uppercase text-xs chamfer-clip hover:bg-white active:scale-90 transition-all">BAJAR GARRA</button>
+                <button onclick="moveClaw(5)" class="w-10 h-10 bg-surface-bright border border-outline-variant flex items-center justify-center chamfer-clip active:scale-90 transition-all hover:bg-surface-bright/80"><span class="material-symbols-outlined text-sm">arrow_forward</span></button>
             </div>
         </div>
+        <p id="clawMessage" class="mt-4 font-mono text-[10px] text-on-surface-variant uppercase">Usa las flechas para posicionar</p>
     </div>
 </main>
 
-<!-- Carrito -->
-<div id="sideCartPanel" class="fixed top-0 right-0 h-full w-80 bg-surface-container z-[150] transform translate-x-full transition-transform p-5 border-l border-outline-variant">
-    <div class="flex justify-between items-center mb-6">
+    <!-- Carrito -->
+<div id="sideCartPanel" class="fixed top-0 right-0 h-full w-80 bg-surface-container z-[150] transform translate-x-full transition-transform duration-300 flex flex-col">
+    <div class="p-5 border-b border-outline-variant flex justify-between items-center bg-surface-container-highest">
         <h2 class="font-headline font-bold text-primary">CARRITO</h2>
-        <button onclick="document.getElementById('sideCartPanel').classList.add('translate-x-full')">✕</button>
+        <button onclick="document.getElementById('sideCartPanel').classList.add('translate-x-full')" class="hover:text-primary transition-colors">✕</button>
     </div>
-    <div id="cartItemsContainer" class="space-y-4"></div>
+    <div id="cartItemsContainer" class="flex-1 overflow-y-auto p-4 space-y-3 font-mono text-xs"></div>
+    
+    <!-- Sección de Demo de Compra Real -->
+    <div class="p-5 border-t border-outline-variant bg-surface-container-highest flex flex-col gap-4">
+        <div class="space-y-2">
+            <div class="flex justify-between items-center text-xs">
+                <span class="text-on-surface-variant">Subtotal:</span>
+                <span id="cartSubtotal" class="text-on-surface">$0.00 MXN</span>
+            </div>
+            <div class="flex justify-between items-center text-xs">
+                <span class="text-on-surface-variant">Descuentos:</span>
+                <span id="cartDiscounts" class="text-green-400">-$0.00 MXN</span>
+            </div>
+            <div class="flex justify-between items-center text-xs">
+                <span class="text-on-surface-variant">Envío:</span>
+                <span id="cartShipping" class="text-on-surface">$0.00 MXN</span>
+            </div>
+            <div class="border-t border-outline-variant pt-2 mt-2">
+                <div class="flex justify-between items-center">
+                    <span class="font-headline font-black text-secondary text-lg">TOTAL:</span>
+                    <span id="cartTotalEl" class="font-headline font-black text-secondary text-xl">$0.00 MXN</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Botones de pago simulados -->
+        <button onclick="simulateCheckout()" class="w-full py-3 px-4 bg-[#ffc439] hover:bg-[#e5b033] text-[#003087] font-bold rounded flex items-center justify-center gap-2 transition-all hover:shadow-lg active:scale-95">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z"/></svg>
+            Pagar Ahora
+        </button>
+        <button onclick="addToCart({img: 'carta1.jpg', name: 'Demo Product', price: 500})" class="w-full py-2 px-4 bg-surface-bright border border-outline-variant text-on-surface text-xs font-bold rounded hover:bg-surface-container-highest transition-all">
+            🛒 Agregar Producto Demo
+        </button>
+    </div>
+</div>
+
+<!-- Modal de Checkout Exitoso -->
+<div id="checkoutModal" class="fixed inset-0 z-[200] hidden items-center justify-center bg-black/90 backdrop-blur-md p-4">
+    <div class="bg-surface-container border border-outline-variant rounded-xl p-8 max-w-md w-full text-center relative overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 pointer-events-none"></div>
+        <div class="relative z-10">
+            <div class="w-20 h-20 mx-auto mb-6 bg-green-500/20 rounded-full flex items-center justify-center animate-bounce">
+                <span class="material-symbols-outlined text-5xl text-green-400">check_circle</span>
+            </div>
+            <h3 class="text-2xl font-headline font-black text-primary mb-2">¡COMPRA EXITOSA!</h3>
+            <p class="text-on-surface-variant mb-6">Gracias por tu compra. Tu pedido ha sido procesado.</p>
+            <div class="bg-surface-bright rounded-lg p-4 mb-6">
+                <div class="text-xs text-on-surface-variant mb-1">Total Pagado:</div>
+                <div id="checkoutTotal" class="text-3xl font-headline font-black text-secondary">$0.00 MXN</div>
+            </div>
+            <div class="flex gap-3 justify-center">
+                <button onclick="closeCheckoutModal()" class="px-6 py-3 bg-primary text-black font-black uppercase text-sm chamfer-clip hover:bg-primary-fixed transition-all">
+                    Continuar Comprando
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
     const mysteryImages = ["carta1.jpg", "carta2.jpeg", "carta3.jpeg", "carta4.jpeg", "carta5.jpeg", "carta6.jpeg", "carta7.jpeg", "Carta8.jpeg", "carta9.jpeg", "carta10.jpeg", "carta11.jpeg", "carta12.png", "13.png", "carta14.png", "carta15.png", "doffiekang.jpeg"];
+    
+    // Premios de la garra con sus efectos
+    const clawPrizes = [
+        { type: 'discount', name: '5% de Descuento', value: 0.05, icon: '🏷️', description: 'Descuento del 5% en tu compra' },
+        { type: 'freebie', name: 'Sobre Gratis', value: 0, icon: '🎁', description: 'Un sobre sorpresa gratuito' },
+        { type: 'special', name: 'Cita Erótica con Hugo', value: 9999, icon: '💋', description: 'Premio especial legendario' },
+        { type: 'lose', name: 'Hoy No Es Tu Día Perdedor', value: 0, icon: '😢', description: 'Inténtalo de nuevo' }
+    ];
+
+    let cart = [];
+    let appliedDiscount = 0;
+    let hasFreeShipping = false;
+    let clawX = 50;
 
     document.addEventListener("DOMContentLoaded", () => {
         // --- 1. EFECTOS VISUALES DE LAS CARTAS (Restaurados) ---
@@ -238,7 +311,7 @@
         }
         initPile();
 
-        // --- 3. LÓGICA DE LA GARRA ---
+        // --- 3. LÓGICA DE LA GARRA MEJORADA ---
         window.runClawLogic = function() {
             const btn = document.getElementById('startClawGame');
             const arm = document.getElementById('main-claw-arm');
@@ -249,6 +322,9 @@
             big.style.transform = 'translate(-50%, -50%) scale(0)';
             mini.style.display = 'none';
             
+            // Seleccionar premio aleatorio de la garra
+            const prizeIndex = Math.floor(Math.random() * clawPrizes.length);
+            const prize = clawPrizes[prizeIndex];
             const winImg = mysteryImages[Math.floor(Math.random()*mysteryImages.length)];
             const targetX = Math.floor(Math.random()*70) + 15;
             
@@ -264,16 +340,137 @@
                         big.src = winImg;
                         big.style.transform = 'translate(-50%, -50%) scale(1)';
                         mini.style.display = 'none';
+                        
+                        // Aplicar premio al carrito
+                        applyClawPrize(prize);
+                        
                         btn.disabled = false;
                         initPile();
+                        
+                        // Mostrar mensaje del premio
+                        showMessage(`🎉 ${prize.icon} ${prize.name}`, prize.type === 'lose' ? 'text-red-400' : 'text-green-400');
+                        
+                        // Actualizar mensaje de la garra
+                        document.getElementById('clawMessage').textContent = `Premio: ${prize.name}`;
+                        setTimeout(() => {
+                            document.getElementById('clawMessage').textContent = 'Usa las flechas para posicionar';
+                        }, 3000);
                     }, 1000);
                 }, 1000);
             }, 800);
         };
+        
+        // Función para mover la garra
+        window.moveClaw = function(dir) {
+            clawX = Math.max(15, Math.min(85, clawX + dir));
+            document.getElementById('main-claw-arm').style.left = clawX + '%';
+        };
+        
+        // Función para aplicar premios del carrito
+        function applyClawPrize(prize) {
+            if (prize.type === 'discount') {
+                appliedDiscount = prize.value;
+                updateCartUI();
+            } else if (prize.type === 'freebie') {
+                hasFreeShipping = true;
+                addToCart({img: 'carta1.jpg', name: '🎁 Sobre Gratis', price: 0});
+            } else if (prize.type === 'special') {
+                addToCart({img: 'doffiekang.jpeg', name: '💋 Cita Erótica con Hugo', price: 9999});
+            } else if (prize.type === 'lose') {
+                // No hacer nada, solo mostrar mensaje
+            }
+        }
+        
+        // Función para mostrar mensajes temporales
+        function showMessage(text, colorClass = 'text-primary') {
+            const msgEl = document.createElement('div');
+            msgEl.className = `fixed top-20 left-1/2 transform -translate-x-1/2 z-[300] px-6 py-3 bg-surface-container-highest border border-primary rounded-lg shadow-2xl animate-bounce ${colorClass} font-headline font-bold text-sm`;
+            msgEl.textContent = text;
+            document.body.appendChild(msgEl);
+            setTimeout(() => msgEl.remove(), 3000);
+        }
 
         // Mystery Pack Init
         document.getElementById('randomCardElement').style.backgroundImage = `url('${mysteryImages[0]}')`;
     });
+    
+    // Función para agregar al carrito
+    function addToCart(item) {
+        cart.push(item);
+        updateCartUI();
+        // Abrir el carrito automáticamente
+        document.getElementById('sideCartPanel').classList.remove('translate-x-full');
+    }
+    
+    // Función para actualizar la UI del carrito
+    function updateCartUI() {
+        const container = document.getElementById('cartItemsContainer');
+        const subtotalEl = document.getElementById('cartSubtotal');
+        const discountsEl = document.getElementById('cartDiscounts');
+        const shippingEl = document.getElementById('cartShipping');
+        const totalEl = document.getElementById('cartTotalEl');
+        
+        // Calcular subtotal
+        const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
+        
+        // Calcular descuento
+        const discountAmount = subtotal * appliedDiscount;
+        
+        // Calcular envío (gratis si hay premio o subtotal > 1000)
+        const shipping = hasFreeShipping || subtotal > 1000 ? 0 : 150;
+        
+        // Calcular total
+        const total = subtotal - discountAmount + shipping;
+        
+        // Actualizar items del carrito
+        container.innerHTML = cart.map(item => 
+            `<div class="flex justify-between items-center p-2 bg-surface-bright rounded border border-outline-variant/30">
+                <div class="flex items-center gap-2">
+                    <img src="${item.img}" class="w-8 h-10 object-cover rounded">
+                    <span class="text-on-surface">${item.name}</span>
+                </div>
+                <span class="text-primary font-bold">$${item.price.toLocaleString()}</span>
+            </div>`
+        ).join('');
+        
+        // Actualizar totales
+        subtotalEl.textContent = `$${subtotal.toLocaleString()} MXN`;
+        discountsEl.textContent = `-$${discountAmount.toLocaleString()} MXN`;
+        shippingEl.textContent = shipping === 0 ? 'GRATIS' : `$${shipping.toLocaleString()} MXN`;
+        totalEl.textContent = `$${total.toLocaleString()} MXN`;
+    }
+    
+    // Función para simular checkout
+    function simulateCheckout() {
+        if (cart.length === 0) {
+            showMessage('⚠️ Agrega productos primero', 'text-red-400');
+            return;
+        }
+        
+        const totalText = document.getElementById('cartTotalEl').textContent;
+        document.getElementById('checkoutTotal').textContent = totalText;
+        
+        // Mostrar modal de éxito
+        const modal = document.getElementById('checkoutModal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        
+        // Limpiar carrito después de la compra
+        setTimeout(() => {
+            cart = [];
+            appliedDiscount = 0;
+            hasFreeShipping = false;
+            updateCartUI();
+        }, 500);
+    }
+    
+    // Función para cerrar modal de checkout
+    function closeCheckoutModal() {
+        const modal = document.getElementById('checkoutModal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        document.getElementById('sideCartPanel').classList.add('translate-x-full');
+    }
 </script>
 </body>
 </html>
