@@ -51,44 +51,54 @@
         /* MEJORAS DE ANIMACIÓN PARA CARTAS */
         .card-interactive {
             transform-style: preserve-3d;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
-                        box-shadow 0.4s ease, 
-                        filter 0.4s ease;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                        box-shadow 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), 
+                        filter 0.5s ease;
             will-change: transform, box-shadow;
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
             position: relative;
             cursor: pointer;
+            animation: cardIdle 4s ease-in-out infinite;
         }
         
-        /* Efecto de brillo móvil */
+        /* Animación de reposo/levitación suave */
+        @keyframes cardIdle {
+            0%, 100% { transform: translateY(0) rotateX(0) rotateY(0); }
+            50% { transform: translateY(-5px) rotateX(1deg) rotateY(-1deg); }
+        }
+        
+        /* Efecto de brillo móvil mejorado */
         .card-interactive::before {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
-            width: 50%;
+            width: 80%;
             height: 100%;
             background: linear-gradient(
                 90deg,
                 transparent 0%,
-                rgba(255, 255, 255, 0.05) 30%,
-                rgba(255, 255, 255, 0.1) 50%,
-                rgba(255, 255, 255, 0.05) 70%,
+                rgba(255, 255, 255, 0.1) 20%,
+                rgba(255, 217, 111, 0.3) 40%,
+                rgba(255, 255, 255, 0.2) 50%,
+                rgba(255, 217, 111, 0.3) 60%,
+                rgba(255, 255, 255, 0.1) 80%,
                 transparent 100%
             );
-            transform: skewX(-25deg);
-            transition: left 0.6s ease;
+            transform: skewX(-20deg);
+            transition: left 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
             z-index: 2;
             pointer-events: none;
+            mix-blend-mode: screen;
         }
         
         .card-interactive:hover::before {
             left: 150%;
-            transition: left 0.6s ease;
+            transition: left 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
         
-        /* Efecto de partículas brillantes */
+        /* Efecto de partículas brillantes mejorado */
         .card-particles {
             position: absolute;
             top: 0;
@@ -98,7 +108,7 @@
             pointer-events: none;
             z-index: 3;
             opacity: 0;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.5s ease;
         }
         
         .card-interactive:hover .card-particles {
@@ -107,38 +117,41 @@
         
         .particle {
             position: absolute;
-            width: 2px;
-            height: 2px;
+            width: 3px;
+            height: 3px;
             background: #ffd96f;
             border-radius: 50%;
-            animation: floatParticle 2s infinite;
-            box-shadow: 0 0 4px #ffd96f, 0 0 8px rgba(255, 217, 111, 0.5);
+            animation: floatParticle 2.5s ease-in-out infinite;
+            box-shadow: 0 0 6px #ffd96f, 0 0 12px rgba(255, 217, 111, 0.8), 0 0 20px rgba(255, 217, 111, 0.4);
         }
         
         @keyframes floatParticle {
-            0%, 100% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
-            50% { transform: translateY(-20px) translateX(10px) scale(1.5); opacity: 1; }
-            75% { transform: translateY(-30px) translateX(-5px) scale(1); opacity: 0.5; }
+            0%, 100% { transform: translateY(0) translateX(0) scale(0); opacity: 0; }
+            25% { opacity: 1; }
+            50% { transform: translateY(-25px) translateX(15px) scale(1.8); opacity: 1; }
+            75% { transform: translateY(-35px) translateX(-8px) scale(1.2); opacity: 0.6; }
+            85% { opacity: 0; }
         }
         
         /* Efecto de profundidad y sombra mejorado */
         @media (hover: hover) {
             .card-interactive:hover {
                 box-shadow: 
-                    0 25px 45px rgba(255, 217, 111, 0.15),
-                    0 10px 20px rgba(0, 0, 0, 0.4),
-                    0 0 30px rgba(255, 217, 111, 0.1) inset,
-                    0 0 60px rgba(255, 217, 111, 0.05) inset;
-                filter: brightness(1.1) contrast(1.05);
+                    0 30px 60px rgba(255, 217, 111, 0.25),
+                    0 15px 30px rgba(0, 0, 0, 0.5),
+                    0 0 40px rgba(255, 217, 111, 0.15) inset,
+                    0 0 80px rgba(255, 217, 111, 0.1) inset,
+                    0 0 120px rgba(255, 217, 111, 0.05) inset;
+                filter: brightness(1.15) contrast(1.08) saturate(1.1);
             }
         }
         
         .card-interactive:active { 
-            transform: scale3d(0.95, 0.95, 0.95) !important;
-            transition: transform 0.1s ease !important;
+            transform: scale3d(0.92, 0.92, 0.92) !important;
+            transition: transform 0.12s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
         }
 
-        /* Efecto de superficie reflectante */
+        /* Efecto de superficie reflectante mejorado */
         .reflection-overlay {
             position: absolute;
             top: -50%;
@@ -146,36 +159,53 @@
             width: 200%;
             height: 200%;
             background: radial-gradient(
-                circle at 30% 30%,
-                rgba(255, 255, 255, 0.2) 0%,
-                rgba(255, 255, 255, 0.1) 15%,
-                transparent 40%
+                ellipse at 50% 50%,
+                rgba(255, 255, 255, 0.3) 0%,
+                rgba(255, 255, 255, 0.15) 15%,
+                rgba(255, 217, 111, 0.1) 25%,
+                transparent 50%
             );
             pointer-events: none;
             z-index: 1;
             mix-blend-mode: overlay;
             opacity: 0;
-            transition: opacity 0.4s ease;
+            transition: opacity 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform: rotate(30deg);
         }
         
         .card-interactive:hover .reflection-overlay {
             opacity: 1;
+            animation: reflectionShimmer 3s ease-in-out infinite;
+        }
+        
+        @keyframes reflectionShimmer {
+            0%, 100% { transform: rotate(30deg) translateX(-10%); }
+            50% { transform: rotate(30deg) translateX(10%); }
         }
 
-        /* Efecto especial para la carta principal */
+        /* Efecto especial para la carta principal mejorado */
         .featured-card {
-            animation: featuredGlow 3s ease-in-out infinite;
+            animation: featuredGlow 3s ease-in-out infinite, floatingCard 5s ease-in-out infinite;
         }
         
         @keyframes featuredGlow {
             0%, 100% { 
-                box-shadow: 0 0 30px rgba(255, 217, 111, 0.3), 0 0 60px rgba(255, 217, 111, 0.1);
-                border-color: rgba(255, 217, 111, 0.3);
+                box-shadow: 0 0 40px rgba(255, 217, 111, 0.4), 0 0 80px rgba(255, 217, 111, 0.2), 0 0 120px rgba(255, 217, 111, 0.1);
+                border-color: rgba(255, 217, 111, 0.4);
+                filter: brightness(1.05);
             }
             50% { 
-                box-shadow: 0 0 50px rgba(255, 217, 111, 0.5), 0 0 100px rgba(255, 217, 111, 0.2);
-                border-color: rgba(255, 217, 111, 0.6);
+                box-shadow: 0 0 60px rgba(255, 217, 111, 0.6), 0 0 120px rgba(255, 217, 111, 0.3), 0 0 180px rgba(255, 217, 111, 0.15);
+                border-color: rgba(255, 217, 111, 0.8);
+                filter: brightness(1.15);
             }
+        }
+        
+        @keyframes floatingCard {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-8px) rotate(1deg); }
+            50% { transform: translateY(-12px) rotate(0deg); }
+            75% { transform: translateY(-6px) rotate(-1deg); }
         }
 
         /* SOBRE SORPRESA MEJORADO */
@@ -337,19 +367,37 @@
         @keyframes cardAppear {
             from {
                 opacity: 0;
-                transform: scale(0.8) rotateY(90deg);
+                transform: scale(0.8) rotateY(90deg) translateY(30px);
+                filter: blur(10px);
             }
             to {
                 opacity: 1;
-                transform: scale(1) rotateY(0deg);
+                transform: scale(1) rotateY(0deg) translateY(0);
+                filter: blur(0);
             }
         }
         
         .card-appear {
-            animation: cardAppear 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            animation: cardAppear 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
 
-        /* Badge de "NUEVO" para la carta principal */
+        /* Animación de entrada escalonada para el grid */
+        .grid > div:nth-child(1) { animation-delay: 0.05s; }
+        .grid > div:nth-child(2) { animation-delay: 0.1s; }
+        .grid > div:nth-child(3) { animation-delay: 0.15s; }
+        .grid > div:nth-child(4) { animation-delay: 0.2s; }
+        .grid > div:nth-child(5) { animation-delay: 0.25s; }
+        .grid > div:nth-child(6) { animation-delay: 0.3s; }
+        .grid > div:nth-child(7) { animation-delay: 0.35s; }
+        .grid > div:nth-child(8) { animation-delay: 0.4s; }
+        .grid > div:nth-child(9) { animation-delay: 0.45s; }
+        .grid > div:nth-child(10) { animation-delay: 0.5s; }
+        .grid > div:nth-child(11) { animation-delay: 0.55s; }
+        .grid > div:nth-child(12) { animation-delay: 0.6s; }
+        .grid > div:nth-child(13) { animation-delay: 0.65s; }
+        .grid > div:nth-child(14) { animation-delay: 0.7s; }
+
+        /* Badge de "NUEVO" para la carta principal mejorado */
         .new-badge {
             position: absolute;
             top: 10px;
@@ -362,13 +410,35 @@
             text-transform: uppercase;
             border-radius: 4px;
             z-index: 20;
-            animation: badgePulse 2s ease-in-out infinite;
+            animation: badgePulse 2s ease-in-out infinite, badgeShine 3s linear infinite;
             letter-spacing: 1px;
+            box-shadow: 0 2px 10px rgba(255, 217, 111, 0.4);
         }
         
         @keyframes badgePulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            50% { transform: scale(1.08); }
+        }
+        
+        @keyframes badgeShine {
+            0% { box-shadow: 0 2px 10px rgba(255, 217, 111, 0.4); }
+            50% { box-shadow: 0 2px 20px rgba(255, 217, 111, 0.7), 0 0 15px rgba(255, 217, 111, 0.5); }
+            100% { box-shadow: 0 2px 10px rgba(255, 217, 111, 0.4); }
+        }
+
+        /* Efecto de hover con tilt 3D dinámico */
+        .tilt-element {
+            transform-style: preserve-3d;
+        }
+        
+        /* Animación de pulso para cartas en stock */
+        @keyframes stockPulse {
+            0%, 100% { border-color: rgba(68, 72, 79, 0.5); }
+            50% { border-color: rgba(255, 217, 111, 0.3); }
+        }
+        
+        .border-outline-variant\\/50 {
+            animation: stockPulse 4s ease-in-out infinite;
         }
     </style>
 </head>
@@ -738,38 +808,60 @@
         const percentX = (clientX - centerX) / (rect.width / 2);
         const percentY = (clientY - centerY) / (rect.height / 2);
 
-        const rotateX = percentY * -20;
-        const rotateY = percentX * 20;
+        // Mayor intensidad de rotación para efecto más dramático
+        const rotateX = percentY * -25;
+        const rotateY = percentX * 25;
         
-        const shadowX = percentX * 10;
-        const shadowY = percentY * 10;
+        const shadowX = percentX * 15;
+        const shadowY = percentY * 15;
         
-        el.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.05, 1.05, 1.05)`;
+        // Transformación con escala dinámica y transición suave
+        el.style.transform = `perspective(1400px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.08, 1.08, 1.08) translateZ(20px)`;
         el.style.boxShadow = `
-            ${shadowX}px ${shadowY}px 30px rgba(255, 217, 111, 0.15),
-            ${-shadowX/2}px ${-shadowY/2}px 20px rgba(0, 0, 0, 0.4),
-            0 0 20px rgba(255, 217, 111, 0.1) inset
+            ${shadowX}px ${shadowY}px 40px rgba(255, 217, 111, 0.25),
+            ${-shadowX/2}px ${-shadowY/2}px 30px rgba(0, 0, 0, 0.5),
+            0 0 30px rgba(255, 217, 111, 0.15) inset,
+            0 0 60px rgba(255, 217, 111, 0.1) inset
         `;
+        
+        // Actualizar overlay holográfico dinámicamente
+        const holoOverlay = el.querySelector('.card-interactive::after');
         
         const reflection = el.querySelector('.reflection-overlay');
         if (reflection) {
             reflection.style.background = `radial-gradient(
-                circle at ${50 + percentX * 30}% ${50 + percentY * 30}%,
-                rgba(255, 255, 255, 0.25) 0%,
-                rgba(255, 255, 255, 0.1) 25%,
-                transparent 50%
+                ellipse at ${50 + percentX * 40}% ${50 + percentY * 40}%,
+                rgba(255, 255, 255, 0.35) 0%,
+                rgba(255, 255, 255, 0.15) 20%,
+                rgba(255, 217, 111, 0.1) 35%,
+                transparent 60%
             )`;
+            reflection.style.opacity = '1';
+        }
+        
+        // Animación de partículas activada por movimiento
+        const particles = el.querySelector('.card-particles');
+        if (particles) {
+            particles.style.opacity = '1';
         }
     }
 
     function handleTiltLeave(e) {
-        this.style.transform = `perspective(1200px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+        // Transición de salida más suave
+        this.style.transition = 'transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.5s ease';
+        this.style.transform = `perspective(1400px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1) translateZ(0)`;
         this.style.boxShadow = '';
         
         const reflection = this.querySelector('.reflection-overlay');
         if (reflection) {
+            reflection.style.opacity = '0';
             reflection.style.background = '';
         }
+        
+        // Resetear transición después de completar
+        setTimeout(() => {
+            this.style.transition = '';
+        }, 500);
     }
 
     // Función para mostrar detalles de la carta principal
