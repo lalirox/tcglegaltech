@@ -15,36 +15,87 @@
             theme: {
               extend: {
                 colors: {
-                  "surface": "#0a0e14",
-                  "surface-container": "#151a21",
-                  "surface-bright": "#262c36",
-                  "on-secondary-container": "#e8fbff",
-                  "on-surface-variant": "#a8abb3",
-                  "surface-container-low": "#0f141a",
-                  "surface-container-highest": "#20262f",
-                  "on-surface": "#f1f3fc",
-                  "secondary": "#00e3fd",
-                  "primary": "#ffd96f",
-                  "primary-fixed": "#fcc800",
-                  "outline-variant": "#44484f",
+                  "wasabi": "#9DC64F",
+                  "sumi": "#2C2C2C",
+                  "shiro": "#FAFAFA",
+                  "sakura": "#F8E8E8",
+                  "take": "#4A7C59",
+                  "ai": "#5B9BD5",
+                  "kurenai": "#C41E3A",
+                  "kin": "#D4AF37",
+                  "surface": "#FAFAFA",
+                  "surface-container": "#F5F5F5",
+                  "surface-bright": "#FFFFFF",
+                  "on-surface": "#2C2C2C",
+                  "on-surface-variant": "#6B6B6B",
+                  "outline-variant": "#E0E0E0",
                 },
                 fontFamily: {
-                  "headline": ["Space Grotesk"],
-                  "body": ["Inter"],
-                  "label": ["Space Grotesk"]
+                  "headline": ["Noto Serif JP", "serif"],
+                  "body": ["Noto Sans JP", "sans-serif"],
+                  "label": ["Noto Serif JP", "serif"]
+                },
+                backgroundImage: {
+                  "washi-pattern": "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%232C2C2C' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
                 },
               },
             },
           }
     </script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
     <style>
         * { -webkit-tap-highlight-color: transparent; }
         .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        
+        /* DISEÑO MINIMALISTA JAPONÉS */
+        body {
+            background-image: var(--bg-washi-pattern);
+            background-color: #FAFAFA;
+        }
+        
         .scanline-overlay {
-            background: linear-gradient(to bottom, transparent 50%, rgba(241, 243, 252, 0.02) 50%);
+            background: linear-gradient(to bottom, transparent 50%, rgba(44, 44, 44, 0.02) 50%);
             background-size: 100% 4px;
             pointer-events: none;
         }
+        
+        /* Elementos decorativos japoneses */
+        .jp-separator {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #2C2C2C, transparent);
+            margin: 2rem auto;
+        }
+        
+        .jp-circle {
+            width: 8px;
+            height: 8px;
+            background-color: #C41E3A;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        
+        .jp-vertical-text {
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+            letter-spacing: 0.3em;
+        }
+        
+        /* Bordes sutiles estilo japonés */
+        .jp-border {
+            border: 1px solid #E0E0E0;
+            position: relative;
+        }
+        .jp-border::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 20px;
+            width: 40px;
+            height: 1px;
+            background-color: #D4AF37;
+        }
+        
         .chamfer-clip { clip-path: polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px); }
         .card-perspective { perspective: 1200px; }
         
@@ -442,13 +493,16 @@
         }
     </style>
 </head>
-<body class="bg-surface text-on-surface font-body selection:bg-primary selection:text-on-primary">
+<body class="bg-surface text-on-surface font-body selection:bg-kin selection:text-shiro bg-washi-pattern">
 
-<nav class="fixed top-0 z-40 flex justify-between items-center w-full px-4 md:px-6 py-4 bg-slate-950/80 backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.8)] pt-safe">
-    <div class="text-xl md:text-2xl font-black italic text-[#FFCB05] font-headline">Legal Tech TCG</div>
+<nav class="fixed top-0 z-40 flex justify-between items-center w-full px-4 md:px-6 py-4 bg-shiro/90 backdrop-blur-xl shadow-[0_4px_20px_rgba(44,44,44,0.1)] border-b border-outline-variant pt-safe">
+    <div class="flex items-center gap-3">
+        <span class="jp-circle"></span>
+        <div class="text-xl md:text-2xl font-headline font-bold text-sumi tracking-wide">Legal Tech TCG</div>
+    </div>
     <div class="flex items-center gap-4">
-        <span class="material-symbols-outlined text-on-surface-variant hover:text-primary cursor-pointer transition-colors" onclick="document.getElementById('sideCartPanel').classList.remove('translate-x-full')">shopping_cart</span>
-        <div class="w-10 h-10 bg-surface-container-highest border border-outline-variant rounded-full overflow-hidden">
+        <span class="material-symbols-outlined text-on-surface-variant hover:text-kin cursor-pointer transition-colors" onclick="document.getElementById('sideCartPanel').classList.remove('translate-x-full')">shopping_cart</span>
+        <div class="w-10 h-10 bg-surface-container border border-outline-variant rounded-full overflow-hidden">
             <img alt="User" class="w-full h-full object-cover" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Trainer1"/>
         </div>
     </div>
@@ -460,30 +514,32 @@
     <!-- SECCIÓN PRINCIPAL CON LA NUEVA CARTA -->
     <section class="relative mb-20 z-20">
         <div class="grid lg:grid-cols-2 gap-12 items-center">
-            <div class="space-y-6 text-center lg:text-left">
-                <div class="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 border-l-4 border-primary text-primary-fixed font-label text-xs tracking-widest uppercase">
-                    ⚡ NUEVA CARTA LEGENDARIA
+            <div class="space-y-8 text-center lg:text-left">
+                <div class="inline-flex flex-col items-center lg:items-start gap-1">
+                    <div class="jp-separator" style="margin: 0.5rem auto; width: 40px;"></div>
+                    <span class="font-label text-xs tracking-[0.3em] uppercase text-on-surface-variant">Nueva Colección</span>
                 </div>
-                <h1 class="text-5xl md:text-7xl font-headline font-black uppercase italic tracking-tighter leading-none">
-                    Carta <span class="text-primary">Legendaria</span>
+                <h1 class="text-5xl md:text-7xl font-headline font-bold text-sumi leading-tight">
+                    Carta <span class="text-kin italic">Legendaria</span>
                 </h1>
-                <p class="text-lg text-on-surface-variant max-w-xl font-body">
-                    Descubre la nueva <span class="text-primary font-bold">Poder LGBTQ+/span>, la más poderosa de nuestra colección Legal Tech del ilustrador Hugo Mendoza.
+                <div class="jp-separator"></div>
+                <p class="text-lg text-on-surface-variant max-w-xl font-body leading-relaxed">
+                    Descubre la nueva <span class="text-kin font-semibold">Poder LGBTQ+</span>, la más poderosa de nuestra colección Legal Tech del ilustrador Hugo Mendoza.
                 </p>
-                <div class="flex gap-4 justify-center lg:justify-start">
+                <div class="flex gap-4 justify-center lg:justify-start pt-4">
                     <button onclick="document.querySelector('.featured-card').scrollIntoView({behavior: 'smooth'})" 
-                            class="px-6 py-3 bg-primary text-black font-black uppercase text-sm chamfer-clip hover:bg-primary-fixed transition-all">
+                            class="px-8 py-3 bg-sumi text-shiro font-label font-medium text-sm tracking-wider uppercase chamfer-clip hover:bg-take transition-all duration-300">
                         Ver Carta
                     </button>
                     <button onclick="addToCart(inventoryData[inventoryData.length-1])" 
-                            class="px-6 py-3 bg-surface-bright border border-primary text-primary font-black uppercase text-sm chamfer-clip hover:bg-surface-container-highest transition-all">
+                            class="px-8 py-3 bg-transparent border border-sumi text-sumi font-label font-medium text-sm tracking-wider uppercase chamfer-clip hover:bg-sumi hover:text-shiro transition-all duration-300">
                         Comprar Ahora
                     </button>
                 </div>
             </div>
             <div class="relative flex justify-center card-perspective">
-                <div class="relative w-full max-w-[300px] aspect-[3/4] bg-surface-container-low rounded-xl border-2 border-primary/30 overflow-hidden card-interactive cursor-pointer tilt-element featured-card">
-                    <div class="new-badge">NUEVO</div>
+                <div class="relative w-full max-w-[300px] aspect-[3/4] bg-shiro rounded-none border border-outline-variant overflow-hidden card-interactive cursor-pointer tilt-element featured-card shadow-[0_20px_60px_rgba(44,44,44,0.15)]">
+                    <div class="new-badge" style="background: linear-gradient(135deg, #C41E3A 0%, #8B1528 100%);">NUEVO</div>
                     <img class="w-full h-full object-contain" src="carta16.png" alt="Carta Legendaria 16"/>
                     <div class="reflection-overlay"></div>
                     <div class="card-particles" id="featuredParticles"></div>
@@ -493,30 +549,33 @@
     </section>
 
     <section class="mb-24 relative z-20">
-        <h2 class="text-3xl font-headline font-black uppercase mb-10">Inventario <span class="text-primary">Actualizado</span></h2>
+        <div class="flex items-center gap-4 mb-10">
+            <span class="jp-circle"></span>
+            <h2 class="text-3xl font-headline font-bold text-sumi tracking-wide">Inventario <span class="text-kin italic">Actualizado</span></h2>
+        </div>
         <div class="grid lg:grid-cols-3 gap-8">
-            <div class="lg:col-span-2 bg-surface-container border border-outline-variant/30 chamfer-clip p-6">
+            <div class="lg:col-span-2 bg-shiro border border-outline-variant chamfer-clip p-6 shadow-sm">
                 <div id="inventoryGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4 card-perspective">
                 </div>
             </div>
             
             <div class="flex flex-col gap-4">
-                <div class="bg-surface-container-highest border border-outline-variant/30 chamfer-clip p-6">
-                    <h3 class="font-headline font-bold text-sm text-primary uppercase mb-4">Resumen MXN</h3>
+                <div class="bg-shiro border border-outline-variant chamfer-clip p-6 shadow-sm jp-border">
+                    <h3 class="font-headline font-bold text-sm text-sumi uppercase mb-4 tracking-wider">Resumen MXN</h3>
                     <div class="space-y-4">
                         <div class="bg-surface-container p-3 border border-outline-variant/20">
                             <div class="text-[8px] text-on-surface-variant uppercase font-mono mb-1">Cartas en stock</div>
-                            <div class="text-xl font-headline font-black text-secondary" id="stockCounter">17 Items</div>
+                            <div class="text-xl font-headline font-bold text-take" id="stockCounter">17 Items</div>
                         </div>
-                        <div class="bg-gradient-to-r from-primary/10 to-transparent p-3 border border-primary/20">
-                            <div class="text-[8px] text-primary uppercase font-mono mb-1">⭐ Nueva Carta</div>
-                            <div class="text-sm font-headline font-bold text-primary">Carta 16 Legendaria</div>
+                        <div class="bg-gradient-to-r from-kin/10 to-transparent p-3 border border-kin/20">
+                            <div class="text-[8px] text-kin uppercase font-mono mb-1">⭐ Nueva Carta</div>
+                            <div class="text-sm font-headline font-semibold text-sumi">Carta 16 Legendaria</div>
                             <div class="text-xs text-on-surface-variant mt-1">$2,500 MXN</div>
                         </div>
                     </div>
                 </div>
 
-                <div class="flex-1 bg-surface-container-highest border border-outline-variant/30 chamfer-clip overflow-hidden relative min-h-[300px]">
+                <div class="flex-1 bg-shiro border border-outline-variant chamfer-clip overflow-hidden relative min-h-[300px] shadow-sm">
                     <video 
                         src="https://entendiendocosas.lat/tcg/tcg.mp4" 
                         class="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity"
@@ -525,18 +584,18 @@
                         loop 
                         playsinline>
                     </video>
-                    <div class="absolute inset-0 pointer-events-none border-1 border-primary/10 shadow-[inset_0_0_20px_rgba(0,227,253,0.1)]"></div>
+                    <div class="absolute inset-0 pointer-events-none border border-outline-variant/30"></div>
                 </div>
             </div>
         </div>
     </section>
 
     <div class="flex flex-col lg:flex-row justify-center items-center py-16 gap-16 lg:gap-32 relative z-20">
-        <svg id="pokedexElement" width="180" height="240" viewBox="0 0 150 200" fill="none" class="transition-all duration-500 drop-shadow-[0_0_15px_rgba(255,50,50,0.3)]">
-            <rect x="10" y="10" width="130" height="180" rx="15" fill="#dc2626"/>
-            <circle cx="45" cy="40" r="14" fill="#3b82f6" class="animate-pulse"/>
-            <circle id="pokedexBuyBtn" cx="115" cy="25" r="5" fill="#22c55e" class="cursor-pointer hover:fill-green-400 transition-colors"/>
-            <rect x="25" y="100" width="100" height="65" rx="5" fill="#1e293b"/>
+        <svg id="pokedexElement" width="180" height="240" viewBox="0 0 150 200" fill="none" class="transition-all duration-500 drop-shadow-[0_0_15px_rgba(196,30,58,0.3)]">
+            <rect x="10" y="10" width="130" height="180" rx="15" fill="#C41E3A"/>
+            <circle cx="45" cy="40" r="14" fill="#5B9BD5" class="animate-pulse"/>
+            <circle id="pokedexBuyBtn" cx="115" cy="25" r="5" fill="#4A7C59" class="cursor-pointer hover:fill-green-400 transition-colors"/>
+            <rect x="25" y="100" width="100" height="65" rx="5" fill="#F5F5F5"/>
             <image id="pokedexScreenImg" x="35" y="110" width="80" height="45" preserveAspectRatio="xMidYMid meet" opacity="0" href="" />
         </svg>
 
@@ -549,16 +608,19 @@
     </div>
 
     <div class="flex flex-col items-center py-20 relative z-20 border-t border-outline-variant/20 mt-10">
-        <h2 class="text-3xl font-headline font-black uppercase text-secondary mb-10">🕹️ La Garra Legal Tech</h2>
-        <div class="claw-machine-wrap">
-            <div class="claw-glass-area">
-                <div id="main-claw-arm"><div id="main-claw-hook">🏗️</div><img id="mini-caught-card" src=""></div>
-                <img id="claw-card-won" src="" class="rounded border-2 border-primary shadow-2xl">
+        <div class="flex items-center gap-4 mb-10">
+            <span class="jp-circle"></span>
+            <h2 class="text-3xl font-headline font-bold text-sumi tracking-wide">🕹️ La Garra Legal Tech</h2>
+        </div>
+        <div class="claw-machine-wrap" style="background: linear-gradient(180deg, #F5F5F5 0%, #FAFAFA 100%); border-color: #E0E0E0;">
+            <div class="claw-glass-area" style="background: rgba(255,255,255,0.5); border-color: rgba(44,44,44,0.05);">
+                <div id="main-claw-arm" style="background: linear-gradient(180deg, #D4AF37 0%, #C41E3A 100%);"><div id="main-claw-hook">🏗️</div><img id="mini-caught-card" src=""></div>
+                <img id="claw-card-won" src="" class="rounded border-2 border-kin shadow-2xl">
                 <div id="claw-pile" class="claw-pile-container"></div>
             </div>
-            <div class="absolute bottom-0 w-full h-20 bg-surface-container-highest border-t border-outline-variant flex items-center justify-center gap-4 px-4">
-                <button onclick="moveClaw(-5)" class="w-12 h-12 bg-surface-bright border border-outline-variant flex items-center justify-center chamfer-clip active:scale-90 transition-all hover:bg-surface-bright/80"><span class="material-symbols-outlined">arrow_back</span></button>
-                <button id="dropBtn" onclick="runClawLogic()" class="px-6 py-2 bg-primary text-black font-black uppercase text-xs chamfer-clip active:scale-90 transition-all hover:bg-primary-fixed">BAJAR GARRA</button>
+            <div class="absolute bottom-0 w-full h-20 bg-shiro border-t border-outline-variant flex items-center justify-center gap-4 px-4">
+                <button onclick="moveClaw(-5)" class="w-12 h-12 bg-surface-container border border-outline-variant flex items-center justify-center chamfer-clip active:scale-90 transition-all hover:bg-surface-container-highest"><span class="material-symbols-outlined">arrow_back</span></button>
+                <button id="dropBtn" onclick="runClawLogic()" class="px-6 py-2 bg-kin text-shiro font-label font-medium text-xs uppercase chamfer-clip active:scale-90 transition-all hover:bg-take">BAJAR GARRA</button>
                 <button onclick="moveClaw(5)" class="w-12 h-12 bg-surface-bright border border-outline-variant flex items-center justify-center chamfer-clip active:scale-90 transition-all hover:bg-surface-bright/80"><span class="material-symbols-outlined">arrow_forward</span></button>
             </div>
         </div>
