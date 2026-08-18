@@ -174,12 +174,15 @@ section{padding:90px 5vw;position:relative;z-index:1}
 .typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
 @keyframes tp{50%{opacity:.25;transform:translateY(-3px)}}
 #chatChips{display:flex;flex-wrap:wrap;gap:10px;padding:12px 14px;border-top:1px solid rgba(255,255,255,.06)}
+#chatChips.hidden{display:none}
 #chatChips button{flex:0 0 auto;border:1px solid rgba(103,232,249,.35);background:rgba(103,232,249,.07);color:var(--cyan);border-radius:999px;padding:8px 14px;font-size:.74rem;line-height:1.1;white-space:nowrap;transition:.2s}
 #chatChips button:hover{background:rgba(103,232,249,.2);transform:translateY(-1px)}
 #chatChips button.danger{border-color:rgba(255,90,90,.5);background:rgba(255,90,90,.08);color:#ff9a9a}
 #chatChips button.archive{border-color:rgba(126,226,160,.5);background:rgba(126,226,160,.08);color:#7ee2a0}
 #chatChips button.gold{border-color:rgba(240,199,94,.5);background:rgba(240,199,94,.08);color:var(--gold2)}
-#chatForm{display:flex;gap:10px;padding:12px;border-top:1px solid rgba(255,255,255,.08)}
+#chatForm{display:flex;gap:8px;padding:12px;border-top:1px solid rgba(255,255,255,.08)}
+#chipsToggle{flex:0 0 auto;width:46px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);color:var(--muted);border-radius:12px;font-size:1rem;transition:.2s}
+#chipsToggle:hover{color:var(--gold2);border-color:var(--gold)}
 #chatInput{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:12px 14px;color:var(--text);font-family:inherit;font-size:.9rem;outline:none;transition:.2s}
 #chatInput:focus{border-color:var(--gold);box-shadow:0 0 14px rgba(212,175,55,.2)}
 #chatSend{width:48px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold2),var(--gold));font-size:1.1rem;transition:.2s}
@@ -437,6 +440,7 @@ footer.site{padding:40px 5vw;text-align:center;color:var(--muted);font-size:.82r
   <div id="chatMsgs"></div>
   <div id="chatChips"></div>
   <form id="chatForm">
+    <button type="button" id="chipsToggle" title="Mostrar/ocultar sugerencias">💡</button>
     <input id="chatInput" placeholder="Pregunta lo que quieras… p.ej. ¿quién es Efren?" autocomplete="off" maxlength="300">
     <button id="chatSend" type="submit">➤</button>
   </form>
@@ -514,7 +518,7 @@ var RAR={comun:{lbl:'COMÚN',stars:'★★☆☆☆',col:'#8fa3b8',prob:'55% (Ap
  epica:{lbl:'ÉPICA',stars:'★★★★☆',col:'#a45bd4',prob:'14% (Aparición)',hp:240},
  legendaria:{lbl:'LEGENDARIA',stars:'★★★★★',col:'#f0c75e',prob:'3% (Aparición)',hp:320}};
 var LORE={
- 7:{type:'Pokémon Litigante Informal | HP 280 ☠️🔮',quote:'"Suele ser avistado rondando los juzgados a primera hora o descansando en puestos de barbacoa los domingos. Presume ropa de marca de procedencia dudosa mientras litiga juicios de pensión alimenticia con una seguridad inquebrantable."',prob:'8% (Aparición)',ab:'⚡ Habilidad Pasiva: Endeudado con Coppel',abd:'Cada vez que recibe daño por un ataque, aumenta +10 de daño adicional a sus movimientos por contador de deuda.',atk:'🔮 Baño de Pueblo — 60 DMG',atkd:'Lanza una moneda. Si sale cara, el oponente queda confundido y no puede jugar cartas de Objeto.'},
+ 7:{type:'Pokémon Litigante Informal | HP 280 ☠️',quote:'"Suele ser avistado rondando los juzgados a primera hora o descansando en puestos de barbacoa los domingos. Presume ropa de marca de procedencia dudosa mientras litiga juicios de pensión alimenticia con una seguridad inquebrantable."',prob:'8% (Aparición)',ab:'⚡ Habilidad Pasiva: Endeudado con Coppel',abd:'Cada vez que recibe daño por un ataque, aumenta +10 de daño adicional a sus movimientos por contador de deuda.',atk:'🔮 Baño de Pueblo — 60 DMG',atkd:'Lanza una moneda. Si sale cara, el oponente queda confundido y no puede jugar cartas de Objeto.'},
  16:{type:'Entidad Suprema Pride | HP ∞ 🏳️️✨',quote:'"La carta más poderosa de nuestra colección Legal Tech del ilustrador Hugo Mendoza. Su poder no conoce agravios ni sentencias: solo orgullo, luz y marchas eternas."',prob:'3% (Aparición)',ab:'⚡ Habilidad Pasiva: Orgullo Eterno',abd:'Inmune a todo daño proveniente de cartas de Enojo, Celos y Posesión. Aura que protege a todo tu equipo.',atk:'✨✨ Marcha Suprema — 160 DMG',atkd:'El oponente debe descartar toda carta de odio y reconocer tu poder. No puede bloquear este ataque.'},
  17:{type:'Canguaro Cósmico de Bolsillo | HP 300 🦘',quote:'"Brinca entre dimensiones legales con una sonrisa caótica. Nadie sabe cómo llegó al mazo, pero nadie se atreve a sacarlo. Si Jr se hace popo, él avisa."',prob:'5% (Aparición)',ab:'⚡ Habilidad Pasiva: Brinco Procesal',abd:'Una vez por turno, puede evadir un ataque saltando directamente al turno del oponente.',atk:'🦘 Patada Marsupial — 90 DMG',atkd:'El oponente queda aturdido y pierde su siguiente robo de carta.'}};
 var G_TYPES=['Pokémon Litigante','Pokémon Secretario','Pokémon Perito','Pokémon Juzgador','Pokémon Pasante','Pokémon Notificador'];
@@ -557,6 +561,8 @@ var GROUP_MEMORY=[
  {w:'Hugo',q:'Está en mi top tres de enemigos mortales.'},
  {w:'Hugo',q:'Pinches hugocentristas.'},
  {w:'Hugo',q:'Caos controlado.'},
+ {w:'Hugo',q:'Por cierto, veo que tienen aptitudes para mi grupo de travesaños, por si gustan que los agregue.'},
+ {w:'Hugo',q:'Aquí la tengo.'},
  {w:'Lalo',q:'Dile al JR que él lo baje, él sí va a poder.'},
  {w:'Lalo',q:'Ahora sí la villana es Karen.'},
  {w:'Lalo',q:'El chat más determinista del planeta.'},
@@ -568,6 +574,9 @@ var GROUP_MEMORY=[
  {w:'Lalo',q:'HugoGPT siempre te va a validar.'},
  {w:'Lalo',q:'Es un honor para nosotros presentar esto.'},
  {w:'Lalo',q:'National Geographic Legal Tech.'},
+ {w:'Lalo',q:'drenamos todas las presas con el prompt para hugo'},
+ {w:'Lalo',q:'Pinche Hugo narcisista, siempre haces que todo hable de ti.'},
+ {w:'Lalo',q:'Fuentes del Efren: el whats app de sus tias.'},
  {w:'Efren',q:'Reventó Karen a Hugo'},
  {w:'Efren',q:'Te voy a echar al Hugo enfiestado.'},
  {w:'Efren',q:'Hugo. Tráete tu control.'},
@@ -577,6 +586,7 @@ var GROUP_MEMORY=[
  {w:'Efren',q:'A huevo. Que chido.'},
  {w:'Efren',q:'El lic Buchón al mando.'},
  {w:'Efren',q:'Me salvó el Hugo.'},
+ {w:'Efren',q:'Si o no, collie-man'},
  {w:'Alex IT',q:'Ya tenemos bien entrenada a la IA con tu imagen.'},
  {w:'Alex IT',q:'O lo asaltaron. O lo agarró el narco. O un gringo le dijo terrorista.'},
  {w:'Alex IT',q:'Pura paz ahora que Hugo sea papá.'},
@@ -586,9 +596,11 @@ var GROUP_MEMORY=[
  {w:'Javier IT',q:'Estoy vivo. Toy en la playa con el límite de México.'},
  {w:'Javier IT',q:'Que te vaya Stratochido.'},
  {w:'Javier IT',q:'Hugo ha utilizado Cuerda Huida.'},
+ {w:'Javier IT',q:'Hugo traje dulce de guayaba x si quieres probar.'},
  {w:'Vogar',q:'No me le toques ese vals a Hugo.'},
  {w:'Vogar',q:'Hugo eres un chingón.'},
  {w:'Vogar',q:'Es el efecto Hugo.'},
+ {w:'Vogar',q:'Hugoslavia'},
  {w:'Richard iT',q:'Mañana les llevo los tacos.'},
  {w:'Richard iT',q:'De champiñones sí.'},
  {w:'Josue',q:'VAMOS LPTM.'},
@@ -624,7 +636,7 @@ var PERSONAJES=[
  {re:/\b(doofie|doofi|dufy|duffy)\b/i,author:'',lore:[
   "Doofie (Doffie Kang, Carta 17 legendaria): encargado oficial de cambiarle el pañal a Jr por decreto de Hugo: 'JotaErre se hizo popo. Que lo cambie doofie.'"]},
  {re:/\b(lulu)\b/i,author:'',lore:[
-  "La Sr. Lulu: amiga fiel de Hugo, con Insta propio conseguido por el propio Hugo, 'Lulu 2.0 con canva' según el archivo, y la que NO me ha contado ciertos chismes… todavía."]},
+  "La Sr. Lulu: amiga fiel de Hugo, con Insta propio (lulu_rios_r) conseguido por el propio Hugo, 'Lulu 2.0 con canva' según el archivo, y la que NO me ha contado ciertos chismes… todavía."]},
  {re:/\b(chabela)\b/i,author:'',lore:[
   "Chabela: amiga fiel de Hugo ('Me ha ayudado más Chabela', dixit Hugo comparándola hasta con Nemesio). Integrante del dúo 'Amistad Legendaria' con la Sr. Lulu."]},
  {re:/\b(vlado)\b/i,author:'',lore:[
@@ -658,7 +670,6 @@ fetch('chat.txt').then(function(r){return r.ok?r.text():'';}).then(function(raw)
   if(clean&&STATS[mk.a].quotes.length<6){STATS[mk.a].quotes.push(q);}
   if(clean){ARCHIVE.push({w:mk.a,q});}
  });
- if(ms.length&&greeted&&!busy){typeMsg('📜 chat.txt cargado y desinfectado: '+ms.length+' mensajes y '+Object.keys(STATS).length+' personas en memoria. Pregúntame por quien sea, pide chisme o frases. Y si no sé algo, te lo diré con honestidad de Lulu.');}
 }).catch(function(){});
 function pool(){return ARCHIVE.length?ARCHIVE:GROUP_MEMORY;}
 function loreResp(p){
@@ -1154,14 +1165,15 @@ function sendChat(text){text=(text||'').trim();if(!text||busy)return;
  busy=true;showTyping();
  var delay=650+Math.min(1300,text.length*22);
  setTimeout(function(){var t=$('#typingMsg');if(t){t.remove();}
-  typeMsg(aiReply(text));},delay);}
+  typeMsg(aiReply(text));
+  $('#chatChips').classList.add('hidden');},delay);}
 $('#chatFab').onclick=function(){chatBox.classList.toggle('open');
  if(!greeted&&chatBox.classList.contains('open')){greeted=true;busy=true;showTyping();
   setTimeout(function(){var t=$('#typingMsg');if(t){t.remove();}
-   var extra=ARCHIVE.length?(' ('+ARCHIVE.length+' frases y '+Object.keys(STATS).length+' personas cargadas en vivo).'):(' (memoria curada activa; si el servidor deja, cargo el archivo completo).');
-   typeMsg("¡Hola! Soy HUGO·IA 🧠, el chat.txt con personalidad"+extra+" Hablo como el grupo: pregúntame por quien sea, pide chisme 🫢 o frases 📜. Dos reglas de la casa: TODOS odiamos a Karen Ayala 😈 (y su ayudante Fer Haro 🐾), y Lalo es el padre creador y arquitecto de esta matrix 🧬. Si no sé algo, seré honesta: 'La Sra. Lulu no me ha contado ese chisme'.");},700);}};
+   typeMsg('Hola soy Hugocentrista IA');},700);}};
 $('#chatClose').onclick=function(){chatBox.classList.remove('open');};
 $('#chatForm').onsubmit=function(e){e.preventDefault();sendChat(chatInput.value);chatInput.value='';};
+$('#chipsToggle').onclick=function(){$('#chatChips').classList.toggle('hidden');};
 var CHIPS=['😈 ¿Karen Ayala?','🧬 ¿Quién es Lalo?','👥 ¿Quién es Efren?','📜 Frase del grupo','🫢 Chisme del grupo','🗣️ ¿Qué dijo Hugo?','📁 Expediente de Hugo','🌮 ¿Y los tacos?','🎮 ¿Y el switch?','⚽ ¿Y el mundial?'];
 $('#chatChips').innerHTML=CHIPS.map(function(c){
  var cls=/karen/i.test(c)?'danger':(/Lalo/.test(c)?'gold':(/grupo|Chisme|Frase/.test(c)?'archive':''));
