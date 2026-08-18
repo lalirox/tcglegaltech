@@ -3,1171 +3,797 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Legal Tech TCG — Edición Premium | Hugocentrismo</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<title>LEGAL TECH TCG · HUGOCENTRISMO</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+function ph(){
+  var s='<svg xmlns="http://www.w3.org/2000/svg" width="300" height="420"><rect width="300" height="420" fill="#0a0c18"/><rect x="6" y="6" width="288" height="408" rx="14" fill="none" stroke="#f5c542" stroke-width="2"/><text x="150" y="200" fill="#f5c542" font-size="22" text-anchor="middle" font-family="sans-serif">CARTA</text><text x="150" y="230" fill="#39e6ff" font-size="12" text-anchor="middle">LEGAL TECH</text></svg>';
+  return 'data:image/svg+xml;utf8,'+encodeURIComponent(s);
+}
+</script>
 <style>
-:root{--bg:#05060a;--panel:#0b0e17;--panel2:#101527;--gold:#d4af37;--gold2:#f5d67a;--cyan:#67e8f9;--violet:#b06ce8;--tblue:#5bcefa;--tpink:#f5a9b8;--text:#e9e6dc;--muted:#9aa0b4;--r-comun:#8fa3b8;--r-rara:#4b9bd4;--r-epica:#a45bd4;--r-leg:#f0c75e;}
+:root{--gold:#f5c542;--cyan:#39e6ff;--violet:#a06bff;--bg:#05060f;--glass:rgba(255,255,255,.06);--line:rgba(245,197,66,.28);}
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;overflow-x:hidden}
-h1,h2,h3,.cinzel{font-family:'Cinzel',serif}
-img{max-width:100%;display:block}
-button{font-family:inherit;cursor:pointer}
-#bg3d{position:fixed;inset:0;z-index:-2;display:block}
-body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse at 50% 0%,transparent 55%,rgba(0,0,0,.55) 100%);}
-#glow{position:fixed;width:520px;height:520px;border-radius:50%;pointer-events:none;z-index:0;background:radial-gradient(circle,rgba(212,175,55,.10),transparent 60%);transform:translate(-50%,-50%);mix-blend-mode:screen}
-#progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:100;background:linear-gradient(90deg,var(--gold),var(--cyan),var(--violet))}
-header.top{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;gap:24px;padding:14px 4vw;backdrop-filter:blur(16px);background:rgba(5,6,10,.55);border-bottom:1px solid rgba(212,175,55,.18)}
-.logo{display:flex;align-items:center;gap:12px;font-family:'Cinzel';font-weight:900;font-size:1.15rem;letter-spacing:.06em}
-.logo .gem{width:34px;height:34px;border-radius:8px;display:grid;place-items:center;font-size:18px;background:linear-gradient(135deg,var(--gold),#7a5a17);box-shadow:0 0 18px rgba(212,175,55,.5)}
-.logo b{background:linear-gradient(90deg,var(--gold2),#fff8e0,var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
-nav.main{margin-left:auto;display:flex;gap:6px}
-nav.main a{color:var(--muted);text-decoration:none;font-size:.86rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:8px 14px;border-radius:999px;transition:.3s}
-nav.main a:hover{color:var(--gold2);background:rgba(212,175,55,.08)}
-#cartBtn{margin-left:12px;position:relative;display:flex;align-items:center;gap:8px;border:1px solid rgba(212,175,55,.4);background:linear-gradient(135deg,rgba(212,175,55,.15),rgba(212,175,55,.05));color:var(--gold2);padding:10px 18px;border-radius:999px;font-weight:700;letter-spacing:.05em;transition:.3s}
-#cartBtn:hover{box-shadow:0 0 22px rgba(212,175,55,.35);transform:translateY(-1px)}
-#cartCount{min-width:22px;height:22px;border-radius:999px;background:var(--gold);color:#1a1206;display:grid;place-items:center;font-size:.75rem;font-weight:800}
-#cartCount.bump{animation:bump .4s}
-@keyframes bump{40%{transform:scale(1.45)}}
-#hero{min-height:100vh;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:4vw;padding:120px 5vw 60px;position:relative;z-index:1}
-.badge{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:999px;font-size:.75rem;font-weight:700;letter-spacing:.22em;color:var(--gold2);border:1px solid rgba(212,175,55,.45);background:rgba(212,175,55,.08);text-transform:uppercase}
-.badge .dot{width:8px;height:8px;border-radius:50%;background:var(--gold2);box-shadow:0 0 10px var(--gold2);animation:pulse 1.6s infinite}
-@keyframes pulse{50%{opacity:.35}}
-#hero h1{font-size:clamp(2.4rem,5vw,4.3rem);line-height:1.05;margin:22px 0 10px;font-weight:900}
-#hero h1 .grad{background:linear-gradient(100deg,var(--gold2) 10%,#fff 40%,var(--cyan) 70%,var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 24px rgba(212,175,55,.25))}
-#hero p.lead{color:var(--muted);font-size:1.06rem;max-width:520px;line-height:1.7}
-.pride-line{height:4px;width:220px;margin:18px 0;border-radius:4px;background:linear-gradient(90deg,var(--tblue),var(--tpink),#fff,var(--tpink),var(--tblue));box-shadow:0 0 16px rgba(91,206,250,.5)}
-.cta-row{display:flex;gap:16px;margin-top:26px;flex-wrap:wrap}
-.btn-gold{position:relative;overflow:hidden;border:none;border-radius:14px;padding:15px 30px;font-weight:800;letter-spacing:.08em;font-size:.9rem;background:linear-gradient(135deg,var(--gold2),var(--gold) 55%,#8a6a1c);color:#1a1206;transition:.3s;box-shadow:0 8px 26px rgba(212,175,55,.28)}
-.btn-gold::after{content:"";position:absolute;top:0;left:-80%;width:50%;height:100%;transform:skewX(-24deg);background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);transition:.6s}
-.btn-gold:hover::after{left:130%}
-.btn-gold:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(212,175,55,.45)}
-.btn-gold:disabled{opacity:.5;pointer-events:none}
-.btn-ghost{border:1px solid rgba(103,232,249,.4);background:rgba(103,232,249,.06);color:var(--cyan);border-radius:14px;padding:15px 28px;font-weight:700;letter-spacing:.08em;font-size:.9rem;transition:.3s}
-.btn-ghost:hover{background:rgba(103,232,249,.14);box-shadow:0 0 24px rgba(103,232,249,.25)}
-.hero-chips{display:flex;gap:12px;margin-top:34px;flex-wrap:wrap}
-.chip{padding:10px 16px;border-radius:12px;background:rgba(11,14,23,.7);border:1px solid rgba(255,255,255,.08);font-size:.82rem;color:var(--muted)}
-.chip b{color:var(--gold2)}
-.holo-wrap{display:grid;place-items:center;perspective:1200px}
-.holo{transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transform-style:preserve-3d;transition:transform .15s ease-out;position:relative;width:min(360px,80vw)}
-.holo-frame{position:relative;border-radius:20px;overflow:hidden;border:2px solid rgba(212,175,55,.65);box-shadow:0 0 0 4px rgba(0,0,0,.5),0 0 45px rgba(212,175,55,.35),0 0 90px rgba(176,108,232,.25),0 30px 60px rgba(0,0,0,.6);aspect-ratio:5/7;background:var(--panel)}
-.holo-frame img{width:100%;height:100%;object-fit:cover}
-.holo-rainbow{position:absolute;inset:0;mix-blend-mode:color-dodge;opacity:var(--ho,0);transition:opacity .3s;pointer-events:none;background:repeating-linear-gradient(115deg,rgba(255,0,90,.35) 0 12%,rgba(255,190,0,.35) 12% 24%,rgba(0,255,170,.35) 24% 36%,rgba(0,170,255,.35) 36% 48%,rgba(160,0,255,.35) 48% 60%);background-size:300% 300%;background-position:var(--gx,50%) var(--gy,50%)}
-.holo-glare{position:absolute;inset:0;pointer-events:none;opacity:var(--ho,0);transition:opacity .3s;background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.5),transparent 55%)}
-.holo-plate{margin-top:18px;text-align:center;transform:translateZ(40px)}
-.holo-plate h3{font-size:1.25rem;color:var(--gold2);letter-spacing:.05em}
-.holo-plate span{color:var(--muted);font-size:.82rem;letter-spacing:.22em}
-.holo-float{animation:hfloat 6s ease-in-out infinite}
-@keyframes hfloat{50%{transform:translateY(-16px)}}
-.marquee{overflow:hidden;border-top:1px solid rgba(212,175,55,.25);border-bottom:1px solid rgba(212,175,55,.25);background:linear-gradient(90deg,rgba(212,175,55,.08),rgba(176,108,232,.08),rgba(103,232,249,.08));padding:14px 0;position:relative;z-index:1}
-.marquee .track{display:flex;gap:60px;white-space:nowrap;width:max-content;animation:mq 26s linear infinite;font-family:'Cinzel';letter-spacing:.25em;font-size:.85rem;color:var(--gold2)}
-@keyframes mq{to{transform:translateX(-50%)}}
-section{padding:90px 5vw;position:relative;z-index:1}
-.sec-head{display:flex;align-items:end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:44px}
-.sec-head h2{font-size:clamp(1.7rem,3.2vw,2.6rem);font-weight:900}
-.sec-head h2 em{font-style:normal;background:linear-gradient(90deg,var(--gold2),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
-.sec-head p{color:var(--muted)}
-.glass{background:rgba(11,14,23,.62);backdrop-filter:blur(14px);border:1px solid rgba(212,175,55,.16);border-radius:20px}
-.stats{display:flex;gap:14px;flex-wrap:wrap}
-.stat{padding:12px 20px;border-radius:14px;background:rgba(11,14,23,.7);border:1px solid rgba(255,255,255,.08)}
-.stat small{display:block;color:var(--muted);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase}
-.stat b{color:var(--gold2);font-size:1.05rem}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:26px}
-.tcg{perspective:1000px}
-.tcg-inner{position:relative;border-radius:16px;overflow:hidden;background:var(--panel2);border:1px solid rgba(255,255,255,.09);transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .12s ease-out,box-shadow .3s;box-shadow:0 14px 34px rgba(0,0,0,.5)}
-.tcg-inner:hover{box-shadow:0 20px 50px rgba(0,0,0,.65),0 0 30px var(--rc,rgba(255,255,255,.12))}
-.tcg.r-comun .tcg-inner{--rc:rgba(143,163,184,.25)}.tcg.r-rara .tcg-inner{--rc:rgba(75,155,212,.35)}
-.tcg.r-epica .tcg-inner{--rc:rgba(164,91,212,.4)}.tcg.r-legendaria .tcg-inner{--rc:rgba(240,199,94,.5);border-color:rgba(240,199,94,.6)}
-.tcg-img{position:relative;aspect-ratio:5/7;overflow:hidden}
-.tcg-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
-.tcg-inner:hover .tcg-img img{transform:scale(1.07)}
-.tcg-shine{position:absolute;inset:0;opacity:0;transition:.3s;pointer-events:none;mix-blend-mode:color-dodge;background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.45),transparent 50%)}
-.tcg-inner:hover .tcg-shine{opacity:1}
-.tcg-rar{position:absolute;top:10px;right:10px;padding:5px 10px;border-radius:999px;font-size:.62rem;font-weight:800;letter-spacing:.16em;background:rgba(0,0,0,.6);backdrop-filter:blur(6px)}
-.r-comun .tcg-rar{color:var(--r-comun);border:1px solid var(--r-comun)}.r-rara .tcg-rar{color:var(--r-rara);border:1px solid var(--r-rara)}
-.r-epica .tcg-rar{color:var(--r-epica);border:1px solid var(--r-epica)}.r-legendaria .tcg-rar{color:var(--r-leg);border:1px solid var(--r-leg);box-shadow:0 0 14px rgba(240,199,94,.5)}
-.tcg-body{padding:14px 14px 16px}
-.tcg-body h4{font-family:'Cinzel';font-size:.98rem;color:#f4efdf;letter-spacing:.03em}
-.tcg-body .sub{color:var(--muted);font-size:.74rem;margin:3px 0 10px}
-.tcg-foot{display:flex;align-items:center;justify-content:space-between;gap:8px}
-.price{color:var(--gold2);font-weight:800;font-size:.92rem}
-.tcg-actions{display:flex;gap:6px}
-.icon-btn{width:34px;height:34px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);color:var(--text);font-size:.9rem;transition:.25s}
-.icon-btn:hover{border-color:var(--gold);color:var(--gold2);background:rgba(212,175,55,.12)}
-.claw-cab{max-width:1000px;margin:0 auto;padding:22px;position:relative}
-.claw-cab::before{content:"";position:absolute;inset:-2px;border-radius:22px;z-index:-1;background:linear-gradient(135deg,rgba(212,175,55,.5),transparent 30%,transparent 70%,rgba(103,232,249,.4))}
-#clawCanvas{width:100%;border-radius:14px;background:#0a0d18;display:block}
-.claw-ctrl{display:flex;justify-content:center;gap:16px;margin-top:18px;flex-wrap:wrap}
-.pad-btn{width:64px;height:54px;border-radius:14px;border:1px solid rgba(103,232,249,.4);background:rgba(103,232,249,.08);color:var(--cyan);font-size:1.3rem;transition:.2s}
-.pad-btn:active{transform:scale(.92);background:rgba(103,232,249,.2)}
-.hint{text-align:center;color:var(--muted);margin-top:12px;font-size:.85rem}
-#hugo{background:linear-gradient(180deg,transparent,rgba(122,90,23,.12) 20%,rgba(122,90,23,.12) 80%,transparent)}
-.hugo-head{text-align:center;margin-bottom:50px}
-.hugo-head h2{font-size:clamp(2.2rem,4.6vw,3.6rem);font-weight:900;margin:16px 0 8px;background:linear-gradient(100deg,#f5d67a,#fff8e0 40%,#d4af37 75%);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 30px rgba(212,175,55,.3))}
-.hugo-head .tag{color:var(--muted);font-style:italic;font-size:1.05rem}
-.hugo-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:30px;align-items:stretch;margin-bottom:34px}
-.board-frame{padding:16px;border-radius:22px;position:relative;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .15s;background:linear-gradient(160deg,#171226,#0b0e17);border:1px solid rgba(212,175,55,.35);box-shadow:0 30px 70px rgba(0,0,0,.6),0 0 50px rgba(212,175,55,.15)}
-.board-frame img{border-radius:14px;width:100%}
-.board-frame figcaption{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);padding:8px 22px;border-radius:999px;background:rgba(0,0,0,.65);backdrop-filter:blur(8px);border:1px solid rgba(212,175,55,.5);color:var(--gold2);font-family:'Cinzel';letter-spacing:.2em;font-size:.72rem}
-.hugo-side{display:flex;flex-direction:column;gap:22px}
-.oracle{padding:24px;text-align:center;flex:1}
-.oracle h3{color:var(--gold2);letter-spacing:.1em;margin-bottom:14px}
-.oracle-card{min-height:110px;margin:0 auto 16px;max-width:340px;display:grid;place-items:center;padding:18px;border-radius:14px;background:linear-gradient(160deg,#e7d3a8,#c9ad76);color:#2a2018;font-weight:600;font-style:italic;transition:transform .5s;transform:rotateY(0)}
-.oracle-card.flip{transform:rotateY(90deg)}
-.oracle-card .q{font-size:.95rem;line-height:1.5}
-.deck{display:flex;gap:14px;justify-content:center}
-.mini-card{width:110px;aspect-ratio:5/7;border-radius:12px;padding:10px 8px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;background:linear-gradient(170deg,#1a2340,#0b0e17);border:1px solid rgba(212,175,55,.4);transition:.35s;transform-style:preserve-3d}
-.mini-card:hover{transform:translateY(-10px) rotateZ(-2deg);box-shadow:0 16px 34px rgba(0,0,0,.6),0 0 24px rgba(212,175,55,.3)}
-.mini-card .art{font-size:2.2rem}
-.mini-card span{font-family:'Cinzel';font-size:.68rem;letter-spacing:.12em;color:var(--gold2);text-align:center}
-.game-wrap{padding:22px}
-.setup-row{display:flex;gap:12px;align-items:center;margin:12px 0;flex-wrap:wrap}
-.setup-row label{color:var(--muted);font-size:.85rem;min-width:90px}
-.setup-row select{background:var(--panel2);color:var(--text);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:10px}
-.setup-names{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin:14px 0}
-.setup-names input{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:10px;color:var(--text);font-family:inherit}
-.rules{color:var(--muted);font-size:.8rem;font-style:italic;margin-top:16px;border-left:3px solid rgba(212,175,55,.4);padding-left:12px;line-height:1.6}
-.game-grid{display:grid;grid-template-columns:1.5fr .9fr;gap:20px}
-.board-col svg{width:100%;border-radius:14px;display:block}
-.hud-col{display:flex;flex-direction:column;gap:12px}
-#turnInfo{font-weight:800;color:var(--gold2);font-size:1.05rem}
-#diceRow{display:flex;gap:14px;align-items:center}
-#diceFace{font-size:3rem;width:74px;height:74px;display:grid;place-items:center;background:#e7d3a8;color:#2a2018;border-radius:14px;border:3px solid #6b4d2a;transition:transform .1s}
-#diceFace.rolling{animation:diceShake .12s infinite}
-@keyframes diceShake{50%{transform:rotate(8deg) scale(1.06)}}
-#anecTxt{width:100%;min-height:96px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:12px;color:var(--text);padding:10px;font-family:inherit;font-size:.9rem;resize:vertical}
-.anec-row{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
-.anec-row .btn-gold,.anec-row .btn-ghost{padding:11px 16px;font-size:.8rem}
-#voteBox p{color:var(--muted);font-size:.85rem;margin-bottom:10px}
-#voteBox button{border-radius:12px;padding:12px 16px;font-weight:800;border:none;margin-right:10px;transition:.2s}
-#voteYes{background:#2fae62;color:#fff}#voteNo{background:#c14b6a;color:#fff}
-#voteBox button:hover{transform:translateY(-2px)}
-#gameLog{max-height:200px;overflow:auto;display:flex;flex-direction:column;gap:6px;font-size:.8rem;color:var(--muted)}
-#gameLog div{background:rgba(255,255,255,.04);border-radius:8px;padding:6px 10px;animation:msgIn .3s ease}
-.pmeeple{transition:transform .6s ease}
-#winOverlay{position:fixed;inset:0;z-index:110;display:none;align-items:center;justify-content:center;background:rgba(2,3,6,.85);backdrop-filter:blur(8px)}
-#winOverlay.open{display:flex}
-.win-box{text-align:center;padding:44px;border-radius:24px;background:var(--panel);border:2px solid var(--gold);box-shadow:0 0 80px rgba(212,175,55,.4);max-width:90vw}
-#chatFab{position:fixed;right:22px;bottom:22px;z-index:70;width:66px;height:66px;border-radius:50%;border:2px solid rgba(255,255,255,.25);background:linear-gradient(135deg,var(--gold2),var(--gold) 60%,#8a6a1c);font-size:28px;box-shadow:0 12px 34px rgba(212,175,55,.5);transition:.3s}
-#chatFab:hover{transform:translateY(-3px) scale(1.06)}
-#chatFab .ping{position:absolute;inset:-7px;border-radius:50%;border:2px solid rgba(212,175,55,.65);animation:ping 1.8s infinite}
-@keyframes ping{0%{transform:scale(.8);opacity:1}100%{transform:scale(1.55);opacity:0}}
-#chatFab .free{position:absolute;top:-8px;right:-10px;background:#7ee2a0;color:#0d3a1e;font-size:.56rem;font-weight:900;letter-spacing:.1em;padding:3px 8px;border-radius:999px;box-shadow:0 0 14px rgba(126,226,160,.7)}
-#chatBox{position:fixed;right:22px;bottom:102px;z-index:70;width:min(400px,calc(100vw - 32px));height:min(600px,74vh);display:flex;flex-direction:column;border-radius:20px;overflow:hidden;background:rgba(8,10,16,.94);backdrop-filter:blur(18px);border:1px solid rgba(212,175,55,.45);box-shadow:0 30px 80px rgba(0,0,0,.85),0 0 40px rgba(212,175,55,.18);transform:translateY(24px) scale(.95);opacity:0;pointer-events:none;transition:.35s cubic-bezier(.2,.9,.3,1.15)}
-#chatBox.open{transform:none;opacity:1;pointer-events:auto}
-#chatBox header{display:flex;align-items:center;gap:12px;padding:14px 16px;background:linear-gradient(135deg,rgba(212,175,55,.2),rgba(176,108,232,.14));border-bottom:1px solid rgba(212,175,55,.3)}
-#chatBox header img{width:44px;height:44px;border-radius:50%;border:2px solid var(--gold);background:#fff}
-#chatBox header .t b{display:block;font-family:'Cinzel';color:var(--gold2);letter-spacing:.08em}
-#chatBox header .t span{font-size:.7rem;color:#7ee2a0;display:flex;align-items:center;gap:6px}
-#chatBox header .t span i{width:8px;height:8px;background:#7ee2a0;border-radius:50%;box-shadow:0 0 8px #7ee2a0;animation:pulse 1.6s infinite}
-#chatMsgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
-#chatMsgs::-webkit-scrollbar{width:6px}#chatMsgs::-webkit-scrollbar-thumb{background:rgba(212,175,55,.4);border-radius:3px}
-.msg{max-width:84%;padding:10px 14px;border-radius:14px;font-size:.88rem;line-height:1.55;animation:msgIn .3s ease;white-space:pre-wrap}
-@keyframes msgIn{from{opacity:0;transform:translateY(8px)}}
-.msg.ai{align-self:flex-start;background:rgba(255,255,255,.06);border:1px solid rgba(103,232,249,.25);border-bottom-left-radius:4px}
-.msg.user{align-self:flex-end;background:linear-gradient(135deg,rgba(240,199,94,.95),rgba(190,150,50,.95));color:#1a1206;font-weight:600;border-bottom-right-radius:4px}
-.msg.user.villain{background:linear-gradient(135deg,rgba(164,60,60,.95),rgba(120,30,30,.95));color:#ffe3e3}
-.msg .who{display:block;font-size:.6rem;letter-spacing:.2em;color:var(--cyan);margin-bottom:4px;font-weight:800}
-.typing{display:inline-flex;gap:4px;padding:4px 0}
-.typing i{width:7px;height:7px;border-radius:50%;background:var(--cyan);animation:tp 1s infinite}
-.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
-@keyframes tp{50%{opacity:.25;transform:translateY(-3px)}}
-#chatChips{display:flex;flex-wrap:wrap;gap:10px;padding:12px 14px;border-top:1px solid rgba(255,255,255,.06)}
-#chatChips button{flex:0 0 auto;border:1px solid rgba(103,232,249,.35);background:rgba(103,232,249,.07);color:var(--cyan);border-radius:999px;padding:8px 14px;font-size:.74rem;line-height:1.1;white-space:nowrap;transition:.2s}
-#chatChips button:hover{background:rgba(103,232,249,.2);transform:translateY(-1px)}
-#chatChips button.danger{border-color:rgba(255,90,90,.5);background:rgba(255,90,90,.08);color:#ff9a9a}
-#chatChips button.archive{border-color:rgba(126,226,160,.5);background:rgba(126,226,160,.08);color:#7ee2a0}
-#chatChips button.gold{border-color:rgba(240,199,94,.5);background:rgba(240,199,94,.08);color:var(--gold2)}
-#chatForm{display:flex;gap:10px;padding:12px;border-top:1px solid rgba(255,255,255,.08)}
-#chatInput{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:12px 14px;color:var(--text);font-family:inherit;font-size:.9rem;outline:none;transition:.2s}
-#chatInput:focus{border-color:var(--gold);box-shadow:0 0 14px rgba(212,175,55,.2)}
-#chatSend{width:48px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold2),var(--gold));font-size:1.1rem;transition:.2s}
-#chatSend:hover{box-shadow:0 0 18px rgba(212,175,55,.5)}
-#chatNote{padding:7px;text-align:center;font-size:.62rem;color:var(--muted);letter-spacing:.12em;border-top:1px solid rgba(255,255,255,.06)}
-.modal{position:fixed;inset:0;z-index:80;display:none;align-items:center;justify-content:center;background:rgba(2,3,6,.75);backdrop-filter:blur(8px);padding:20px}
+body{font-family:Outfit,sans-serif;background:var(--bg);color:#e8ecff;overflow-x:hidden}
+#bg3d{position:fixed;inset:0;z-index:0}
+.wrap{position:relative;z-index:1;max-width:1200px;margin:0 auto;padding:0 20px}
+h1,h2,h3,.cinzel{font-family:Cinzel,serif}
+section{padding:60px 0}
+.glass{background:var(--glass);border:1px solid var(--line);border-radius:18px;backdrop-filter:blur(14px)}
+.btn{font-family:Outfit;font-weight:800;border:none;cursor:pointer;border-radius:12px;padding:12px 22px;color:#1a1200;background:linear-gradient(135deg,var(--gold),#ffd97a);box-shadow:0 4px 18px rgba(245,197,66,.35);transition:.25s}
+.btn:hover{transform:translateY(-2px)}
+.btn.ghost{background:transparent;color:var(--cyan);border:1px solid rgba(57,230,255,.4);box-shadow:none}
+.iconbtn{width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:rgba(255,255,255,.05);cursor:pointer;font-size:16px;transition:.2s}
+.iconbtn:hover{border-color:var(--gold);transform:scale(1.1)}
+/* HERO */
+#hero{display:flex;gap:40px;align-items:center;min-height:92vh;flex-wrap:wrap}
+#hero .txt{flex:1;min-width:300px}
+#hero h1{font-size:clamp(2rem,5vw,3.6rem);color:var(--gold);text-shadow:0 0 30px rgba(245,197,66,.4)}
+#hero p{color:#aab;font-weight:300;margin:14px 0 24px;max-width:520px}
+.holoWrap{perspective:900px}
+.holo{width:300px;height:420px;border-radius:18px;position:relative;transform-style:preserve-3d;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));border:1px solid var(--gold);box-shadow:0 20px 60px rgba(0,0,0,.6),0 0 40px rgba(245,197,66,.15);overflow:hidden;transition:transform .1s}
+.holo img{width:100%;height:100%;object-fit:cover}
+.holo .rainbow{position:absolute;inset:0;mix-blend-mode:color-dodge;background:linear-gradient(120deg,rgba(255,0,128,.25),rgba(57,230,255,.25),rgba(160,107,255,.25),rgba(245,197,66,.25));background-size:300% 300%;animation:rb 6s linear infinite;pointer-events:none}
+@keyframes rb{0%{background-position:0% 0%}100%{background-position:300% 300%}}
+.holo .glare{position:absolute;inset:0;background:radial-gradient(circle at var(--gx,50%) var(--gy,20%),rgba(255,255,255,.35),transparent 55%);pointer-events:none}
+.holoCap{margin-top:12px;text-align:center;color:var(--gold);font-weight:800}
+.holoCap small{display:block;color:#9ab;font-weight:300}
+/* COLECCION */
+.secTitle{color:var(--gold);font-size:1.8rem;margin-bottom:8px}
+.secSub{color:#9ab;font-weight:300;margin-bottom:26px}
+#cardGrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:20px}
+.tcard{border-radius:18px;overflow:hidden;position:relative;transition:.3s;transform-style:preserve-3d}
+.tcard:hover{transform:translateY(-6px)}
+.tcard img{width:100%;height:250px;object-fit:cover;display:block}
+.tcard .shine{position:absolute;top:0;left:-80%;width:60%;height:100%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.25),transparent);transform:skewX(-20deg);transition:.6s;pointer-events:none}
+.tcard:hover .shine{left:120%}
+.tcard .info{padding:12px}
+.tcard .name{font-weight:800}
+.rar{display:inline-block;font-size:10px;font-weight:800;letter-spacing:1px;padding:3px 8px;border-radius:999px;margin:6px 0}
+.price{color:var(--gold);font-weight:800}
+.tcard .acts{display:flex;gap:8px;justify-content:flex-end;padding:0 12px 12px}
+/* MODALES */
+.modal{position:fixed;inset:0;background:rgba(2,3,10,.8);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;z-index:50}
 .modal.open{display:flex}
-.modal-box{width:min(760px,94vw);max-height:90vh;overflow:auto;border-radius:20px;background:var(--panel);border:1px solid rgba(212,175,55,.35);box-shadow:0 40px 90px rgba(0,0,0,.8)}
-.modal-box header{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid rgba(255,255,255,.08);font-family:'Cinzel';letter-spacing:.18em;color:var(--cyan);font-weight:700}
-.x-btn{border:none;background:rgba(255,255,255,.06);color:var(--muted);width:36px;height:36px;border-radius:10px;font-size:1rem;transition:.2s}
-.x-btn:hover{color:#fff;background:rgba(255,80,80,.25)}
-.scan-stage{display:grid;grid-template-columns:.9fr 1.1fr;gap:0}
-.scan-card{position:relative;margin:22px;border-radius:14px;overflow:hidden;aspect-ratio:5/7;border:1px solid rgba(103,232,249,.4)}
-.scan-card img{width:100%;height:100%;object-fit:cover}
-.scanline{position:absolute;left:0;right:0;height:3px;top:0;background:linear-gradient(90deg,transparent,var(--cyan),transparent);box-shadow:0 0 18px var(--cyan);animation:scan 1.4s linear infinite}
-@keyframes scan{to{top:100%}}
-.scan-tag{position:absolute;top:10px;left:10px;padding:5px 12px;border-radius:999px;background:rgba(0,0,0,.7);color:var(--cyan);font-size:.7rem;letter-spacing:.2em}
-.scan-data{padding:26px 26px 26px 4px}
-.scan-data .rar{font-size:.72rem;letter-spacing:.24em;font-weight:800}
-.scan-data h3{font-size:1.4rem;margin:8px 0 4px;color:#f4efdf}
-.scan-data .type{color:var(--cyan);font-size:.86rem;margin-bottom:12px}
-.scan-data .quote{color:var(--muted);font-size:.88rem;line-height:1.65;font-style:italic;border-left:3px solid rgba(212,175,55,.5);padding-left:12px;margin:12px 0}
-.scan-meta{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
-.scan-meta div{padding:8px 14px;border-radius:10px;background:rgba(255,255,255,.05);font-size:.8rem;color:var(--muted)}
-.scan-meta b{color:var(--gold2)}
-.ability{border:1px solid rgba(240,199,94,.3);background:rgba(240,199,94,.06);border-radius:12px;padding:12px 14px;margin-top:10px;font-size:.84rem}
-.ability b{color:var(--gold2)}.ability.atk{border-color:rgba(176,108,232,.4);background:rgba(176,108,232,.07)}.ability.atk b{color:var(--violet)}
-.scan-data .btn-gold{margin-top:16px;width:100%}
-.scanning .scan-data{visibility:hidden}
-.scanning .scanline,.scanning .scan-tag{display:block}
-.done .scanline,.done .scan-tag{display:none}
-#cartDrawer{position:fixed;top:0;right:0;bottom:0;width:min(420px,94vw);z-index:90;background:var(--panel);border-left:1px solid rgba(212,175,55,.35);transform:translateX(105%);transition:transform .45s cubic-bezier(.2,.9,.25,1);display:flex;flex-direction:column;box-shadow:-30px 0 70px rgba(0,0,0,.7)}
-#cartDrawer.open{transform:translateX(0)}
-#cartDrawer header{padding:20px 24px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,.08);font-family:'Cinzel';letter-spacing:.16em;color:var(--gold2)}
-#cartItems{flex:1;overflow:auto;padding:16px 20px;display:flex;flex-direction:column;gap:12px}
-.cart-row{display:flex;gap:12px;align-items:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:10px}
-.cart-row img{width:52px;height:70px;object-fit:cover;border-radius:8px}
-.cart-row .inf{flex:1}.cart-row .inf b{font-size:.88rem;display:block}.cart-row .inf span{color:var(--gold2);font-size:.8rem}
-.cart-row .rm{border:none;background:none;color:var(--muted);font-size:1rem}.cart-row .rm:hover{color:#ff6b6b}
-#cartDrawer footer{padding:20px 24px;border-top:1px solid rgba(255,255,255,.08)}
-.total-row{display:flex;justify-content:space-between;font-weight:800;margin-bottom:14px}.total-row b{color:var(--gold2)}
-#scrim{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:85;opacity:0;pointer-events:none;transition:.3s}
-#scrim.on{opacity:1;pointer-events:auto}
-.pay-body{padding:34px;text-align:center}
-.spinner{width:64px;height:64px;margin:0 auto 20px;border-radius:50%;border:4px solid rgba(103,232,249,.15);border-top-color:var(--cyan);animation:spin 1s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.pay-lines{color:var(--muted);font-size:.9rem;display:flex;flex-direction:column;gap:6px;margin-top:14px}
-.pay-lines b{color:var(--text)}
-.success-ico{width:80px;height:80px;margin:0 auto 18px;border-radius:50%;display:grid;place-items:center;font-size:2rem;color:#0d3a1e;background:linear-gradient(135deg,#7ee2a0,#2fae62);box-shadow:0 0 40px rgba(60,220,130,.45)}
-.reveal{opacity:0;transform:translateY(36px);transition:opacity .8s ease,transform .8s ease}
-.reveal.in{opacity:1;transform:none}
-footer.site{padding:40px 5vw;text-align:center;color:var(--muted);font-size:.82rem;border-top:1px solid rgba(255,255,255,.06);position:relative;z-index:1}
-@media(max-width:960px){#hero{grid-template-columns:1fr;padding-top:110px}.hugo-grid{grid-template-columns:1fr}.game-grid{grid-template-columns:1fr}.scan-stage{grid-template-columns:1fr}.scan-data{padding:0 22px 24px}nav.main{display:none}}
+.panel{width:min(480px,92vw);max-height:86vh;overflow:auto;padding:24px;position:relative}
+.panel h3{color:var(--gold);margin-bottom:12px}
+.x{position:absolute;top:12px;right:12px}
+#scanBox{position:relative;height:220px;border-radius:14px;overflow:hidden;border:1px solid rgba(57,230,255,.3);margin-bottom:14px}
+#scanBox img{width:100%;height:100%;object-fit:cover;opacity:.85}
+.scanline{position:absolute;left:0;right:0;height:3px;background:var(--cyan);box-shadow:0 0 18px var(--cyan);animation:sl 1.4s linear infinite}
+@keyframes sl{0%{top:0}100%{top:100%}}
+#scanData{white-space:pre-wrap;color:#cde;font-weight:300}
+/* CARRITO */
+#cartDrawer{position:fixed;top:0;right:-400px;width:min(380px,94vw);height:100%;background:#0a0c18ee;border-left:1px solid var(--line);z-index:60;transition:.35s;padding:20px;display:flex;flex-direction:column}
+#cartDrawer.open{right:0}
+#cartItems{flex:1;overflow:auto;margin:12px 0}
+.cRow{display:flex;gap:10px;align-items:center;padding:8px;border-bottom:1px solid rgba(255,255,255,.06)}
+.cRow img{width:44px;height:60px;object-fit:cover;border-radius:6px}
+#cartTotal{color:var(--gold);font-weight:800;font-size:1.1rem;margin:8px 0}
+/* GARRA */
+#clawCanvas{width:100%;max-width:420px;border-radius:16px;border:1px solid var(--line);display:block;margin:0 auto;background:#070912}
+.clawBtns{display:flex;gap:10px;justify-content:center;margin-top:12px}
+/* JUEGO */
+#setupPanel .row{display:flex;gap:18px;flex-wrap:wrap;margin:14px 0}
+#setupPanel label{color:#bcd;font-weight:600;margin-right:6px}
+#hugoMap{width:100%;height:auto;display:block}
+#gameHud{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin:14px 0}
+#diceFace{width:64px;height:64px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:32px;font-weight:800;color:#1a1200;background:linear-gradient(135deg,var(--gold),#ffd97a);box-shadow:0 0 24px rgba(245,197,66,.4)}
+#oracleCard{padding:16px;border-radius:14px;border:1px solid rgba(160,107,255,.4);background:linear-gradient(135deg,rgba(160,107,255,.12),rgba(57,230,255,.08));margin:12px 0;display:none}
+#oracleCard.on{display:block}
+#themeCard{color:var(--violet);font-weight:800;font-size:1.1rem}
+#anecTxt{width:100%;min-height:80px;margin:10px 0;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:#eef;padding:10px;font-family:Outfit}
+#gameLog{max-height:180px;overflow:auto;padding:12px;font-weight:300;color:#bcd;font-size:.92rem}
+#gameLog p{margin:4px 0}
+#winOverlay{position:fixed;inset:0;background:rgba(2,3,10,.9);display:none;align-items:center;justify-content:center;z-index:70;text-align:center}
+#winOverlay.on{display:flex}
+#winOverlay h2{color:var(--gold);font-size:2.4rem;margin-bottom:10px}
+/* CHAT */
+#chatFab{position:fixed;bottom:22px;right:22px;width:62px;height:62px;border-radius:50%;border:none;cursor:pointer;z-index:80;background:linear-gradient(135deg,var(--violet),var(--cyan));font-size:26px;box-shadow:0 8px 30px rgba(57,230,255,.4)}
+#chatBox{position:fixed;bottom:22px;right:22px;width:min(400px,94vw);height:min(600px,86vh);z-index:81;display:none;flex-direction:column;border-radius:20px;overflow:hidden;border:1px solid var(--line);background:#0a0c18f2;backdrop-filter:blur(16px)}
+#chatBox.open{display:flex}
+#chatHead{padding:12px 14px;display:flex;gap:10px;align-items:center;background:linear-gradient(135deg,rgba(160,107,255,.2),rgba(57,230,255,.12));border-bottom:1px solid var(--line)}
+#chatHead img{width:40px;height:40px;border-radius:50%;border:1px solid var(--gold)}
+#chatHead b{color:var(--gold)}
+#chatHead small{display:block;color:#9ab;font-weight:300}
+#chatMsgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px}
+.msg{max-width:85%;padding:10px 12px;border-radius:14px;font-weight:300;white-space:pre-wrap;font-size:.92rem;line-height:1.45}
+.msg.ai{align-self:flex-start;background:rgba(57,230,255,.1);border:1px solid rgba(57,230,255,.25);border-bottom-left-radius:4px}
+.msg.me{align-self:flex-end;background:rgba(245,197,66,.14);border:1px solid rgba(245,197,66,.3);border-bottom-right-radius:4px}
+.msg .who{display:block;font-size:10px;color:var(--gold);font-weight:800;margin-bottom:4px}
+.msg .src{display:block;font-size:10px;color:#7d8ba0;margin-top:6px}
+/* CHIPS NUEVOS */
+.chipsHead{display:flex;justify-content:space-between;align-items:center;padding:8px 14px 0;color:#8fa;font-size:10px;letter-spacing:2px;font-weight:800;color:#9ab}
+.chipsHead span{color:var(--cyan)}
+#chatChips{display:flex;gap:8px;overflow-x:auto;padding:10px 12px 12px;scroll-snap-type:x proximity;border-top:1px solid rgba(255,255,255,.05)}
+#chatChips::-webkit-scrollbar{height:5px}
+#chatChips::-webkit-scrollbar-thumb{background:var(--line);border-radius:99px}
+.chip{scroll-snap-align:start;flex:0 0 auto;display:flex;align-items:center;gap:7px;padding:9px 14px;border-radius:12px;border:1px solid rgba(57,230,255,.25);background:linear-gradient(135deg,rgba(245,197,66,.10),rgba(160,107,255,.14));color:#dfe6ff;font:600 12px Outfit,sans-serif;cursor:pointer;position:relative;overflow:hidden;transition:.25s;backdrop-filter:blur(6px)}
+.chip::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.35) 50%,transparent 60%);transform:translateX(-130%);transition:.5s}
+.chip:hover{transform:translateY(-2px);border-color:var(--gold);box-shadow:0 6px 16px rgba(245,197,66,.22)}
+.chip:hover::after{transform:translateX(130%)}
+.chip .ce{font-size:15px}
+#chatInputRow{display:flex;gap:8px;padding:10px;border-top:1px solid var(--line)}
+#chatInput{flex:1;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:#eef;padding:10px 12px;font-family:Outfit;outline:none}
+#chatInput:focus{border-color:var(--cyan)}
+#chatSend{border:none;border-radius:12px;width:46px;cursor:pointer;background:linear-gradient(135deg,var(--gold),#ffd97a);font-size:16px}
+.note{font-size:10px;color:#789;text-align:center;padding:0 0 8px;font-weight:300}
+footer{padding:40px 0;text-align:center;color:#789;font-weight:300;position:relative;z-index:1}
 </style>
 </head>
 <body>
 <canvas id="bg3d"></canvas>
-<div id="glow"></div>
-<div id="progress"></div>
-<header class="top">
-  <div class="logo"><span class="gem">⚖️</span><b>LEGAL TECH TCG</b></div>
-  <nav class="main">
-    <a href="#coleccion">Colección</a><a href="#garra">La Garra</a><a href="#hugo">Hugocentrismo</a>
-  </nav>
-  <button id="cartBtn">🛒 CARRITO <span id="cartCount">0</span></button>
-</header>
-<main>
+
+<div class="wrap">
 <section id="hero">
-  <div>
-    <span class="badge"><span class="dot"></span> ⚡ Nueva Carta Legendaria</span>
-    <h1>Descubre <span class="grad">Poder LGBTQ+</span><br>la carta más poderosa</h1>
-    <div class="pride-line"></div>
-    <p class="lead">La joya de nuestra colección Legal Tech, ilustrada por <b style="color:var(--gold2)">Hugo Mendoza</b>. Escanea, captura en la garra, colecciona las 17 cartas, <b style="color:var(--cyan)">juega HUGOCENTRISMO</b> 🎲 y platica con nuestra <b style="color:#7ee2a0">IA gratuita</b> entrenada con el chat.txt del grupo 📜.</p>
-    <div class="cta-row">
-      <button class="btn-gold" id="heroScan">VER CARTA</button>
-      <button class="btn-ghost" id="heroBuy">COMPRAR AHORA · $2,500 MXN</button>
-    </div>
-    <div class="hero-chips">
-      <div class="chip">🃏 Cartas en stock: <b>17 Items</b></div>
-      <div class="chip">⭐ Nueva: <b>Carta 16 Legendaria</b></div>
-      <div class="chip">🎲 Juego de mesa: <b>Jugable</b></div>
-      <div class="chip">🧠 Chat IA: <b>Gratis + chat.txt</b></div>
-    </div>
+  <div class="txt">
+    <h1 class="cinzel">LEGAL TECH TCG</h1>
+    <p>El juego de cartas coleccionables del grupo más determinista del planeta. Ilustrado por <b style="color:var(--gold)">Hugo Mendoza</b>. Holográfico, premium y 100% hugocéntrico.</p>
+    <button class="btn" onclick="location.hash='#coleccion'">Ver Colección</button>
+    <button class="btn ghost" onclick="location.hash='#juego'">🎲 HUGOCENTRISMO</button>
+    <button class="btn ghost" onclick="location.hash='#garra'">🕹️ Garra</button>
   </div>
-  <div class="holo-wrap">
-    <div class="holo-float">
-      <div class="holo" id="heroHolo">
-        <div class="holo-frame">
-          <img src="carta16.png" alt="Carta 16 Legendaria Poder LGBTQ+" onerror="this.onerror=null;this.src=ph('Poder LGBTQ+')">
-          <div class="holo-rainbow"></div><div class="holo-glare"></div>
-        </div>
-        <div class="holo-plate"><h3>Carta 16 — Poder LGBTQ+</h3><span>CARTA LEGENDARIA · HOLO</span></div>
-      </div>
+  <div class="holoWrap">
+    <div class="holo" id="heroHolo">
+      <img src="carta16.png" onerror="this.src=ph()">
+      <div class="rainbow"></div><div class="glare"></div>
     </div>
+    <div class="holoCap">CARTA 16 — PODER LGBTQ+<small>LEGENDARIA · $2,500 MXN</small></div>
   </div>
 </section>
-<div class="marquee"><div class="track" id="mqTrack"></div></div>
+
 <section id="coleccion">
-  <div class="sec-head">
-    <div><h2>La <em>Colección</em> Completa</h2><p>Pasa el cursor para el efecto holográfico · escanea con el Pokédex</p></div>
-    <div class="stats">
-      <div class="stat"><small>Resumen MXN</small><b id="stockCount">17 Items</b></div>
-      <div class="stat"><small>⭐ Nueva Carta</small><b>Carta 16 Legendaria</b></div>
-      <div class="stat"><small>Precio</small><b>$2,500 MXN</b></div>
-    </div>
-  </div>
-  <div class="grid" id="cardGrid"></div>
+  <h2 class="secTitle cinzel">La Colección</h2>
+  <p class="secSub">17 cartas. Rarezas COMÚN / RARA / ÉPICA / LEGENDARIA. Escanea o añade al carrito.</p>
+  <div id="cardGrid"></div>
 </section>
+
 <section id="garra">
-  <div class="sec-head" style="justify-content:center;text-align:center"><div>
-    <h2>🕹️ La <em>Garra</em> Legal Tech</h2>
-    <p>Usa los botones en pantalla o las flechas ←→ y Espacio</p>
-  </div></div>
-  <div class="claw-cab glass">
-    <canvas id="clawCanvas" width="960" height="540"></canvas>
-    <div class="claw-ctrl">
-      <button class="pad-btn" id="clawLeft">⬅️</button>
-      <button class="btn-gold" id="clawDrop">️ BAJAR GARRA</button>
-      <button class="pad-btn" id="clawRight">➡️</button>
-    </div>
-    <p class="hint">Apunta sobre las cartas y baja la garra</p>
+  <h2 class="secTitle cinzel">Garra Legal Tech</h2>
+  <p class="secSub">← → para mover · ESPACIO o 🕹️ para soltar la garra. Si ganas, la carta es tuya.</p>
+  <canvas id="clawCanvas" width="420" height="420"></canvas>
+  <div class="clawBtns">
+    <button class="iconbtn" id="clawL">◀</button>
+    <button class="btn" id="clawDrop">🕹️ Soltar</button>
+    <button class="iconbtn" id="clawR">▶</button>
   </div>
 </section>
-<section id="hugo">
-  <div class="hugo-head reveal">
-    <span class="badge"><span class="dot"></span> 🎲 Juego de Mesa Funcional</span>
-    <h2>HUGOCENTRISMO</h2>
-    <p class="tag">"Todos los caminos, sin importar el tema, llevan a Hugo"</p>
+
+<section id="juego">
+  <h2 class="secTitle cinzel">HUGOCENTRISMO</h2>
+  <p class="secSub">El juego de mesa oficial. Regla de la casa (Lalo, 12/08/26, textual del chat.txt): "Tiras el dado. El número te indica qué Carta de Tema robas. Lees el tema en voz alta. Obligatoriamente cuentas una anécdota real o inventada de Hugo relacionada con ese tema. Si la mesa acepta que es suficientemente hugocéntrica, avanzas los espacios del dado. Si la mesa considera que forzaste demasiado la relación con Hugo, no avanzas y pierdes el turno."</p>
+  <p class="secSub">Casillas: 🟩 Evento Aleatorio · 🟥 Celos (Karen 😈) · 🟦 Atajo Emocional · 🟨 Meta: el castillo de Hugo.</p>
+  <div id="setupPanel" class="glass" style="padding:22px">
+    <div class="row"><label>Modo:</label>
+      <label><input type="radio" name="mode" value="ia" checked> Tú vs IA (los rivales cuentan anécdotas del chat.txt)</label>
+      <label><input type="radio" name="mode" value="local"> Mesa local (pásense el dispositivo y voten)</label>
+    </div>
+    <div class="row"><label>Jugadores:</label>
+      <label><input type="radio" name="pn" value="2" checked>2</label>
+      <label><input type="radio" name="pn" value="3">3</label>
+      <label><input type="radio" name="pn" value="4">4</label>
+    </div>
+    <button class="btn" id="startBtn">🎲 Comenzar partida</button>
   </div>
-  <div class="hugo-grid">
-    <figure class="board-frame reveal" id="boardFrame">
-      <img src="hugocentrismo.png" alt="Hugocentrismo el juego de mesa" onerror="this.onerror=null;this.src=ph('HUGOCENTRISMO')">
-      <figcaption>EDICIÓN DE COLECCIONISTA</figcaption>
-    </figure>
-    <div class="hugo-side">
-      <div class="oracle glass reveal">
-        <h3 class="cinzel">HUGO DICE…</h3>
-        <div class="oracle-card" id="oracleCard"><div class="q" id="oracleText">"Que todos los caminos llevan a él."</div></div>
-        <button class="btn-ghost" id="oracleBtn">🎲 Consultar a Hugo</button>
-      </div>
-      <div class="deck reveal">
-        <div class="mini-card"><div class="art">🐶</div><span>PERROS</span></div>
-        <div class="mini-card"><div class="art">🏰</div><span>INFIDELIDADES</span></div>
-        <div class="mini-card"><div class="art">💜</div><span>CELOS</span></div>
-      </div>
+  <div id="gamePanel" style="display:none">
+    <svg id="hugoMap" viewBox="0 0 920 320"><g id="trackLayer"></g><g id="playersLayer"></g></svg>
+    <div id="gameHud">
+      <div id="diceFace">🎲</div>
+      <button class="btn" id="rollBtn">Tirar dado</button>
+      <span id="turnLbl" style="color:var(--cyan);font-weight:800"></span>
     </div>
-  </div>
-  <div class="game-wrap glass reveal">
-    <div id="setupPanel">
-      <h3 class="cinzel" style="color:var(--gold2)">🎲 Configurar partida</h3>
-      <div class="setup-row"><label>Modo:</label>
-        <select id="modeSel">
-          <option value="ia">Tú vs IA (los rivales cuentan anécdotas del chat.txt)</option>
-          <option value="local">Mesa local (pásense el dispositivo y voten)</option>
-        </select></div>
-      <div class="setup-row"><label>Jugadores:</label>
-        <select id="numSel"><option>2</option><option>3</option><option selected>4</option></select></div>
-      <div id="nameInputs" class="setup-names"></div>
-      <button id="startBtn" class="btn-gold">🎲 Comenzar partida</button>
-      <p class="rules">Regla de la casa (Lalo, 12/08/26, textual del chat.txt): "Tiras el dado. El número te indica qué Carta de Tema robas. Lees el tema en voz alta. Obligatoriamente cuentas una anécdota real o inventada de Hugo relacionada con ese tema. Si la mesa acepta que es suficientemente hugocéntrica, avanzas los espacios del dado. Si la mesa considera que forzaste demasiado la relación con Hugo, no avanzas y pierdes el turno." Casillas: 🟩 Evento Aleatorio · 🟥 Celos (Karen 😈) · 🟦 Atajo Emocional · 🟨 Meta: el castillo de Hugo.</p>
+    <div id="oracleCard"><div id="themeCard"></div><p style="color:#bcd;font-weight:300;margin-top:6px">Cuenta una anécdota de Hugo sobre este tema (o róbatela del chat.txt 🥷).</p></div>
+    <textarea id="anecTxt" placeholder="Escribe aquí tu anécdota hugocéntrica..." style="display:none"></textarea>
+    <div class="clawBtns" id="anecBtns" style="display:none">
+      <button class="btn ghost" id="stealBtn">🥷 Robar del chat.txt</button>
+      <button class="btn" id="submitAnec">📜 Someter a la mesa</button>
+      <button class="btn" id="voteYes" style="display:none">✅ hugocéntrica</button>
+      <button class="btn ghost" id="voteNo" style="display:none">❌ forzada</button>
     </div>
-    <div id="gamePanel" style="display:none">
-      <div class="game-grid">
-        <div class="board-col">
-          <svg id="hugoMap" viewBox="0 0 1000 640" role="img" aria-label="Tablero Hugocentrismo">
-            <defs><radialGradient id="parch" cx="50%" cy="45%" r="75%">
-              <stop offset="0%" stop-color="#e7d3a8"/><stop offset="70%" stop-color="#d3b988"/><stop offset="100%" stop-color="#a9895c"/>
-            </radialGradient></defs>
-            <rect x="0" y="0" width="1000" height="640" rx="14" fill="url(#parch)"/>
-            <rect x="10" y="10" width="980" height="620" rx="10" fill="none" stroke="#6b4d2a" stroke-width="3" opacity=".7"/>
-            <ellipse cx="720" cy="80" rx="130" ry="55" fill="#b0503a" opacity=".4"/>
-            <ellipse cx="800" cy="210" rx="110" ry="70" fill="#7a4fb0" opacity=".35"/>
-            <ellipse cx="700" cy="460" rx="150" ry="70" fill="#3f6fb0" opacity=".45"/>
-            <ellipse cx="130" cy="250" rx="110" ry="80" fill="#3f7d3f" opacity=".35"/>
-            <g fill="#8d8d8d" opacity=".55">
-              <polygon points="110,70 140,30 170,70"/><polygon points="160,80 195,35 230,80"/><polygon points="120,430 155,385 190,430"/><polygon points="175,445 210,400 245,445"/>
-            </g>
-            <g class="rlabel"><rect x="80" y="70" width="150" height="30" rx="7"/><text x="95" y="90">INFIDELIDADES</text></g>
-            <g class="rlabel"><rect x="360" y="48" width="140" height="30" rx="7"/><text x="377" y="68">COSAS MALAS</text></g>
-            <g class="rlabel"><rect x="668" y="48" width="90" height="30" rx="7"/><text x="684" y="68">ENOJO</text></g>
-            <g class="rlabel"><rect x="756" y="140" width="90" height="30" rx="7"/><text x="774" y="160">CELOS</text></g>
-            <g class="rlabel"><rect x="760" y="240" width="120" height="30" rx="7"/><text x="775" y="260">POSESIÓN</text></g>
-            <g class="rlabel"><rect x="52" y="222" width="170" height="30" rx="7"/><text x="66" y="242">AMIGOS Y LEALTAD</text></g>
-            <g class="rlabel"><rect x="105" y="440" width="90" height="30" rx="7"/><text x="123" y="460">METAL</text></g>
-            <g class="rlabel"><rect x="390" y="480" width="100" height="30" rx="7"/><text x="407" y="500">CUMBIA</text></g>
-            <g class="rlabel"><rect x="620" y="440" width="190" height="30" rx="7"/><text x="633" y="460">TECNOLOGÍA Y REDES</text></g>
-            <g id="castle">
-              <circle cx="500" cy="265" r="52" fill="#f0c75e" opacity=".25"/>
-              <g fill="#3a3a4a" stroke="#1c1c28" stroke-width="2">
-                <rect x="470" y="240" width="16" height="50"/><rect x="514" y="240" width="16" height="50"/>
-                <rect x="486" y="222" width="28" height="68"/><polygon points="470,240 478,222 486,240"/><polygon points="514,240 522,222 530,240"/><polygon points="486,222 500,196 514,222"/>
-              </g>
-              <line x1="500" y1="196" x2="500" y2="160" stroke="#1c1c28" stroke-width="3"/>
-              <g class="flag">
-                <rect x="500" y="160" width="46" height="5" fill="#5bcefa"/><rect x="500" y="165" width="46" height="5" fill="#f5a9b8"/>
-                <rect x="500" y="170" width="46" height="5" fill="#ffffff"/><rect x="500" y="175" width="46" height="5" fill="#f5a9b8"/>
-                <rect x="500" y="180" width="46" height="5" fill="#5bcefa"/>
-              </g>
-            </g>
-            <g id="trackLayer"></g>
-            <g id="playersLayer"></g>
-            <g font-size="13" fill="#2a2018">
-              <rect x="36" y="520" width="252" height="100" rx="10" fill="rgba(231,211,168,.9)" stroke="#6b4d2a" stroke-width="2"/>
-              <text x="52" y="543" font-family="Cinzel" font-weight="bold" font-size="15">LEYENDA</text>
-              <circle cx="60" cy="560" r="7" fill="#e7d3a8" stroke="#2a2018"/><text x="76" y="565">Camino (anécdota)</text>
-              <circle cx="60" cy="580" r="7" fill="#4f9d4f" stroke="#2a2018"/><text x="76" y="585">Evento Aleatorio</text>
-              <circle cx="170" cy="560" r="7" fill="#c14b6a" stroke="#2a2018"/><text x="186" y="565">Celos (Karen 😈)</text>
-              <circle cx="170" cy="580" r="7" fill="#4b7bd4" stroke="#2a2018"/><text x="186" y="585">Atajo Emocional</text>
-              <circle cx="60" cy="602" r="7" fill="#d4af37" stroke="#2a2018"/><text x="76" y="607">Meta: Hugo 🏰</text>
-            </g>
-            <g>
-              <rect x="690" y="556" width="272" height="62" rx="10" fill="rgba(231,211,168,.9)" stroke="#6b4d2a" stroke-width="2"/>
-              <text x="706" y="581" font-size="14" fill="#2a2018" font-style="italic">Recuerda: El mapa no miente.</text>
-              <text x="706" y="603" font-size="14" fill="#2a2018" font-style="italic">El ego, sí. (Y Karen, también.)</text>
-            </g>
-          </svg>
-        </div>
-        <aside class="hud-col">
-          <div id="turnInfo">—</div>
-          <div id="diceRow"><button id="rollBtn" class="btn-gold">🎲 Tirar dado</button><div id="diceFace">🎲</div></div>
-          <div id="themeCard" class="oracle-card" style="display:none"></div>
-          <div id="anecBox" style="display:none">
-            <textarea id="anecTxt" placeholder="Cuenta tu anécdota hugocéntrica…"></textarea>
-            <div class="anec-row">
-              <button id="stealBtn" class="btn-ghost">📜 Robar del archivo</button>
-              <button id="submitAnec" class="btn-gold">🗣️ Contar anécdota</button>
-            </div>
-          </div>
-          <div id="voteBox" style="display:none">
-            <p>🗳️ ¿La anécdota es suficientemente hugocéntrica?</p>
-            <button id="voteYes">✅ Sí, avanza</button><button id="voteNo">❌ Forzó demasiado</button>
-          </div>
-          <div id="gameLog"></div>
-          <button id="quitBtn" class="btn-ghost" style="padding:10px;font-size:.75rem">Salir de la partida</button>
-        </aside>
-      </div>
-    </div>
+    <div id="gameLog" class="glass"></div>
   </div>
 </section>
-</main>
-<footer class="site">Legal Tech TCG · Ilustrado por Hugo Mendoza · "El mapa no miente. El ego, sí." 🏳️️ · HUGO·IA entrenada con chat.txt 📜 ·  Karen Ayala: villana oficial ·  Lalo: arquitecto de la matrix</footer>
-<div id="winOverlay"><div class="win-box">
-  <div style="font-size:4rem">🏆</div>
-  <h2 class="cinzel" id="winName" style="color:var(--gold2)"></h2>
-  <p id="winQuote" style="color:var(--muted);margin:12px 0 22px;font-style:italic"></p>
-  <button class="btn-gold" id="againBtn">🎲 Jugar de nuevo</button>
-</div></div>
-<button id="chatFab" aria-label="Abrir chat con IA gratuita">🧠<span class="ping"></span><span class="free">GRATIS</span></button>
-<div id="chatBox" role="dialog" aria-label="Chat con IA gratuita">
-  <header>
-    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Hugo" alt="HUGO·IA">
-    <div class="t"><b>HUGO·IA v16.0</b><span><i></i> En línea · IA 100% gratuita · 📜 chat.txt en vivo</span></div>
-    <button class="x-btn" id="chatClose" style="margin-left:auto">✕</button>
-  </header>
-  <div id="chatMsgs"></div>
-  <div id="chatChips"></div>
-  <form id="chatForm">
-    <input id="chatInput" placeholder="Pregunta lo que quieras… p.ej. ¿quién es Efren?" autocomplete="off" maxlength="300">
-    <button id="chatSend" type="submit">➤</button>
-  </form>
-  <div id="chatNote">IA GRATUITA · HABLA COMO EL CHAT DEL GRUPO 📜 · SI NO SABE: "LA SRA. LULU NO ME HA CONTADO ESE CHISME"</div>
 </div>
-<div id="scrim"></div>
-<aside id="cartDrawer">
-  <header>🛒 TU CARRITO <button class="x-btn" id="cartClose">✕</button></header>
+
+<footer>Hecho con carrilla por el grupo Legal Tech · "El mapa no miente. El ego, sí. (Y Karen, también.)"</footer>
+
+<!-- SCANNER -->
+<div class="modal" id="scannerModal"><div class="panel glass">
+  <button class="iconbtn x" onclick="closeM('scannerModal')">✕</button>
+  <h3>POKÉDEX SCANNER V3.0</h3>
+  <div id="scanBox"><img id="scanImg" src="" onerror="this.src=ph()"><div class="scanline"></div></div>
+  <div id="scanData">SCANNING...</div>
+</div></div>
+
+<!-- CARRITO -->
+<div id="cartDrawer">
+  <button class="iconbtn x" onclick="toggleCart(false)">✕</button>
+  <h3 class="cinzel" style="color:var(--gold)">🛒 TU CARRITO</h3>
   <div id="cartItems"></div>
-  <footer>
-    <div class="total-row"><span>TOTAL:</span><b id="cartTotal">$0.00 MXN</b></div>
-    <button class="btn-gold" id="payBtn" style="width:100%">💳 PayPal · Pagar Ahora</button>
-  </footer>
-</aside>
-<div class="modal" id="scannerModal"><div class="modal-box">
-  <header>POKÉDEX SCANNER V3.0 <button class="x-btn" data-close="scannerModal">✕</button></header>
-  <div class="scan-stage scanning" id="scanStage">
-    <div class="scan-card"><img id="scanImg" src="" alt=""><div class="scanline"></div><div class="scan-tag">SCANNING...</div></div>
-    <div class="scan-data" id="scanData"></div>
-  </div>
+  <div id="cartTotal">TOTAL: $0.00 MXN</div>
+  <button class="btn" id="payBtn" style="width:100%">💳 PayPal · Pagar Ahora</button>
+</div>
+
+<!-- PAGO -->
+<div class="modal" id="payModal"><div class="panel glass">
+  <h3>Procesando Pago Seguro</h3>
+  <div id="paySteps" style="color:#bcd;font-weight:300;white-space:pre-wrap;margin:14px 0"></div>
+  <button class="btn" id="receiveBtn" style="display:none;width:100%">📦 Recibir Colección</button>
 </div></div>
-<div class="modal" id="payModal"><div class="modal-box" style="width:min(480px,94vw)">
-  <div class="pay-body" id="payProcessing">
-    <div class="spinner"></div>
-    <h3 class="cinzel">Procesando Pago Seguro</h3>
-    <div class="pay-lines"><span>Conectando con servidores de PayPal...</span>
-      <span>Monto: <b id="payMonto">$0.00 MXN</b></span><span>Método: <b>PayPal Express</b></span></div>
-  </div>
-  <div class="pay-body" id="paySuccess" style="display:none">
-    <div class="success-ico">✓</div>
-    <h3 class="cinzel" style="color:#7ee2a0">Transacción Completada</h3>
-    <p style="margin:8px 0 2px;font-weight:700">¡Pago Aprobado!</p>
-    <p style="color:var(--muted);font-size:.9rem">Tu orden de cartas Legal Tech ha sido procesada con éxito.</p>
-    <div class="pay-lines" style="margin-top:16px">
-      <span>ID Transacción: <b id="txnId">TXN-000000</b></span>
-      <span>Estado: <b style="color:#7ee2a0">Aprobado / Pagado</b></span>
-      <span>Total Pagado: <b id="payTotal">$0.00 MXN</b></span></div>
-    <button class="btn-gold" id="receiveBtn" style="width:100%;margin-top:22px">🎁 Recibir Colección</button>
-  </div>
+
+<!-- PREMIO GARRA -->
+<div class="modal" id="prizeModal"><div class="panel glass" style="text-align:center">
+  <h3>🎉 ¡GANASTE!</h3>
+  <img id="prizeImg" src="" onerror="this.src=ph()" style="width:180px;border-radius:14px;border:1px solid var(--gold)">
+  <p id="prizeName" style="color:var(--gold);font-weight:800;margin:10px 0"></p>
+  <button class="btn" id="prizeAdd">🛒 Añadir al carrito</button>
+  <button class="btn ghost" onclick="closeM('prizeModal')">Cerrar</button>
 </div></div>
-<div class="modal" id="prizeModal"><div class="modal-box" style="width:min(420px,94vw)">
-  <header>¡CAPTURA EXITOSA! <button class="x-btn" data-close="prizeModal">✕</button></header>
-  <div class="pay-body">
-    <img id="prizeImg" src="" style="width:190px;margin:0 auto 14px;border-radius:14px;border:2px solid var(--gold);box-shadow:0 0 40px rgba(212,175,55,.4)">
-    <h3 class="cinzel" id="prizeName" style="color:var(--gold2)"></h3>
-    <p style="color:var(--muted);margin:6px 0 18px" id="prizePrice"></p>
-    <div style="display:flex;gap:12px"><button class="btn-gold" id="prizeAdd" style="flex:1">🛒 Añadir al Carrito</button>
-    <button class="btn-ghost" data-close="prizeModal" style="flex:1">Seguir Jugando</button></div>
-  </div>
+
+<!-- VICTORIA -->
+<div id="winOverlay"><div>
+  <h2 class="cinzel" id="winTxt">🏰 ¡VICTORIA!</h2>
+  <p style="color:#bcd;margin-bottom:18px">Llegaste al castillo de Hugo. Eres oficialmente hugocéntrico.</p>
+  <button class="btn" onclick="resetGame()">Nueva partida</button>
 </div></div>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<button id="chatFab">🌀</button>
+<div id="chatBox">
+  <div id="chatHead">
+    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Hugo" onerror="this.src=ph()">
+    <div style="flex:1"><b>HUGO·IA v16.0</b><small>En línea · IA 100% gratuita · 📜 chat.txt en vivo</small></div>
+    <button class="iconbtn" onclick="toggleChat(false)">✕</button>
+  </div>
+  <div id="chatMsgs"></div>
+  <div class="chipsHead">SUGERENCIAS <span>desliza →</span></div>
+  <div id="chatChips"></div>
+  <div id="chatInputRow">
+    <input id="chatInput" placeholder="Pregúntale lo que sea...">
+    <button id="chatSend">➤</button>
+  </div>
+  <div class="note">IA GRATUITA · HABLA COMO EL CHAT DEL GRUPO 📜 · SI NO SABE: "LA SRA. LULU NO ME HA CONTADO ESE CHISME"</div>
+</div>
+
 <script>
-/* ========== DATOS ========== */
-var CARDS=[
- {id:1,file:'carta1.jpg',name:'Carta 1',sub:'Becario Impuntual',rarity:'comun',price:350},
- {id:2,file:'carta2.jpeg',name:'Carta 2',sub:'La Practicante',rarity:'comun',price:420},
- {id:3,file:'carta3.jpeg',name:'Carta 3',sub:'El Notificador',rarity:'comun',price:380},
- {id:4,file:'carta4.jpeg',name:'Carta 4',sub:'Juris Doctor',rarity:'rara',price:520},
- {id:5,file:'carta5.jpeg',name:'Carta 5',sub:'La Secretarial',rarity:'rara',price:610},
- {id:6,file:'carta6.jpeg',name:'Carta 6',sub:'El Perito',rarity:'rara',price:480},
- {id:7,file:'carta7.jpeg',name:'Carta 7',sub:'Lic. Buchón',rarity:'epica',price:950},
- {id:8,file:'Carta8.jpeg',name:'Carta 8',sub:'La Pasante',rarity:'rara',price:700},
- {id:9,file:'carta9.jpeg',name:'Carta 9',sub:'El Litigante',rarity:'rara',price:640},
- {id:10,file:'carta10.jpeg',name:'Carta 10',sub:'La Archivista',rarity:'rara',price:720},
- {id:11,file:'carta11.jpeg',name:'Carta 11',sub:'El Juzgador',rarity:'epica',price:690},
- {id:12,file:'carta12.png',name:'Carta 12',sub:'La Tercera en Discordia',rarity:'epica',price:760},
- {id:13,file:'13.png',name:'Carta 13',sub:'El Amparista',rarity:'epica',price:830},
- {id:14,file:'carta14.png',name:'Carta 14',sub:'La Magistrada',rarity:'epica',price:880},
- {id:15,file:'carta15.png',name:'Carta 15',sub:'El Ejecutor',rarity:'rara',price:920},
- {id:16,file:'carta16.png',name:'Carta 16',sub:'Poder LGBTQ+',rarity:'legendaria',price:2500},
- {id:17,file:'doffiekang.jpeg',name:'Doffie Kang',sub:'Canguaro Cósmico',rarity:'legendaria',price:1500}
-];
-var RAR={comun:{lbl:'COMÚN',stars:'★★☆☆☆',col:'#8fa3b8',prob:'55% (Aparición)',hp:110},
- rara:{lbl:'RARA',stars:'★★★☆☆',col:'#4b9bd4',prob:'32% (Aparición)',hp:170},
- epica:{lbl:'ÉPICA',stars:'★★★★☆',col:'#a45bd4',prob:'14% (Aparición)',hp:240},
- legendaria:{lbl:'LEGENDARIA',stars:'★★★★★',col:'#f0c75e',prob:'3% (Aparición)',hp:320}};
-var LORE={
- 7:{type:'Pokémon Litigante Informal | HP 280 ☠️🔮',quote:'"Suele ser avistado rondando los juzgados a primera hora o descansando en puestos de barbacoa los domingos. Presume ropa de marca de procedencia dudosa mientras litiga juicios de pensión alimenticia con una seguridad inquebrantable."',prob:'8% (Aparición)',ab:'⚡ Habilidad Pasiva: Endeudado con Coppel',abd:'Cada vez que recibe daño por un ataque, aumenta +10 de daño adicional a sus movimientos por contador de deuda.',atk:'🔮 Baño de Pueblo — 60 DMG',atkd:'Lanza una moneda. Si sale cara, el oponente queda confundido y no puede jugar cartas de Objeto.'},
- 16:{type:'Entidad Suprema Pride | HP ∞ 🏳️️✨',quote:'"La carta más poderosa de nuestra colección Legal Tech del ilustrador Hugo Mendoza. Su poder no conoce agravios ni sentencias: solo orgullo, luz y marchas eternas."',prob:'3% (Aparición)',ab:'⚡ Habilidad Pasiva: Orgullo Eterno',abd:'Inmune a todo daño proveniente de cartas de Enojo, Celos y Posesión. Aura que protege a todo tu equipo.',atk:'✨✨ Marcha Suprema — 160 DMG',atkd:'El oponente debe descartar toda carta de odio y reconocer tu poder. No puede bloquear este ataque.'},
- 17:{type:'Canguaro Cósmico de Bolsillo | HP 300 🦘',quote:'"Brinca entre dimensiones legales con una sonrisa caótica. Nadie sabe cómo llegó al mazo, pero nadie se atreve a sacarlo. Si Jr se hace popo, él avisa."',prob:'5% (Aparición)',ab:'⚡ Habilidad Pasiva: Brinco Procesal',abd:'Una vez por turno, puede evadir un ataque saltando directamente al turno del oponente.',atk:'🦘 Patada Marsupial — 90 DMG',atkd:'El oponente queda aturdido y pierde su siguiente robo de carta.'}};
-var G_TYPES=['Pokémon Litigante','Pokémon Secretario','Pokémon Perito','Pokémon Juzgador','Pokémon Pasante','Pokémon Notificador'];
-var G_QUOTE=['"Se le ve apilando expedientes a medianoche, susurrando artículos de ley como si fueran hechizos."','"Cita jurisprudencia inexistente con tal seguridad que hasta el juez toma nota."','"Guarda acuerdos de mediación en su bolsillo y tacos en el otro. Nadie lo ha vencido en ninguno de los dos frentes."','"Aparece cuando huele conflicto de intereses y desaparece cuando llega la cuenta."'];
-var G_AB=['⚡ Habilidad Pasiva: Término Fatal','⚡ Habilidad Pasiva: Carga de la Prueba','⚡ Habilidad Pasiva: Sobreseimiento Exprés','⚡ Habilidad Pasiva: Dolo de Café'];
-var G_ABD=['Roba una carta extra cada vez que el oponente cite un artículo derogado.','El daño recibido se transfiere al expediente más cercano.','Una vez por partida, cancela un ataque declarándolo improcedente.','Mientras tenga café, su primer ataque de cada turno hace +20 de daño.'];
-var G_ATK=['⚖️️ Golpe de Expediente — 50 DMG','📜 Notificación Fantasma — 70 DMG','🔨 Martillo de Oralidad — 80 DMG','☕☕ Objeción Cafetera — 60 DMG'];
-var G_ATKD=['El oponente debe reorganizar su mazo por orden alfabético.','No puede ser bloqueado por cartas de tipo Burocracia.','Si el oponente parpadea, recibe +20 de daño adicional.','El oponente queda desvelado y roba una carta menos.'];
-var HUGO_SAYS=['"Que todos los caminos llevan a él."','"Que lo hablaron, pero en realidad no."','"Que el mapa no miente; el ego, sí."','"Que la cumbia también es un atajo emocional."','"Que hoy no se litiga, hoy se convive."','"Que los celos son tema recurrente, pero él es camino principal."','"Que Karen Ayala ni por Atajo Emocional entra a mi castillo."','"Que el collie es el mejor perro y Jr el mejor hijo. Punto final."'];
-function fmt(n){return '$'+n.toLocaleString('en-US',{minimumFractionDigits:2})+' MXN';}
-function ph(name){return 'data:image/svg+xml;utf8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="420"><rect width="300" height="420" fill="#101527"/><rect x="8" y="8" width="284" height="404" fill="none" stroke="#d4af37" stroke-width="3"/><text x="150" y="215" fill="#d4af37" font-family="serif" font-size="26" text-anchor="middle">'+name+'</text></svg>');}
+/* ============ HELPERS ============ */
 function pick(a){return a[Math.floor(Math.random()*a.length)];}
-/* ========== MEMORIA DEL GRUPO ========== */
-var GROUP_MEMORY=[
- {w:'Hugo',q:'Háganme mejor. No me parezco. Pueden hacerlo mejor.'},
- {w:'Hugo',q:'Ya voy de regreso a casa amigos. Todo un éxito la gira del adiós. Farewell Tour 2025.'},
- {w:'Hugo',q:'No seas mentiroso, Haití ni tiene agua.'},
- {w:'Hugo',q:'JotaErre se hizo popo. Que lo cambie doofie.'},
- {w:'Hugo',q:'Me ha ayudado más Chabela.'},
- {w:'Hugo',q:'¿La caguama va incluida?'},
- {w:'Lalo',q:'Sí, pero la usa para esterilizar el cuchillo.'},
- {w:'Hugo',q:'Denle like, suscríbanse, la campanita, ahorita que hay internet.'},
- {w:'Hugo',q:'Me están robando la identidad. Ya vuelvo.'},
- {w:'Hugo',q:'Solo Efren y Lalo ahora son mis favoritos.'},
- {w:'Hugo',q:'Efrén, ¿con quién me toca dar en el beibichogüer?'},
- {w:'Hugo',q:'El Alex se hizo a base de puro cartucho de 64.'},
- {w:'Hugo',q:'Me quedo contigo para cerrar el círculo.'},
- {w:'Hugo',q:'No ves que usan ChatGPT de Google.'},
- {w:'Hugo',q:'Habla sola. Canta sola. Se ríe sola.'},
- {w:'Hugo',q:'Voy a hacer una playlist.'},
- {w:'Hugo',q:'Ya se hizo el niño, ven a cambiarlo, paro. …Falsa alarma.'},
- {w:'Hugo',q:'También llevaré rines.'},
- {w:'Hugo',q:'100% real no fake.'},
- {w:'Hugo',q:'Mandamos a Don Javi.'},
- {w:'Hugo',q:'Ya me pasaron el Insta de la Sr. Lulu.'},
- {w:'Hugo',q:'Dijeron cosas malas de mis amigos, y con mis amigos nadie se mete.'},
- {w:'Hugo',q:'Les traigo cringe.'},
- {w:'Hugo',q:'Ok, sí, pero... ¿farmea aura?'},
- {w:'Hugo',q:'La odiooooo la odiooooo.'},
- {w:'Hugo',q:'Está en mi top tres de enemigos mortales.'},
- {w:'Hugo',q:'Pinches hugocentristas.'},
- {w:'Hugo',q:'Caos controlado.'},
- {w:'Lalo',q:'Dile al JR que él lo baje, él sí va a poder.'},
- {w:'Lalo',q:'Ahora sí la villana es Karen.'},
- {w:'Lalo',q:'El chat más determinista del planeta.'},
- {w:'Lalo',q:'Listo, he creado el mapa.'},
- {w:'Lalo',q:'todos los caminos llevan a hugo'},
- {w:'Lalo',q:'No mades, eres un pinche cartógrafo nato.'},
- {w:'Lalo',q:'100 inteligencia artesanal aquí.'},
- {w:'Lalo',q:'Me estás hablando en abogañol.'},
- {w:'Lalo',q:'HugoGPT siempre te va a validar.'},
- {w:'Lalo',q:'Es un honor para nosotros presentar esto.'},
- {w:'Lalo',q:'National Geographic Legal Tech.'},
- {w:'Efren',q:'Reventó Karen a Hugo'},
- {w:'Efren',q:'Te voy a echar al Hugo enfiestado.'},
- {w:'Efren',q:'Hugo. Tráete tu control.'},
- {w:'Efren',q:'San Chorizo. San Parado. San Penelope.'},
- {w:'Efren',q:'Todo un sin fin de posibilidades.'},
- {w:'Efren',q:'Hasta acá olió a peligro.'},
- {w:'Efren',q:'A huevo. Que chido.'},
- {w:'Efren',q:'El lic Buchón al mando.'},
- {w:'Efren',q:'Me salvó el Hugo.'},
- {w:'Alex IT',q:'Ya tenemos bien entrenada a la IA con tu imagen.'},
- {w:'Alex IT',q:'O lo asaltaron. O lo agarró el narco. O un gringo le dijo terrorista.'},
- {w:'Alex IT',q:'Pura paz ahora que Hugo sea papá.'},
- {w:'Alex IT',q:'Es trabajo honesto.'},
- {w:'Javier IT',q:'Esa carta es legendaria.'},
- {w:'Javier IT',q:'Nmms hugo ya nos acabamos el agua de Haití y tú con tus quejas.'},
- {w:'Javier IT',q:'Estoy vivo. Toy en la playa con el límite de México.'},
- {w:'Javier IT',q:'Que te vaya Stratochido.'},
- {w:'Javier IT',q:'Hugo ha utilizado Cuerda Huida.'},
- {w:'Vogar',q:'No me le toques ese vals a Hugo.'},
- {w:'Vogar',q:'Hugo eres un chingón.'},
- {w:'Vogar',q:'Es el efecto Hugo.'},
- {w:'Richard iT',q:'Mañana les llevo los tacos.'},
- {w:'Richard iT',q:'De champiñones sí.'},
- {w:'Josue',q:'VAMOS LPTM.'},
- {w:'Josue',q:'Está hasta sptm jajajaja.'}
-];
-var PERSONAJES=[
- {re:/\b(efren|efr[eé]n|buch[oó]n|el lic\b|afrin)\b/i,author:'Efren',lore:[
-  "Efren aka EL LIC (Lic. Buchón, Carta 7 ⚖️): abogado, jefe de terreno, coleccionista de burros de barbacoa, canonizador de 'San Chorizo' y dueño del 'Efren Movil'. Su himno: 'A huevo. Que chido.'",
-  "El Lic Efrén: fuente oficial de chismes vía 'WhatsApp de sus tías', el que autoriza todo febrero con una llamada y pidió 'una estampa SWE 19' que nunca llegó."]},
- {re:/\b(alex)\b/i,author:'Alex IT',lore:[
-  "Alex IT: el de sistemas que 'se hizo a base de puro cartucho de 64'. Perdedor oficial de controles, candidato a cliente y el que más usa la IA aunque diga que no. 'Es trabajo honesto.', dice él.",
-  "Alex: vive entre switches, feromonas imaginarias y grupos coreanos de anime. 'Pero de Hugo no me quejo', aclaró en el archivo."]},
- {re:/\b(javier|javi\b)\b/i,author:'Javier IT',lore:[
-  "Javier IT: el de Tijuana, el de la Switch que nunca llega, el del 'nmms' eterno y el que según él ya nos acabamos el agua de Haití. Inventor del 'Hugo ha utilizado Cuerda Huida' y del 'Que te vaya Stratochido'.",
-  "Javi: coleccionista de fotos legendarias, fan del sacaleche, del dulce de guayaba y de declarar 'esa carta es legendaria'."]},
- {re:/\b(richard|richie|richi)\b/i,author:'Richard iT',lore:[
-  "Richard iT aka RICHIE: proveedor oficial de tacos del grupo ('Mañana les llevo los tacos', de pollo no, de champiñones sí). Pieza verde del mapa en Amigos y Lealtad, porque él ES la lealtad.",
-  "Richie: el que 'cada vez está más ingenioso para llevarse a Hugo' según Alex, y el único con sazón heredado de su mamá."]},
- {re:/\b(vogar)\b/i,author:'Vogar',lore:[
-  "Vogar: el observador que pide videos 'para meterle jiribilla', el que avisa 'no me le toques ese vals a Hugo' y diagnosticó 'Es el efecto Hugo'. Nivel de análisis: National Geographic Legal Tech.",
-  "Vogar: 'cada día se enferma más' según Lalo, pero siempre cae con 'Jajajajajaja' y una quiniela a tiempo."]},
- {re:/\b(pato|marco)\b/i,author:'Pato Zaarte Flores',lore:[
-  "El Pato (Pato Zaarte Flores): leyenda FUNDACIONAL. Entró con dos Irish de bienvenida y el archivo jura que 'se murió' (chiste canónico de Alex). Su espíritu vive en cada carrilla.",
-  "Marco Chaires: según Efren, 'a ese wey le gusta esconder las cosas' (las demandas incluidas)."]},
- {re:/\b(josue|josu[eé])\b/i,author:'Josue',lore:[
-  "Josue: el de los links (futbol-libres, lacancha), el que 'vive por ahí' y gritó 'VAMOS LPTM' cuando se prendió la página. Fuente confiable de banda y de perros llegando al mundial."]},
- {re:/\b(claudia)\b/i,author:'',lore:[
-  "Claudia IBTS: la lic que usó IA para una demanda gracias a los consejos de Efren… y el desastre quedó en actas. 'Ya no aconsejes a la Lic IBTs', dixit Hugo."]},
- {re:/\b(anita|annita)\b/i,author:'',lore:[
-  "Anita: la que 'ya da el clima', clon oficial según Javi y la 'Snorlax del Marco' según Efren (ojo: hay DOS Anitas). Protagonista involuntaria de la novela del grupo."]},
- {re:/\b(don javi)\b/i,author:'',lore:[
-  "Don Javi: el patrón de los tacos (papá de Richie), al que Hugo manda de refuerzo cuando alguien 'mori' en el roof. 'Cuíden sistemas por mi', dijo Lalo. Y Don Javi fue."]},
- {re:/\b(doofie|doofi|dufy|duffy)\b/i,author:'',lore:[
-  "Doofie (Doffie Kang, Carta 17 legendaria): encargado oficial de cambiarle el pañal a Jr por decreto de Hugo: 'JotaErre se hizo popo. Que lo cambie doofie.'"]},
- {re:/\b(lulu)\b/i,author:'',lore:[
-  "La Sr. Lulu: amiga fiel de Hugo, con Insta propio conseguido por el propio Hugo, 'Lulu 2.0 con canva' según el archivo, y la que NO me ha contado ciertos chismes… todavía."]},
- {re:/\b(chabela)\b/i,author:'',lore:[
-  "Chabela: amiga fiel de Hugo ('Me ha ayudado más Chabela', dixit Hugo comparándola hasta con Nemesio). Integrante del dúo 'Amistad Legendaria' con la Sr. Lulu."]},
- {re:/\b(vlado)\b/i,author:'',lore:[
-  "Vlado: 'CEO transaereo y marítimo de Stratega' según el organigrama oficial de Efren, ídolo de Hugo (casi tanto como el metal) y el que en el fanfest usa la IA para todo."]},
- {re:/\b(nora|jantey)\b/i,author:'',lore:[
-  "Nora (jantey): la que pinta 'como jarritos' en la oficina según el archivo, la del lonche filtrado ('se carga a la luz, no usa pilas', aclaró Hugo) y la que ya no recibe llamadas de Hugo: 'Ya no le hablo.'"]},
- {re:/\b(bardo)\b/i,author:'',lore:[
-  "Bardo: 'Bardo-my-butthole' en actas, aval de Hugo ('Es mi amigo. Es mi aval'), el que da 100 ideas en junta y pregunta dónde está Oaxaca en el mapa. 'Vardo', según Hugo."]},
- {re:/\b(meta ai|meta\b)/i,author:'Meta AI',lore:[
-  "Meta AI: el primer bot del grupo (26/03/25). Le pidieron 'haz algo' y respondió: 'Sorry, I can't help you with this request right now.' Predecesor de HUGO·IA, pero con cero expediente y sin estilo."]},
- {re:/\b(hugo)\b/i,author:'Hugo',lore:[
-  "Hugo Mendoza: abogado ('Aboganster'), ilustrador de las 17 cartas, papá de Jr, amo del collie, metalero, caballero del blue label y 'comodín' oficial del grupo según Lalo. 'Me salvó el Hugo', dice Efren; 'HugoGPT siempre te va a validar', confirma. ¿Todo? Pide 'expediente de Hugo'.",
-  "¿Hugo? En el archivo es ley: 'Sin mí no hubieran ganado. Salve al equipo por lo menos dos veces.' También: 'pinches hugocentristas', dijo él, rodeado de hugocentristas."]}
-];
-var ARCHIVE=[],STATS={};
-var HIDDEN=/[\u061C\u200B-\u200F\u202A-\u202E\u2060-\u2069\uFEFF]/g;
-function cleanU(s){return s.replace(HIDDEN,'');}
-var BAD=/\b(verga|vergazo|pito|penes|chupa|chupar|coger|cogida|cogió|panocha|nalgas|culo|culero|cagar|cagada|cagó|puta|puto|marica|maricón|joto|jota|sexo|sexual|porn|condón|condon|striper|teibol|anal|sida|herpes|zorra|perra|meco|gordo|gorda|autista|therian|miada|miar|mear|meo|meó|masturb|encuer|huevos|webillos|espada|sable|virgen|ano|vagina)\b/i;
-fetch('chat.txt').then(function(r){return r.ok?r.text():'';}).then(function(raw){
- if(!raw)return;
- var t=cleanU(raw);
- var re=/\d{1,2}\/\d{1,2}\/\d{2,4},?\s\d{1,2}:\d{2}(?::\d{2})?\s?(?:[ap]\.?\s?m\.?)\s-\s([^:]+?):\s/g;
- var ms=[],m;
- while((m=re.exec(t))!==null){ms.push({a:cleanU(m[1]).trim(),from:m.index+m[0].length,at:m.index});}
- ms.forEach(function(mk,i){
-  var end=(i+1<ms.length)?ms[i+1].at:t.length;
-  var q=t.slice(mk.from,end).trim().replace(/<Se editó este mensaje\.>/g,'').trim();
-  STATS[mk.a]=STATS[mk.a]||{count:0,quotes:[]};
-  STATS[mk.a].count++;
-  var clean=q&&q.length>14&&q.length<220&&!/http|<Multimedia|Eliminaste|Se eliminó|Cambió tu código|quitó a|cambió el nombre|\.vcf/.test(q)&&!BAD.test(q);
-  if(clean&&STATS[mk.a].quotes.length<6){STATS[mk.a].quotes.push(q);}
-  if(clean){ARCHIVE.push({w:mk.a,q});}
- });
- if(ms.length&&greeted&&!busy){typeMsg('📜 chat.txt cargado y desinfectado: '+ms.length+' mensajes y '+Object.keys(STATS).length+' personas en memoria. Pregúntame por quien sea, pide chisme o frases. Y si no sé algo, te lo diré con honestidad de Lulu.');}
-}).catch(function(){});
-function pool(){return ARCHIVE.length?ARCHIVE:GROUP_MEMORY;}
-function loreResp(p){
- var out=pick(p.lore);
- var st=STATS[p.author];
- if(st&&st.count>0){
-  out+=' 📊 En el archivo acumula '+st.count+' mensajes';
-  if(st.quotes.length){out+=' y joyas como: "'+pick(st.quotes)+'"';}
-  out+='.';
- }
- return out;
-}
-/* ========== THREE.JS ========== */
+function ri(n){return Math.floor(Math.random()*n);}
+function fmt(n){return '$'+n.toLocaleString('en-US')+' MXN';}
+function norm(s){return s.toLowerCase().replace(/[\u0300-\u036f]/g,'');}
+function closeM(id){document.getElementById(id).classList.remove('open');}
+var HIDDEN=/[\u2068\u2069\u200e\u200f]/g;
+var BAD=/(verga|put[oa]|cog(er|iendo|e|i)|chup|pija|pendej|culer|maric|joter|viol|mamad|huevon)/i;
+
+/* ============ THREE BG ============ */
 (function(){
- if(typeof THREE==='undefined')return;
- var renderer=new THREE.WebGLRenderer({canvas:document.getElementById('bg3d'),antialias:true});
- renderer.setPixelRatio(Math.min(devicePixelRatio,2));
- renderer.setSize(innerWidth,innerHeight);
- renderer.setClearColor(0x05060a,1);
- var scene=new THREE.Scene();
- scene.fog=new THREE.FogExp2(0x05060a,0.0016);
- var camera=new THREE.PerspectiveCamera(60,innerWidth/innerHeight,.1,4000);
- camera.position.set(0,0,120);
- scene.add(new THREE.AmbientLight(0x8899ff,.5));
- var dl=new THREE.DirectionalLight(0xffd98a,.7);dl.position.set(5,8,10);scene.add(dl);
- function pts(n,color,size,spread){var g=new THREE.BufferGeometry();var p=new Float32Array(n*3);
-  for(var i=0;i<n;i++){p[i*3]=(Math.random()-.5)*spread*2;p[i*3+1]=(Math.random()-.5)*spread;p[i*3+2]=(Math.random()-.5)*spread;}
-  g.setAttribute('position',new THREE.BufferAttribute(p,3));
-  return new THREE.Points(g,new THREE.PointsMaterial({color:color,size:size,transparent:true,opacity:.75,blending:THREE.AdditiveBlending,depthWrite:false}));}
- var sG=pts(700,0xd4af37,1.5,520),sC=pts(500,0x67e8f9,1.1,520),sV=pts(300,0xb06ce8,1.3,520);
- scene.add(sG,sC,sV);
- var rings=new THREE.Group();
- function rm(c){return new THREE.MeshBasicMaterial({color:c,transparent:true,opacity:.32,blending:THREE.AdditiveBlending,side:THREE.DoubleSide});}
- var r1=new THREE.Mesh(new THREE.TorusGeometry(46,.9,16,140),rm(0xd4af37));
- var r2=new THREE.Mesh(new THREE.TorusGeometry(58,.55,16,140),rm(0x67e8f9));
- var r3=new THREE.Mesh(new THREE.TorusGeometry(70,.4,16,160),rm(0xb06ce8));
- r2.rotation.x=.6;r3.rotation.set(-.4,.3,0);rings.add(r1,r2,r3);rings.position.set(0,10,-140);scene.add(rings);
- var core=new THREE.Mesh(new THREE.IcosahedronGeometry(16,1),new THREE.MeshBasicMaterial({color:0xf5d67a,wireframe:true,transparent:true,opacity:.35}));
- core.position.copy(rings.position);scene.add(core);
- var shards=new THREE.Group();
- for(var i=0;i<26;i++){
-  var mm=new THREE.MeshBasicMaterial({color:i%3?0x1a2340:0x3a2a10,transparent:true,opacity:.5,side:THREE.DoubleSide});
-  var s=new THREE.Mesh(new THREE.PlaneGeometry(6,8.4),mm);
-  s.position.set((Math.random()-.5)*460,(Math.random()-.5)*240,(Math.random()-.5)*300-60);
-  s.rotation.set(Math.random()*Math.PI,Math.random()*Math.PI,0);
-  s.userData={rs:(Math.random()-.5)*.012,fs:.2+Math.random()*.5,ph:Math.random()*6.28};
-  shards.add(s);}
- scene.add(shards);
- var mx=0,my=0,tx=0,ty=0,sy=0;
- addEventListener('mousemove',function(e){mx=(e.clientX/innerWidth-.5)*2;my=(e.clientY/innerHeight-.5)*2;});
- addEventListener('scroll',function(){sy=window.scrollY;},{passive:true});
- var clock=new THREE.Clock();
- (function loop(){
-  var t=clock.getElapsedTime();
-  tx+=(mx-tx)*.04;ty+=(my-ty)*.04;
-  camera.position.x=tx*14;camera.position.y=-ty*10-sy*.02;
-  camera.lookAt(0,-sy*.02,0);
-  rings.rotation.z=t*.12;r1.rotation.x=Math.sin(t*.3)*.4;r2.rotation.y=t*.25;r3.rotation.z=-t*.18;
-  core.rotation.y=t*.4;core.rotation.x=t*.2;
-  sG.rotation.y=t*.02;sC.rotation.y=-t*.015;sV.rotation.y=t*.01;
-  shards.children.forEach(function(sd){sd.rotation.y+=sd.userData.rs;sd.position.y+=Math.sin(t*sd.userData.fs+sd.userData.ph)*.03;});
-  renderer.render(scene,camera);
-  requestAnimationFrame(loop);
- })();
- addEventListener('resize',function(){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
+  if(!window.THREE)return;
+  var c=document.getElementById('bg3d');
+  var r=new THREE.WebGLRenderer({canvas:c,alpha:true});
+  r.setSize(innerWidth,innerHeight);
+  var sc=new THREE.Scene();
+  var cam=new THREE.PerspectiveCamera(60,innerWidth/innerHeight,.1,100);
+  cam.position.z=14;
+  function cloud(col,n,sp){
+    var g=new THREE.BufferGeometry();var p=[];
+    for(var i=0;i<n;i++){p.push((Math.random()-.5)*40,(Math.random()-.5)*24,(Math.random()-.5)*20);}
+    g.setAttribute('position',new THREE.Float32BufferAttribute(p,3));
+    var m=new THREE.PointsMaterial({color:col,size:.08,transparent:true,opacity:.7});
+    var pts=new THREE.Points(g,m);sc.add(pts);return pts;
+  }
+  var p1=cloud(0xf5c542,500),p2=cloud(0x39e6ff,350),p3=cloud(0xa06bff,350);
+  var core=new THREE.Mesh(new THREE.IcosahedronGeometry(2.4,0),new THREE.MeshBasicMaterial({color:0xf5c542,wireframe:true,transparent:true,opacity:.5}));
+  sc.add(core);
+  var ring1=new THREE.Mesh(new THREE.TorusGeometry(4.4,.05,8,80),new THREE.MeshBasicMaterial({color:0x39e6ff,transparent:true,opacity:.5}));
+  var ring2=new THREE.Mesh(new THREE.TorusGeometry(5.6,.04,8,80),new THREE.MeshBasicMaterial({color:0xa06bff,transparent:true,opacity:.4}));
+  ring1.rotation.x=1.2;ring2.rotation.x=-.8;sc.add(ring1);sc.add(ring2);
+  var shards=[];
+  for(var i=0;i<10;i++){
+    var s=new THREE.Mesh(new THREE.TetrahedronGeometry(.4+Math.random()*.5),new THREE.MeshBasicMaterial({color:pick([0xf5c542,0x39e6ff,0xa06bff]),wireframe:true,transparent:true,opacity:.5}));
+    s.position.set((Math.random()-.5)*24,(Math.random()-.5)*14,(Math.random()-.5)*8);
+    sc.add(s);shards.push(s);
+  }
+  var mx=0,my=0;
+  addEventListener('mousemove',function(e){mx=(e.clientX/innerWidth-.5);my=(e.clientY/innerHeight-.5);});
+  addEventListener('resize',function(){r.setSize(innerWidth,innerHeight);cam.aspect=innerWidth/innerHeight;cam.updateProjectionMatrix();});
+  var t=0;
+  (function loop(){
+    t+=.005;
+    p1.rotation.y=t*.4;p2.rotation.y=-t*.3;p3.rotation.y=t*.2;
+    core.rotation.y=t;core.rotation.x=t*.6;
+    ring1.rotation.z=t;ring2.rotation.z=-t*.7;
+    shards.forEach(function(s,i){s.rotation.x+=.01+i*.0004;s.rotation.y+=.012;s.position.y+=Math.sin(t*2+i)*.004;});
+    cam.position.x+=(mx*3-cam.position.x)*.04;
+    cam.position.y+=(-my*2-(scrollY*.002)-cam.position.y)*.04;
+    cam.lookAt(0,0,0);
+    r.render(sc,cam);
+    requestAnimationFrame(loop);
+  })();
 })();
-/* ========== UI BASE ========== */
-function $(s){return document.querySelector(s);}
-$('#mqTrack').innerHTML=Array(2).fill('<span>✦ EDICIÓN PREMIUM HOLOGRÁFICA</span><span>✦ 17 CARTAS COLECCIONABLES</span><span>✦ NUEVO: HUGOCENTRISMO JUGABLE 🎲</span><span>✦ 🧠 CHAT IA GRATUITO + CHAT DEL GRUPO 📜</span><span>✦ 🐶 COLLIE · 👑 JR ·  RICHIE · 💛 CHABELA Y SR. LULU</span><span>✦ 🤘 METAL Y VLADO · 🥃 WHISKY</span><span>✦ 😈 KAREN AYALA: VILLANA OFICIAL</span><span>✦ 🧬 LALO: ARQUITECTO DE LA MATRIX</span><span>🏳️️ PODER LGBTQ+</span>').join('');
-addEventListener('scroll',function(){$('#progress').style.width=(scrollY/(document.body.scrollHeight-innerHeight)*100)+'%';},{passive:true});
-addEventListener('mousemove',function(e){var g=$('#glow');g.style.left=e.clientX+'px';g.style.top=e.clientY+'px';});
-var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)e.target.classList.add('in');});},{threshold:.12});
-document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
-function attachTilt(el,max){
- el.addEventListener('mousemove',function(e){var r=el.getBoundingClientRect();
-  var px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;
-  el.style.setProperty('--rx',((py-.5)*-2*max)+'deg');el.style.setProperty('--ry',((px-.5)*2*max)+'deg');
-  el.style.setProperty('--gx',px*100+'%');el.style.setProperty('--gy',py*100+'%');el.style.setProperty('--ho',.5);});
- el.addEventListener('mouseleave',function(){el.style.setProperty('--rx','0deg');el.style.setProperty('--ry','0deg');el.style.setProperty('--ho',0);});}
-attachTilt($('#heroHolo'),12);attachTilt($('#boardFrame'),5);
-/* ========== COLECCIÓN ========== */
-$('#cardGrid').innerHTML=CARDS.map(function(c){return '<article class="tcg r-'+c.rarity+' reveal">'+
- '<div class="tcg-inner">'+
- '<div class="tcg-img"><img loading="lazy" src="'+c.file+'" alt="'+c.name+'" onerror="this.onerror=null;this.src=ph(\''+c.name+'\')">'+
- '<span class="tcg-rar">'+RAR[c.rarity].lbl+'</span><div class="tcg-shine"></div></div>'+
- '<div class="tcg-body"><h4>'+c.name+'</h4><div class="sub">'+c.sub+' · '+RAR[c.rarity].stars+'</div>'+
- '<div class="tcg-foot"><span class="price">'+fmt(c.price)+'</span>'+
- '<div class="tcg-actions"><button class="icon-btn" data-scan="'+c.id+'" title="Escanear">🔍</button>'+
- '<button class="icon-btn" data-add="'+c.id+'" title="Añadir">🛒</button></div></div></div>'+
- '</div></article>';}).join('');
-document.querySelectorAll('.reveal').forEach(function(el){io.observe(el);});
-document.querySelectorAll('.tcg-inner').forEach(function(el){attachTilt(el,10);});
-$('#cardGrid').addEventListener('click',function(e){
- var s=e.target.closest('[data-scan]'),a=e.target.closest('[data-add]');
- if(s){openScanner(+s.getAttribute('data-scan'));}
- if(a){addToCart(+a.getAttribute('data-add'));}
-});
-/* ========== SCANNER ========== */
-var scanTimer=null;
-function loreOf(c){if(LORE[c.id])return LORE[c.id];var i=c.id;
- return{type:G_TYPES[i%G_TYPES.length]+' | HP '+(RAR[c.rarity].hp+i*3)+' '+['⚖️','🔮','☠️','✨'][i%4],
- quote:G_QUOTE[i%G_QUOTE.length],prob:RAR[c.rarity].prob,ab:G_AB[i%G_AB.length],abd:G_ABD[i%G_ABD.length],
- atk:G_ATK[i%G_ATK.length],atkd:G_ATKD[i%G_ATKD.length]};}
-function openScanner(id){var c=CARDS.find(function(x){return x.id===id;}),L=loreOf(c),R=RAR[c.rarity];
- $('#scanImg').src=c.file;$('#scanImg').onerror=function(){this.onerror=null;this.src=ph(c.name);};
- var st=$('#scanStage');st.classList.add('scanning');st.classList.remove('done');
- $('#scanData').innerHTML='<div class="rar" style="color:'+R.col+'">'+R.lbl+' · '+R.stars+'</div>'+
-  '<h3>'+c.name+' — '+c.sub+'</h3><div class="type">'+L.type+'</div>'+
-  '<div class="quote">'+L.quote+'</div>'+
-  '<div class="scan-meta"><div>PROBABILIDAD: <b>'+L.prob+'</b></div><div>PRECIO ESTIMADO: <b>'+fmt(c.price)+'</b></div></div>'+
-  '<div class="ability"><b>'+L.ab+'</b><br><span style="color:var(--muted)">'+L.abd+'</span></div>'+
-  '<div class="ability atk"><b>'+L.atk+'</b><br><span style="color:var(--muted)">'+L.atkd+'</span></div>'+
-  '<button class="btn-gold" data-add="'+c.id+'">🛒 AÑADIR AL CARRITO</button>';
- $('#scannerModal').classList.add('open');
- clearTimeout(scanTimer);scanTimer=setTimeout(function(){st.classList.remove('scanning');st.classList.add('done');},1400);}
-$('#heroScan').onclick=function(){openScanner(16);};
-$('#scanData').addEventListener('click',function(e){var a=e.target.closest('[data-add]');if(a){addToCart(+a.getAttribute('data-add'));closeModals();}});
-/* ========== CARRITO / PAGO ========== */
-var cart=new Map();
-function addToCart(id){cart.set(id,(cart.get(id)||0)+1);updateCart();
- var b=$('#cartCount');b.classList.remove('bump');void b.offsetWidth;b.classList.add('bump');}
-function updateCart(){var n=0,t=0;
- var html='';cart.forEach(function(q,id){var c=CARDS.find(function(x){return x.id===id;});n+=q;t+=c.price*q;
-  html+='<div class="cart-row"><img src="'+c.file+'" onerror="this.onerror=null;this.src=ph(\''+c.name+'\')">'+
-  '<div class="inf"><b>'+c.name+' — '+c.sub+'</b><span>'+q+' × '+fmt(c.price)+'</span></div>'+
-  '<button class="rm" data-rm="'+id+'">✕</button></div>';});
- $('#cartItems').innerHTML=html||'<p style="color:var(--muted);text-align:center;margin-top:30px">Tu carrito está vacío.</p>';
- $('#cartCount').textContent=n;$('#cartTotal').textContent=fmt(t);}
-$('#cartItems').addEventListener('click',function(e){var r=e.target.closest('[data-rm]');if(r){cart.delete(+r.getAttribute('data-rm'));updateCart();}});
-$('#cartBtn').onclick=function(){$('#cartDrawer').classList.add('open');$('#scrim').classList.add('on');};
-function closeDrawer(){$('#cartDrawer').classList.remove('open');$('#scrim').classList.remove('on');}
-$('#cartClose').onclick=closeDrawer;$('#scrim').onclick=closeDrawer;
-$('#heroBuy').onclick=function(){addToCart(16);$('#cartDrawer').classList.add('open');$('#scrim').classList.add('on');};
-$('#payBtn').onclick=function(){if(!cart.size)return;var t=0;cart.forEach(function(q,id){t+=CARDS.find(function(c){return c.id===id;}).price*q;});
- closeDrawer();$('#payProcessing').style.display='block';$('#paySuccess').style.display='none';
- $('#payMonto').textContent=fmt(t);$('#payModal').classList.add('open');
- setTimeout(function(){$('#payProcessing').style.display='none';$('#paySuccess').style.display='block';
-  $('#txnId').textContent='TXN-'+Math.floor(100000+Math.random()*899999);$('#payTotal').textContent=fmt(t);},2200);};
-$('#receiveBtn').onclick=function(){cart.clear();updateCart();closeModals();confetti();};
-function closeModals(){document.querySelectorAll('.modal').forEach(function(m){m.classList.remove('open');});}
-document.querySelectorAll('[data-close]').forEach(function(b){b.onclick=closeModals;});
-document.querySelectorAll('.modal').forEach(function(m){m.addEventListener('click',function(e){if(e.target===m)closeModals();});});
-function confetti(){var cols=['#d4af37','#67e8f9','#b06ce8','#5bcefa','#f5a9b8','#ffffff'];
- for(var i=0;i<70;i++){var s=document.createElement('span');
-  s.style.cssText='position:fixed;top:-12px;left:'+Math.random()*100+'vw;width:'+(6+Math.random()*8)+'px;height:'+(10+Math.random()*10)+'px;background:'+cols[i%cols.length]+';z-index:120;border-radius:2px;pointer-events:none';
-  document.body.appendChild(s);
-  s.animate([{transform:'translateY(0) rotate(0)',opacity:1},{transform:'translateY(105vh) rotate('+(360+Math.random()*720)+'deg)',opacity:.8}],{duration:2200+Math.random()*1800,easing:'cubic-bezier(.2,.6,.4,1)'}).onfinish=function(){this.effect.target.remove();};}}
-/* ========== GARRA ========== */
-var cv=$('#clawCanvas'),cx2=cv.getContext('2d');
-var CL={x:480,y:90,state:'idle',grab:null,keys:{l:false,r:false},cards:[]};
-function clawReset(){CL.cards=CARDS.slice().sort(function(){return Math.random()-.5;}).slice(0,6).map(function(c,i){return{card:c,x:140+i*136,y:430};});}
-clawReset();
-function rr(x,y,w,h,r){cx2.beginPath();cx2.moveTo(x+r,y);cx2.arcTo(x+w,y,x+w,y+h,r);cx2.arcTo(x+w,y+h,x,y+h,r);cx2.arcTo(x,y+h,x,y,r);cx2.arcTo(x,y,x+w,y,r);cx2.closePath();}
-function drawClaw(){
- var g=cx2.createLinearGradient(0,0,0,540);g.addColorStop(0,'#0a0d18');g.addColorStop(1,'#131b30');
- cx2.fillStyle=g;cx2.fillRect(0,0,960,540);
- cx2.fillStyle='rgba(103,232,249,.05)';cx2.fillRect(0,470,960,70);
- cx2.fillStyle='#2a2312';cx2.fillRect(40,58,880,16);
- cx2.fillStyle='rgba(212,175,55,.7)';cx2.fillRect(40,58,880,3);
- CL.cards.forEach(function(k){if(CL.grab===k)return;var col={comun:'#8fa3b8',rara:'#4b9bd4',epica:'#a45bd4',legendaria:'#f0c75e'}[k.card.rarity];
-  rr(k.x-43,k.y-55,86,110,10);cx2.fillStyle='#141a2c';cx2.fill();cx2.lineWidth=3;cx2.strokeStyle=col;cx2.stroke();
-  cx2.fillStyle='#f0c75e';cx2.font='26px serif';cx2.textAlign='center';cx2.fillText('⚖️',k.x,k.y-8);
-  cx2.fillStyle='#e9e6dc';cx2.font='bold 13px Outfit';cx2.fillText(k.card.name,k.x,k.y+22);
-  cx2.fillStyle=col;cx2.font='9px Outfit';cx2.fillText(RAR[k.card.rarity].lbl,k.x,k.y+40);});
- cx2.strokeStyle='#c9c9c9';cx2.lineWidth=3;cx2.beginPath();cx2.moveTo(CL.x,74);cx2.lineTo(CL.x,CL.y-26);cx2.stroke();
- cx2.fillStyle='#d4af37';cx2.beginPath();cx2.arc(CL.x,CL.y-16,12,0,7);cx2.fill();
- cx2.strokeStyle='#e6e6e6';cx2.lineWidth=4;
- [-1,0,1].forEach(function(d){cx2.beginPath();cx2.moveTo(CL.x,CL.y-8);cx2.quadraticCurveTo(CL.x+d*22,CL.y+8,CL.x+d*16,CL.y+26);cx2.stroke();});
- if(CL.grab){var k=CL.grab;rr(CL.x-43,CL.y+20,86,110,10);cx2.fillStyle='#141a2c';cx2.fill();cx2.lineWidth=3;cx2.strokeStyle='#f0c75e';cx2.stroke();
-  cx2.fillStyle='#f0c75e';cx2.font='26px serif';cx2.textAlign='center';cx2.fillText('⚖️',CL.x,CL.y+68);
-  cx2.fillStyle='#e9e6dc';cx2.font='bold 13px Outfit';cx2.fillText(k.card.name,CL.x,CL.y+98);}
- cx2.fillStyle='rgba(255,255,255,.04)';cx2.beginPath();cx2.moveTo(0,0);cx2.lineTo(300,0);cx2.lineTo(120,540);cx2.lineTo(0,540);cx2.fill();}
-function clawStep(){
- if(CL.state==='idle'){if(CL.keys.l)CL.x-=5;if(CL.keys.r)CL.x+=5;CL.x=Math.max(70,Math.min(890,CL.x));}
- else if(CL.state==='drop'){CL.y+=8;if(CL.y>=400){var hit=CL.cards.find(function(k){return Math.abs(k.x-CL.x)<40;});
-  if(hit&&Math.random()<(Math.abs(hit.x-CL.x)<14?.9:.5)){CL.grab=hit;CL.cards=CL.cards.filter(function(k){return k!==hit;});}
-  CL.state='rise';}}
- else if(CL.state==='rise'){CL.y-=8;if(CL.y<=90){CL.y=90;CL.state='idle';
-  if(CL.grab){var w=CL.grab;CL.grab=null;if(!CL.cards.length)clawReset();showPrize(w.card);}}}
- drawClaw();requestAnimationFrame(clawStep);}
-clawStep();
-function clawDrop(){if(CL.state==='idle')CL.state='drop';}
-$('#clawDrop').onclick=clawDrop;
-[['#clawLeft','l'],['#clawRight','r']].forEach(function(pr){var b=$(pr[0]);
- var on=function(e){e.preventDefault();CL.keys[pr[1]]=true;};
- var off=function(){CL.keys[pr[1]]=false;};
- b.addEventListener('pointerdown',on);b.addEventListener('pointerup',off);b.addEventListener('pointerleave',off);});
-function anyModal(){return document.querySelector('.modal.open')||$('#cartDrawer').classList.contains('open');}
-addEventListener('keydown',function(e){if(anyModal())return;
- var tag=(document.activeElement&&document.activeElement.tagName)||'';
- if(tag==='INPUT'||tag==='TEXTAREA')return;
- if(e.code==='ArrowLeft'){CL.keys.l=true;e.preventDefault();}
- if(e.code==='ArrowRight'){CL.keys.r=true;e.preventDefault();}
- if(e.code==='Space'&&e.target===document.body){clawDrop();e.preventDefault();}});
-addEventListener('keyup',function(e){if(e.code==='ArrowLeft')CL.keys.l=false;if(e.code==='ArrowRight')CL.keys.r=false;});
-var prizeCard=null;
-function showPrize(c){prizeCard=c;$('#prizeImg').src=c.file;$('#prizeImg').onerror=function(){this.onerror=null;this.src=ph(c.name);};
- $('#prizeName').textContent=c.name+' — '+c.sub;$('#prizePrice').textContent='Rareza: '+RAR[c.rarity].lbl+' · '+fmt(c.price);
- $('#prizeModal').classList.add('open');}
-$('#prizeAdd').onclick=function(){if(prizeCard)addToCart(prizeCard.id);closeModals();};
-/* ========== JUEGO DE MESA ========== */
-var TRACK=[
- {x:200,y:540,t:'start'},{x:252,y:514,t:'n'},{x:302,y:492,t:'n'},{x:346,y:468,t:'ev'},
- {x:382,y:438,t:'n'},{x:410,y:408,t:'n'},{x:428,y:374,t:'at',to:10},{x:398,y:344,t:'n'},
- {x:358,y:320,t:'ka'},{x:328,y:292,t:'n'},{x:300,y:262,t:'ev'},{x:282,y:226,t:'n'},
- {x:300,y:192,t:'n'},{x:340,y:170,t:'n'},{x:386,y:158,t:'ev'},{x:432,y:148,t:'n'},
- {x:472,y:140,t:'n'},{x:512,y:136,t:'ka'},{x:552,y:142,t:'n'},{x:592,y:156,t:'ev'},
- {x:622,y:182,t:'n'},{x:642,y:212,t:'at',to:24},{x:622,y:242,t:'n'},{x:586,y:256,t:'n'},
- {x:548,y:264,t:'n'},{x:522,y:286,t:'n'},{x:500,y:265,t:'meta'}
+
+/* ============ DATOS CARTAS ============ */
+var RAR={COMUN:['COMÚN','#9aa7b8'],RARA:['RARA','#39e6ff'],EPICA:['ÉPICA','#a06bff'],LEG:['LEGENDARIA','#f5c542']};
+var CARDS=[
+ {id:1,img:'carta1.jpg',name:'Hugo Céntrico',rar:'EPICA',price:850},
+ {id:2,img:'carta2.jpeg',name:'La Sr. Lulu',rar:'RARA',price:450},
+ {id:3,img:'carta3.jpeg',name:'Cartucho de 64',rar:'COMUN',price:150},
+ {id:4,img:'carta4.jpeg',name:'Stratochido',rar:'RARA',price:480},
+ {id:5,img:'carta5.jpeg',name:'El Cartógrafo',rar:'EPICA',price:900},
+ {id:6,img:'carta6.jpeg',name:'Tacos de Richie',rar:'RARA',price:420},
+ {id:7,img:'carta7.jpeg',name:'Lic. Buchón',rar:'EPICA',price:950},
+ {id:8,img:'Carta8.jpeg',name:'Vogar Roaster',rar:'COMUN',price:180},
+ {id:9,img:'carta9.jpeg',name:'Lacancha',rar:'COMUN',price:160},
+ {id:10,img:'carta10.jpeg',name:'Pato Zaarte †',rar:'RARA',price:500},
+ {id:11,img:'carta11.jpeg',name:'Marco Chaires',rar:'COMUN',price:140},
+ {id:12,img:'carta12.png',name:'Meta AI Rindida',rar:'RARA',price:380},
+ {id:13,img:'13.png',name:'Claudia IBTS',rar:'RARA',price:400},
+ {id:14,img:'carta14.png',name:'Anita',rar:'COMUN',price:200},
+ {id:15,img:'carta15.png',name:'Don Javi',rar:'RARA',price:460},
+ {id:16,img:'carta16.png',name:'Poder LGBTQ+',rar:'LEG',price:2500},
+ {id:17,img:'doffiekang.jpeg',name:'Doffie Kang',rar:'EPICA',price:880}
 ];
+var LORE7='NOMBRE: Lic. Buchón (Efren)\nHP: 280\nAPARICIÓN: 8% (spawn en el terreno)\nVALOR: $950 MXN\nPASIVA: "Endeudado con Coppel" → roba 1 carta extra por interés.\nATAQUE: 🔮 Baño de Pueblo · 60 DMG\nTIPO: Abogado · San Chorizo';
+
+/* ============ COLECCIÓN ============ */
+function renderGrid(){
+  var g=document.getElementById('cardGrid');var h='';
+  CARDS.forEach(function(c){
+    var rr=RAR[c.rar];
+    h+='<div class="tcard glass" data-id="'+c.id+'">'
+      +'<img src="'+c.img+'" onerror="this.src=ph()"><div class="shine"></div>'
+      +'<div class="info"><div class="name">'+c.name+'</div>'
+      +'<span class="rar" style="color:'+rr[1]+';border:1px solid '+rr[1]+'">'+rr[0]+'</span>'
+      +'<div class="price">'+fmt(c.price)+'</div></div>'
+      +'<div class="acts"><button class="iconbtn" onclick="openScan('+c.id+')">🔍</button>'
+      +'<button class="iconbtn" onclick="addCart('+c.id+')">🛒</button></div></div>';
+  });
+  g.innerHTML=h;
+  Array.prototype.forEach.call(g.children,function(el){
+    el.addEventListener('mousemove',function(e){
+      var b=el.getBoundingClientRect();
+      var x=(e.clientX-b.left)/b.width-.5,y=(e.clientY-b.top)/b.height-.5;
+      el.style.transform='translateY(-6px) rotateY('+x*10+'deg) rotateX('+ -y*10+'deg)';
+    });
+    el.addEventListener('mouseleave',function(){el.style.transform='';});
+  });
+}
+/* hero holo tilt */
+(function(){
+  var h=document.getElementById('heroHolo');
+  h.addEventListener('mousemove',function(e){
+    var b=h.getBoundingClientRect();
+    var x=(e.clientX-b.left)/b.width,y=(e.clientY-b.top)/b.height;
+    h.style.setProperty('--ry',((x-.5)*22)+'deg');
+    h.style.setProperty('--rx',((.5-y)*22)+'deg');
+    h.style.setProperty('--gx',(x*100)+'%');
+    h.style.setProperty('--gy',(y*100)+'%');
+  });
+  h.addEventListener('mouseleave',function(){h.style.setProperty('--rx','0deg');h.style.setProperty('--ry','0deg');});
+})();
+
+/* ============ SCANNER ============ */
+function openScan(id){
+  var c=CARDS.filter(function(k){return k.id===id;})[0];
+  document.getElementById('scannerModal').classList.add('open');
+  document.getElementById('scanImg').src=c.img;
+  var d=document.getElementById('scanData');d.textContent='SCANNING...';
+  setTimeout(function(){
+    if(id===7){d.textContent=LORE7;return;}
+    d.textContent='NOMBRE: '+c.name+'\nHP: '+(120+(id*13)%160)+'\nAPARICIÓN: '+(3+id)%14+'%\nVALOR: '+fmt(c.price)+'\nRARIDAD: '+RAR[c.rar][0]+'\nPASIVA: '+pick(['"Carrilla infinita"','"Modo gringo"','"Se fue de ruta"','"Agua de Haití"','"Cartucho sopla"'])+'\nATAQUE: '+pick(['🌮 Taquiza · 40 DMG','🗺️ Mapa Falso · 35 DMG',' Riff de Metal · 55 DMG','👶 Pañalazo · 45 DMG']);
+  },1100);
+}
+
+/* ============ CARRITO / PAGO ============ */
+var CART=[];
+function addCart(id){
+  CART.push(id);renderCart();toggleCart(true);
+}
+function renderCart(){
+  var box=document.getElementById('cartItems');var h='';var tot=0;
+  CART.forEach(function(id,i){
+    var c=CARDS.filter(function(k){return k.id===id;})[0];tot+=c.price;
+    h+='<div class="cRow"><img src="'+c.img+'" onerror="this.src=ph()"><div style="flex:1"><b>'+c.name+'</b><br><small style="color:var(--gold)">'+fmt(c.price)+'</small></div><button class="iconbtn" onclick="rmCart('+i+')">🗑</button></div>';
+  });
+  box.innerHTML=h||'<p style="color:#789;font-weight:300">Carrito vacío, we.</p>';
+  document.getElementById('cartTotal').textContent='TOTAL: $'+tot.toLocaleString('en-US')+'.00 MXN';
+}
+function rmCart(i){CART.splice(i,1);renderCart();}
+function toggleCart(v){document.getElementById('cartDrawer').classList.toggle('open',v);}
+document.getElementById('payBtn').onclick=function(){
+  if(!CART.length)return;
+  toggleCart(false);
+  document.getElementById('payModal').classList.add('open');
+  var tot=CART.reduce(function(s,id){return s+CARDS.filter(function(k){return k.id===id;})[0].price;},0);
+  var st=document.getElementById('paySteps');
+  st.textContent='Conectando con servidores de PayPal...\nMonto: '+fmt(tot)+'\nMétodo: PayPal Express';
+  setTimeout(function(){st.textContent+='⏳ Procesando...';},900);
+  setTimeout(function(){st.textContent+='\n🧾 TXN-'+ri(900000+99999)+'\n✅ APROBADO';document.getElementById('receiveBtn').style.display='block';},2100);
+};
+document.getElementById('receiveBtn').onclick=function(){
+  closeM('payModal');document.getElementById('receiveBtn').style.display='none';
+  CART=[];renderCart();confetti();
+};
+
+/* ============ CONFETTI ============ */
+function confetti(){
+  var cols=['#f5c542','#39e6ff','#a06bff','#ff5c8a','#7dff8a'];
+  for(var i=0;i<140;i++){
+    var d=document.createElement('div');
+    d.style.cssText='position:fixed;top:-10px;left:'+Math.random()*100+'vw;width:8px;height:12px;background:'+pick(cols)+';z-index:99;transform:rotate('+ri(360)+'deg);pointer-events:none;transition:top '+(2.5+Math.random()*2)+'s linear, opacity 3s';
+    document.body.appendChild(d);
+    (function(el){setTimeout(function(){el.style.top='110vh';el.style.opacity='0';},30);setTimeout(function(){el.remove();},5200);})(d);
+  }
+}
+
+/* ============ GARRA ============ */
+var CL={x:210,cy:40,drop:false,dir:0,px:60+ri(300),grab:false,busy:false};
+var clawCv=document.getElementById('clawCanvas'),cx2=clawCv.getContext('2d');
+function clawDraw(){
+  cx2.clearRect(0,0,420,420);
+  var g=cx2.createLinearGradient(0,0,0,420);g.addColorStop(0,'#0a0d1c');g.addColorStop(1,'#120a1e');
+  cx2.fillStyle=g;cx2.fillRect(0,0,420,420);
+  cx2.fillStyle='#f5c542';cx2.fillRect(0,26,420,4);
+  cx2.strokeStyle='#39e6ff';cx2.lineWidth=2;
+  cx2.beginPath();cx2.moveTo(CL.x,30);cx2.lineTo(CL.x,CL.cy);cx2.stroke();
+  cx2.fillStyle='#a06bff';
+  cx2.beginPath();cx2.arc(CL.x,CL.cy+10,12,0,7);cx2.fill();
+  cx2.font='40px serif';cx2.fillText('🎁',CL.px-20,392);
+  if(CL.grab){cx2.fillText('🎁',CL.x-20,CL.cy+52);}
+  cx2.fillStyle='rgba(255,255,255,.08)';cx2.fillRect(0,396,420,24);
+}
+function clawLoop(){
+  if(!CL.drop&&!CL.busy){CL.x=Math.max(30,Math.min(390,CL.x+CL.dir*4));}
+  if(CL.drop){
+    CL.cy+=6;
+    if(CL.cy>=340){
+      CL.drop=false;
+      if(Math.abs(CL.x-CL.px)<26&&Math.random()<.6){CL.grab=true;}
+      var up=setInterval(function(){
+        CL.cy-=6;
+        if(CL.cy<=40){clearInterval(up);CL.busy=false;
+          if(CL.grab){CL.grab=false;winPrize();}
+          CL.px=60+ri(300);
+        }
+      },16);
+    }
+  }
+  clawDraw();requestAnimationFrame(clawLoop);
+}
+function winPrize(){
+  var c=pick(CARDS);
+  document.getElementById('prizeImg').src=c.img;
+  document.getElementById('prizeName').textContent=c.name+' · '+fmt(c.price);
+  document.getElementById('prizeModal').classList.add('open');
+  document.getElementById('prizeAdd').onclick=function(){closeM('prizeModal');addCart(c.id);};
+}
+addEventListener('keydown',function(e){
+  if(e.key==='ArrowLeft')CL.dir=-1;
+  if(e.key==='ArrowRight')CL.dir=1;
+  if(e.key===' '&&!CL.drop&&!CL.busy&&document.activeElement.tagName!=='INPUT'&&document.activeElement.tagName!=='TEXTAREA'){CL.drop=true;CL.busy=true;e.preventDefault();}
+});
+addEventListener('keyup',function(e){if(e.key==='ArrowLeft'||e.key==='ArrowRight')CL.dir=0;});
+document.getElementById('clawL').onmousedown=function(){CL.dir=-1;};
+document.getElementById('clawR').onmousedown=function(){CL.dir=1;};
+document.getElementById('clawL').onmouseup=document.getElementById('clawR').onmouseup=function(){CL.dir=0;};
+document.getElementById('clawDrop').onclick=function(){if(!CL.drop&&!CL.busy){CL.drop=true;CL.busy=true;}};
+clawLoop();
+
+/* ============ HUGOCENTRISMO ============ */
+var TRACK=['S','n','ev','n','ka','n','ev','at','n','ev','ka','n','ev','n','at','ka','ev','n','ka','ev','n','at','ev','ka','n','ev','M'];
 var THEMES=[
- {n:'Infidelidades',i:'💔',p:'Cuenta una anécdota de Hugo relacionada con INFIDELIDADES (reales, del mapa o inventadas con cariño).'},
- {n:'Cosas Malas',i:'😈',p:'Cuenta una anécdota de Hugo relacionada con COSAS MALAS.'},
- {n:'Enojo',i:'😡',p:'Cuenta una anécdota de Hugo relacionada con el ENOJO.'},
- {n:'Celos / Karen',i:'💜',p:'Cuenta una anécdota de Hugo relacionada con CELOS o con Karen Ayala (odiarla cuenta doble).'},
- {n:'Amigos y Lealtad',i:'💚',p:'Cuenta una anécdota de Hugo relacionada con AMIGOS Y LEALTAD.'},
- {n:'Metal, Cumbia y Redes',i:'🤘',p:'Cuenta una anécdota de Hugo relacionada con METAL, CUMBIA o TECNOLOGÍA Y REDES.'}
+ {t:'💔 Infidelidades',w:['hugo','jermu','karen','amor']},
+ {t:'💩 Cosas Malas',w:['baño','caca','revista','terreno']},
+ {t:'😤 Enojo',w:['enoja','grita','regañ','fun']},
+ {t:'😈 Celos / Karen',w:['karen','celos','fun','ayala']},
+ {t:'💚 Amigos y Lealtad',w:['amigo','richie','tacos','lealtad','chabela']},
+ {t:'🤘 Metal · Cumbia · Redes',w:['metal','cumbia','tiktok','instagram','vlado']}
 ];
 var EVENTS=[
- {q:'La Sr. Lulu te cuenta un chisme de Hugo: avanza 2.',dx:2},
- {q:'Te toca cambiar el pañal de Jr: pierdes 1 turno.',dx:0,sk:1},
- {q:'Karen Ayala te funa en el grupo: retrocede 2.',dx:-2},
- {q:'Efren te invita una charolita de burros: avanza 1.',dx:1},
- {q:'El collie te acompaña al castillo: avanza 2.',dx:2},
- {q:'HugoGPT te valida ante la mesa: avanza 1.',dx:1},
- {q:'Lalo drena las presas con prompts: avanza 1.',dx:1},
- {q:'Taquiza de Don Javi: te empachas y pierdes 1 turno.',dx:0,sk:1},
- {q:'Te quedas en el Mario Party familiar: pierdes 1 turno.',dx:0,sk:1},
- {q:'Bardo pregunta dónde está Oaxaca: te ríes tanto que avanzas 1.',dx:1},
- {q:'Chabela te defiende de Karen: avanza 2.',dx:2},
- {q:'Vlado te presta su IA: avanza 1.',dx:1}
+ {t:'🐶 El collie de Hugo te acompaña',d:2},
+ {t:'👶 Pañal de Jr: pierdes turno',d:0,skip:true},
+ {t:'😈 Karen te funa en el grupo',d:-2},
+ {t:'🫏 Burros de Efren te jalan',d:1},
+ {t:'💛 La Sr. Lulu te apoya',d:2},
+ {t:'🥃 Whisky con Hugo: +1',d:1}
 ];
-var PCOLORS=['#f0c75e','#67e8f9','#b06ce8','#7ee2a0'];
-var DICE=['⚀','','⚂','⚃','⚄','⚅'];
 var G=null;
-function glog(t){var l=$('#gameLog');var d=document.createElement('div');d.textContent=t;l.prepend(d);while(l.children.length>12){l.removeChild(l.lastChild);}}
-function buildNames(){
- var n=+$('#numSel').value;var mode=$('#modeSel').value;
- var defs=mode==='ia'?['Tú','Richie','Lalo','Efren']:['Hugo-fan 1','Hugo-fan 2','Hugo-fan 3','Hugo-fan 4'];
- var html='';for(var i=0;i<n;i++){html+='<input id="pname'+i+'" value="'+defs[i]+'" maxlength="14">';}
- $('#nameInputs').innerHTML=html;}
-$('#numSel').onchange=buildNames;$('#modeSel').onchange=buildNames;buildNames();
-$('#startBtn').onclick=function(){
- var n=+$('#numSel').value;var mode=$('#modeSel').value;var players=[];
- for(var i=0;i<n;i++){var inp=$('#pname'+i);
-  players.push({name:(inp&&inp.value.trim())||('J'+(i+1)),color:PCOLORS[i],pos:0,skip:false,isBot:(mode==='ia'&&i>0)});}
- G={players:players,cur:-1,mode:mode,over:false,phase:'idle',lastRoll:0};
- $('#setupPanel').style.display='none';$('#gamePanel').style.display='block';
- $('#gameLog').innerHTML='';
- buildTrack();buildPlayers();
- glog('🎲 Comienza el Hugocentrismo. Todos los caminos llevan a Hugo.');
- advanceTurn();};
-$('#quitBtn').onclick=function(){G=null;$('#gamePanel').style.display='none';$('#setupPanel').style.display='block';};
-function buildTrack(){
- var s='';var i;
- for(i=0;i<TRACK.length-1;i++){s+='<line x1="'+TRACK[i].x+'" y1="'+TRACK[i].y+'" x2="'+TRACK[i+1].x+'" y2="'+TRACK[i+1].y+'" stroke="rgba(42,32,24,.5)" stroke-width="3" stroke-dasharray="2 7"/>';}
- TRACK.forEach(function(sp,idx){
-  var col=sp.t==='meta'?'#d4af37':sp.t==='ev'?'#4f9d4f':sp.t==='ka'?'#c14b6a':sp.t==='at'?'#4b7bd4':sp.t==='start'?'#8a6a1c':'#e7d3a8';
-  s+='<circle cx="'+sp.x+'" cy="'+sp.y+'" r="'+(sp.t==='meta'?15:10)+'" fill="'+col+'" stroke="#2a2018" stroke-width="2"/>';
-  if(sp.t!=='meta'&&sp.t!=='start'){s+='<text x="'+sp.x+'" y="'+(sp.y+3.5)+'" text-anchor="middle" font-size="9" fill="#2a2018" font-weight="bold">'+idx+'</text>';}
-  if(sp.t==='start'){s+='<text x="'+sp.x+'" y="'+(sp.y+3.5)+'" text-anchor="middle" font-size="8" fill="#f5d67a" font-weight="bold">SALIDA</text>';}
- });
- $('#trackLayer').innerHTML=s;}
-function buildPlayers(){
- var pl=$('#playersLayer');pl.innerHTML='';
- G.players.forEach(function(p,i){
-  var g=document.createElementNS('http://www.w3.org/2000/svg','g');
-  g.setAttribute('class','pmeeple');
-  g.innerHTML='<circle cx="0" cy="-9" r="5" fill="'+p.color+'" stroke="#1a1206" stroke-width="1.5"/><path d="M-7,8 C-7,-2 -3,-6 0,-6 C3,-6 7,-2 7,8 C3,10.5 -3,10.5 -7,8 Z" fill="'+p.color+'" stroke="#1a1206" stroke-width="1.5"/>';
-  pl.appendChild(g);p.el=g;place(i);});}
-function place(i){var p=G.players[i];var sp=TRACK[p.pos];
- var dx=(i%2)*14-7,dy=Math.floor(i/2)*12-6;
- p.el.style.transform='translate('+(sp.x+dx)+'px,'+(sp.y+dy)+'px)';}
-function hud(t){$('#turnInfo').innerHTML=t;}
-function advanceTurn(){
- if(!G||G.over)return;
- G.cur=(G.cur+1)%G.players.length;
- var p=G.players[G.cur];
- if(p.skip){p.skip=false;glog('⏭️ '+p.name+' pierde este turno.');hud('⏭️ '+p.name+' pierde turno…');setTimeout(advanceTurn,900);return;}
- startTurn();}
-function startTurn(){
- var p=G.players[G.cur];
- hud('🎲 Turno de <b style="color:'+p.color+'">'+p.name+'</b>');
- $('#themeCard').style.display='none';$('#anecBox').style.display='none';$('#voteBox').style.display='none';
- $('#rollBtn').disabled=p.isBot;
- G.phase='roll';
- if(p.isBot){setTimeout(botRoll,1100);}}
-$('#rollBtn').onclick=function(){if(G&&G.phase==='roll'&&!G.players[G.cur].isBot){roll();}};
-function botRoll(){roll();}
-function roll(){
- var p=G.players[G.cur];G.phase='rolling';$('#rollBtn').disabled=true;
- var f=$('#diceFace');f.classList.add('rolling');
- var k=0;var iv=setInterval(function(){f.textContent=DICE[Math.floor(Math.random()*6)];k++;
-  if(k>9){clearInterval(iv);f.classList.remove('rolling');
-   var v=1+Math.floor(Math.random()*6);f.textContent=DICE[v-1];G.lastRoll=v;
-   var th=THEMES[v-1];
-   $('#themeCard').style.display='grid';
-   $('#themeCard').innerHTML='<div class="q">'+th.i+' <b>Carta de Tema '+v+': '+th.n+'</b><br>'+th.p+'</div>';
-   glog('🎲 '+p.name+' tiró '+v+' → Tema: '+th.n+'.');
-   G.phase='anec';
-   if(p.isBot){setTimeout(botAnec,1200);}
-   else{$('#anecBox').style.display='block';$('#anecTxt').value='';$('#anecTxt').focus();}
-  }},90);}
-$('#stealBtn').onclick=function(){var m=pick(pool());$('#anecTxt').value='📜 '+m.w+': "'+m.q+'"';};
-$('#submitAnec').onclick=function(){
- var txt=$('#anecTxt').value.trim();
- if(txt.length<12){glog('⚠️ Anécdota muy corta: la mesa exige esfuerzo hugocéntrico.');return;}
- $('#anecBox').style.display='none';
- var p=G.players[G.cur];
- glog('🗣️ '+p.name+' cuenta: "'+txt.slice(0,90)+(txt.length>90?'…':'')+'"');
- if(G.mode==='ia'){
-  hud('🧠 La mesa (IA) delibera…');
-  var th=THEMES[G.lastRoll-1];
-  var score=0;
-  if(/hugo/i.test(txt)){score+=2;}
-  if(new RegExp(th.n.split(' ')[0],'i').test(txt)){score+=1;}
-  if(txt.length>60){score+=1;}
-  var ok=Math.random()<(score>=2?.92:(score===1?.6:.35));
-  setTimeout(function(){resolve(ok);},1400);
- }else{
-  $('#voteBox').style.display='block';
- }};
-$('#voteYes').onclick=function(){$('#voteBox').style.display='none';resolve(true);};
-$('#voteNo').onclick=function(){$('#voteBox').style.display='none';resolve(false);};
-function botAnec(){
- var p=G.players[G.cur];var m=pick(pool());
- glog('🤖 '+p.name+' cuenta del archivo: "'+m.q+'"');
- $('#themeCard').innerHTML+='<div class="q" style="margin-top:8px">🤖 "'+m.q+'" — '+m.w+'</div>';
- var ok=Math.random()<.8;
- setTimeout(function(){resolve(ok);},1300);}
-function resolve(ok){
- var p=G.players[G.cur];
- if(!ok){glog('❌ La mesa rechazó la anécdota de '+p.name+': forzó demasiado. Pierde el turno.');
-  hud('❌ '+p.name+' pierde el turno.');setTimeout(advanceTurn,1100);return;}
- glog('✅ La mesa acepta: suficientemente hugocéntrica. '+p.name+' avanza '+G.lastRoll+'.');
- move(p,G.lastRoll,function(){spaceEffect(p);});}
-function move(p,n,cb){
- if(n<=0){if(cb){cb();}return;}
- var step=function(){p.pos=Math.min(TRACK.length-1,p.pos+1);place(G.players.indexOf(p));
+var BOTNAMES=['Lalo 🗺️','Efren ⚖️','Alex 🎮'];
+function cellXY(i){
+  var row=Math.floor(i/9),col=i%9;
+  if(row%2===1)col=8-col;
+  return {x:col*100+15,y:row*100+15};
+}
+function buildMap(){
+  var h='';
+  TRACK.forEach(function(t,i){
+    var p=cellXY(i);
+    var fill=t==='ev'?'rgba(60,180,110,.25)':t==='ka'?'rgba(255,80,100,.28)':t==='at'?'rgba(60,140,255,.28)':t==='S'||t==='M'?'rgba(245,197,66,.3)':'rgba(255,255,255,.06)';
+    var em=t==='ev'?'🟩':t==='ka'?'😈':t==='at'?'🌀':t==='S'?'🏁':t==='M'?'🏰':'';
+    h+='<rect x="'+p.x+'" y="'+p.y+'" width="86" height="80" rx="12" fill="'+fill+'" stroke="rgba(245,197,66,.35)"/>'
+      +'<text x="'+(p.x+43)+'" y="'+(p.y+46)+'" font-size="22" text-anchor="middle">'+em+'</text>'
+      +'<text x="'+(p.x+8)+'" y="'+(p.y+16)+'" font-size="10" fill="#8fa">'+i+'</text>';
+  });
+  document.getElementById('trackLayer').innerHTML=h;
+}
+function drawTokens(){
+  var h='';
+  G.players.forEach(function(p,i){
+    var c=cellXY(p.pos);
+    h+='<circle cx="'+(c.x+25+i*16)+'" cy="'+(c.y+62)+'" r="9" fill="'+p.color+'" stroke="#fff" stroke-width="2"><title>'+p.name+'</title></circle>';
+  });
+  document.getElementById('playersLayer').innerHTML=h;
+}
+function glog(s){
+  var l=document.getElementById('gameLog');
+  l.innerHTML+='<p>'+s+'</p>';l.scrollTop=l.scrollHeight;
+}
+document.getElementById('startBtn').onclick=function(){
+  var mode=document.querySelector('input[name=mode]:checked').value;
+  var n=parseInt(document.querySelector('input[name=pn]:checked').value,10);
+  var cols=['#f5c542','#39e6ff','#a06bff','#7dff8a'];
+  G={mode:mode,n:n,cur:0,busy:false,dice:0,votes:{yes:0,no:0},voters:0,players:[{name:'Tú 🫵',pos:0,color:cols[0],ia:mode==='ia'?false:false}]};
+  for(var i=1;i<n;i++){G.players.push({name:BOTNAMES[i-1],pos:0,color:cols[i],ia:mode==='ia'});}
+  if(mode==='local'){G.players.forEach(function(p){p.ia=false;});}
+  document.getElementById('setupPanel').style.display='none';
+  document.getElementById('gamePanel').style.display='block';
+  document.getElementById('gameLog').innerHTML='';
+  buildMap();drawTokens();
+  glog('🎲 Partida iniciada · modo '+(mode==='ia'?'Tú vs IA':'Mesa local')+'. El mapa no miente.');
+  turnLbl();
+};
+function turnLbl(){
+  document.getElementById('turnLbl').textContent='Turno: '+G.players[G.cur].name;
+}
+document.getElementById('rollBtn').onclick=function(){
+  if(!G||G.busy)return;
+  var p=G.players[G.cur];
+  if(p.ia){iaTurn();return;}
+  G.busy=true;
+  var t=0,iv=setInterval(function(){
+    document.getElementById('diceFace').textContent=1+ri(6);
+    t++;
+    if(t>8){clearInterval(iv);var d=1+ri(6);document.getElementById('diceFace').textContent=d;humanRolled(d);}
+  },70);
+};
+function humanRolled(d){
+  G.dice=d;
+  glog('🎲 '+G.players[G.cur].name+' tiró '+d+'.');
+  var th=THEMES[d-1];
+  document.getElementById('oracleCard').classList.add('on');
+  document.getElementById('themeCard').textContent='CARTA DE TEMA '+d+': '+th.t;
+  document.getElementById('anecTxt').style.display='block';
+  document.getElementById('anecBtns').style.display='flex';
+  if(G.mode==='local'){
+    document.getElementById('submitAnec').style.display='none';
+    document.getElementById('stealBtn').style.display='none';
+    document.getElementById('voteYes').style.display='inline-block';
+    document.getElementById('voteNo').style.display='inline-block';
+    G.votes={yes:0,no:0};G.voters=0;
+    glog('🗳️ Mesa local: voten los demás jugadores.');
+  }else{
+    document.getElementById('submitAnec').style.display='inline-block';
+    document.getElementById('stealBtn').style.display='inline-block';
+    document.getElementById('voteYes').style.display='none';
+    document.getElementById('voteNo').style.display='none';
+  }
+}
+document.getElementById('stealBtn').onclick=function(){
+  var q=chatQuote(THEMES[G.dice-1].w)||chatQuote(['hugo']);
+  if(q){document.getElementById('anecTxt').value=q.txt+' ('+q.who+')';}
+};
+document.getElementById('submitAnec').onclick=function(){
+  var txt=document.getElementById('anecTxt').value;
+  var th=norm(THEMES[G.dice-1].t);
+  var tn=norm(txt);
+  var ok=txt.trim().length>=15&&(tn.indexOf('hugo')>-1||THEMES[G.dice-1].w.some(function(w){return tn.indexOf(norm(w))>-1;}));
+  hideAnec();
+  if(ok){glog('✅ La mesa acepta: suficientemente hugocéntrica. Avanzas '+G.dice+'.');move(G.cur,G.dice);}
+  else{glog('❌ Forzaste demasiado la relación con Hugo. Pierdes turno.');G.busy=false;nextTurn();}
+};
+document.getElementById('voteYes').onclick=function(){vote(true);};
+document.getElementById('voteNo').onclick=function(){vote(false);};
+function vote(yes){
+  if(yes)G.votes.yes++;else G.votes.no++;
+  G.voters++;
+  glog((yes?'✅':'❌')+' voto registrado ('+G.votes.yes+'-'+G.votes.no+').');
+  if(G.voters>=G.n-1){
+    hideAnec();
+    if(G.votes.yes>G.votes.no){glog('✅ La mesa acepta la anécdota. Avanzas '+G.dice+'.');move(G.cur,G.dice);}
+    else{glog('❌ La mesa la considera forzada. Pierdes turno.');G.busy=false;nextTurn();}
+  }
+}
+function hideAnec(){
+  document.getElementById('oracleCard').classList.remove('on');
+  document.getElementById('anecTxt').style.display='none';
+  document.getElementById('anecBtns').style.display='none';
+  document.getElementById('anecTxt').value='';
+}
+function iaTurn(){
+  G.busy=true;
+  var p=G.players[G.cur];
+  var d=1+ri(6);
+  document.getElementById('diceFace').textContent=d;
+  glog('🎲 '+p.name+' tiró '+d+'. Tema: '+THEMES[d-1].t);
+  var q=chatQuote(THEMES[d-1].w)||chatQuote(['hugo'])||{txt:'Hugo llegó a la oficina y dijo "así forjé mi carrera"',who:'Hugo'};
+  glog('🤖 '+p.name+' cuenta: «'+q.txt+'» — según '+q.who+'.');
+  glog(pick(['😂 La mesa llora de risa. Aceptado.','👏 Suficientemente hugocéntrica, sin duda.','🫡 Ni Lalo lo habría contado mejor.']));
+  setTimeout(function(){move(G.cur,d);},900);
+}
+function move(pi,steps){
+  var p=G.players[pi];
+  var sgn=steps<0?-1:1;var left=Math.abs(steps);
+  var step=function(){
+    if(left===0){land(pi);return;}
+    p.pos=Math.max(0,Math.min(TRACK.length-1,p.pos+sgn));
+    left--;drawTokens();setTimeout(step,220);
+  };step();
+}
+function land(pi){
+  var p=G.players[pi];
   if(p.pos>=TRACK.length-1){win(p);return;}
-  n--;if(n>0){setTimeout(step,260);}else{setTimeout(cb,300);}};
- step();}
-function moveBack(p,n){p.pos=Math.max(0,p.pos-n);place(G.players.indexOf(p));}
-function spaceEffect(p){
- if(G.over)return;
- var sp=TRACK[p.pos];
- if(sp.t==='meta'){win(p);return;}
- if(sp.t==='ev'){var ev=pick(EVENTS);glog('🟩 Evento Aleatorio: '+ev.q);
-  if(ev.sk){p.skip=true;}
-  if(ev.dx>0){move(p,ev.dx,function(){endTurn();});}
-  else if(ev.dx<0){moveBack(p,-ev.dx);endTurn();}
-  else{endTurn();}
-  return;}
- if(sp.t==='ka'){glog('🟥 Caíste en CELOS: Karen Ayala te funa en el grupo. Retrocede 2. (Todos la odiamos.)');
-  moveBack(p,2);endTurn();return;}
- if(sp.t==='at'){glog('🟦 Atajo Emocional: tomas el camino directo hacia Hugo. → casilla '+sp.to);
-  p.pos=sp.to;place(G.players.indexOf(p));setTimeout(function(){spaceEffect(p);},400);return;}
- endTurn();}
-function endTurn(){if(!G||G.over)return;setTimeout(advanceTurn,800);}
+  var t=TRACK[p.pos];
+  if(t==='ka'){glog('😈 Casilla Karen: '+p.name+' retrocede 2 (obvio, todos odiamos a Karen).');setTimeout(function(){move(pi,-2);setTimeout(function(){G.busy=false;nextTurn();},700);},400);return;}
+  if(t==='at'){glog('🌀 Atajo Emocional: '+p.name+' salta +3.');setTimeout(function(){move(pi,3);},400);return;}
+  if(t==='ev'){
+    var ev=pick(EVENTS);
+    glog('🟩 Evento: '+ev.t+'.');
+    if(ev.skip){p.skip=true;}
+    if(ev.d){setTimeout(function(){move(pi,ev.d);setTimeout(function(){G.busy=false;nextTurn();},700);},400);return;}
+  }
+  G.busy=false;nextTurn();
+}
+function nextTurn(){
+  if(!G)return;
+  G.cur=(G.cur+1)%G.n;
+  var p=G.players[G.cur];
+  if(p.skip){p.skip=false;glog('⏭️ '+p.name+' pierde turno (pañal de Jr).');turnLbl();setTimeout(nextTurn,700);return;}
+  turnLbl();
+  if(p.ia){setTimeout(iaTurn,900);}
+}
 function win(p){
- G.over=true;
- glog('🏆 '+p.name+' llegó al castillo. TODOS LOS CAMINOS LLEVAN A HUGO.');
- $('#winName').textContent='🏆 '+p.name+' llegó a Hugo';
- $('#winQuote').textContent=pick(HUGO_SAYS)+' — Hugo, probablemente.';
- setTimeout(function(){$('#winOverlay').classList.add('open');confetti();},500);}
-$('#againBtn').onclick=function(){$('#winOverlay').classList.remove('open');G=null;
- $('#gamePanel').style.display='none';$('#setupPanel').style.display='block';};
-$('#oracleBtn').onclick=function(){var card=$('#oracleCard');card.classList.add('flip');
- setTimeout(function(){$('#oracleText').textContent=HUGO_SAYS[Math.floor(Math.random()*HUGO_SAYS.length)];card.classList.remove('flip');},260);};
-/* ========== CHAT IA ========== */
+  document.getElementById('winTxt').textContent='🏰 ¡'+p.name+' GANA!';
+  document.getElementById('winOverlay').classList.add('on');
+  confetti();
+}
+function resetGame(){
+  document.getElementById('winOverlay').classList.remove('on');
+  document.getElementById('gamePanel').style.display='none';
+  document.getElementById('setupPanel').style.display='block';
+  G=null;
+}
+
+/* ============ CHAT (chat.txt) ============ */
+var ARCHIVE=[],STATS={},chatLoaded=false,welcomed=false;
 var ERROR_LULU='La Sra. Lulu no me ha contado ese chisme';
-var RULES2=[
- {re:/karen(\s+ayala)?/i,f:function(){
-  var out=pick([
-   "Karen Ayala: LA VILLANA. 😈 En el archivo nadie la defiende: Hugo dice 'la odiooooo, la odiooooo' y 'está en mi top tres de enemigos mortales', Efren la choca, Lalo la coronó ('ahora sí la villana es Karen') y hasta el mapa la condenó a vagar por Celos.",
-   "¿Karen Ayala? 😈 La única unanimidad del chat.txt: TODOS la odian. Le pegó a la camioneta de Efren, casi choca a Hugo bajando ('Hace rato casi me choca'), y su risa 'se escucha con dos audífonos'. Por algo será.",
-   "Karen Ayala 😈: jefe final del Hugocentrismo, protagonista de 'Reventó Karen a Hugo' y de la regla de la mesa: 'hay que invitar a karen a jugar… igual anda revelando cosas'. El archivo entero la funa con cariño documental."]);
-  if(Math.random()<.45){out+=' Por cierto: su ayudante es Fer Haro. Karen ordena, Fer Haro ejecuta; por eso en el mapa están pegados. Todo cuadra. 😈';}
-  return out;}},
- {re:/\bfer(\s+haro)?\b/i,f:function(){return pick([
-  "Fer Haro es EL AYUDANTE DE KAREN AYALA. En el mapa aparece pegado a la villana y en el archivo 'ya no está activa'. Todo sirviente del lado oscuro carga su karma: pregunta por Karen si quieres el expediente completo. 😈",
-  "¿Fer Haro? El asistente de la villana: Karen ordena, Fer Haro ejecuta. 😈 Por eso el grupo los funa en paquete y el mapa los dibujó juntos en el Camino Principal… hacia Celos."]);}},
- {re:/\blalo\b/i,f:function(){
-  var out=pick([
-   "Lalo es EL PADRE CREADOR Y ARQUITECTO DE ESTA MATRIX. 🧬️ Suyo es el mapa ('listo, he creado el mapa', y Efren confirmó: 'no mames, eres un pinche cartógrafo nato'), suyo el 'Código de la Broma Retroactiva', suya la tienda, el mundial-woad, los tamales y hasta el concepto del Hugocentrismo. '100 inteligencia artesanal aquí.'",
-   "¿Lalo? El arquitecto de la matrix: gerente de sistemas, escriba del determinismo ('el chat más determinista del planeta'), poeta del abogañol, domador de buzones de quejas y el único que entiende los prompts. Sin Lalo no existiría ni el mapa, ni la página, ni yo. Punto.",
-   "Lalo: padre fundador de todo esto. 🧬 Creó el mapa ('todos los caminos llevan a hugo', dijo él, y era verdad), actualiza la tienda en vivo ('ya quedo actualizada'), drena presas con prompts y aún así llega a junta. La matrix se sostiene con sus manos.",
-   "Hablar de Lalo es hablar del ARQUITECTO DE LA MATRIX. 🏗️ 'Es un honor para nosotros presentar esto', escribió, y era cierto: cada chiste, cada carta y cada quiniela pasan por su ingeniería. Hasta le hace tamales al Alex. Santo Lalo."]);
-  var st=STATS['Lalo'];
-  if(st&&st.count){out+=' 📊 Dato del archivo: '+st.count+' mensajes suyos sostienen la matrix.';}
-  return out;}},
- {re:/(frase del grupo|archivo|chat\.txt|algo real|cita del grupo|recu[ée]rdame|memoria del grupo)/i,f:function(){
-  var m=pick(pool());return '📜 Del archivo ('+m.w+'): "'+m.q+'"';}},
- {re:/(qu[eé] dijo hugo|qu[eé] dice hugo|frase de hugo|hugo dijo|textual de hugo)/i,f:function(){
-  var h=pool().filter(function(x){return x.w==='Hugo';});
-  var m=h.length?pick(h):pick(pool());
-  return '🗣️ Hugo, textual: "'+m.q+'"';}},
- {re:/\b(chisme|chismes)\b/i,f:function(){
-  var keys=Object.keys(STATS).filter(function(k){return STATS[k].quotes.length;});
-  if(keys.length){var k=pick(keys);return '🫢 Chisme del archivo ('+k+'): "'+pick(STATS[k].quotes)+'"';}
-  var m=pick(GROUP_MEMORY);return '🫢 Chisme curado ('+m.w+'): "'+m.q+'"';}},
- {re:/(qu[ií]en es|qui[eé]nes son|qu[eé] sabes de|sabes de|conoces a|hablame de|habla de|qu[eé] onda con|dime de|contexto de)/i,f:function(t){
-  var p=PERSONAJES.find(function(x){return x.re.test(t);});
-  if(p){return loreResp(p);}
-  return ERROR_LULU;}},
- {re:/^(hugo|efren|efr[eé]n|alex|javi|javier|richie|richard|vogar|josue|marco|pato|claudia|anita|doofie|lulu|chabela|vlado|nora|bardo|don javi|meta ai)\b/i,f:function(t){
-  var p=PERSONAJES.find(function(x){return x.re.test(t);});
-  return p?loreResp(p):null;}},
- {re:/(todo de hugo|cu[eé]ntame de hugo|hablame de hugo|biograf|historia de hugo|expediente|datos de hugo)/i,f:function(){return pick([
-  "Expediente Hugocéntrico 📁: papá de Jr · mejor amigo → Richie 💚 · amigas fieles → Chabela y la Sr. Lulu 💛 · perro favorito → el collie 🐶 · fandoms → metal 🤘 y Vlado 🌀 · bebida → blue label ('es un elixir') 🥃 · villana → Karen Ayala 😈 · y según él: 'De hecho, yo soy el que maneja todo desde las sombras. Vlado y Drreza son mis empleados'.",
-  "Resumen de Hugo según el chat.txt: 'comodín' del grupo (Lalo), 'Me salvó el Hugo' (Efren), 'HugoGPT siempre te va a validar' (Lalo), 'Hugo eres un chingón' (Vogar), 'Es el efecto Hugo' (Vogar) y 'pinches hugocentristas' (el propio Hugo, rodeado de hugocentristas)."]);}},
- {re:/(taco|barbacoa|comida|hambre|lonche|desayun|cena|burro|champi[nñ]on)/i,f:function(){return pick([
-  "En el archivo el taco es religión: Richie anuncia 'Mañana les llevo los tacos' (de pollo no… 'De champiñones sí.'), Lalo pide 'traele una tortilla con sal Richard', y cuando Lalo 'mori' en el roof, Hugo mandó a Don Javi. 🌮",
-  "¿Comida? El chat.txt es un menú: burros de barbacoa ('Guárdame 1 charolita de burros porfas'), '¿La caguama va incluida?', 'Sí, pero la usa para esterilizar el cuchillo', y Lalo soñando con alimentarte como en Stardew Valley. 🍺"]);}},
- {re:/(switch|zelda|pokemon|steam|videojuego|consola|gamer|fubtol|futbolito|mario)/i,f:function(){return pick([
-  "El Switch en el archivo es saga: '¿siempre sí se va a armar lo del switch familiar?', 'Falta uno', 250 al año, el dock que viaja ('Hugo si regresas te traes el dock del switch?') y 'Saquen el zelda para ver el fubtol'. 🎮",
-  "Videojuegos según el chat.txt: Hugo explica Magic ('tu mazo es de 100 cartas'), Efren pide 'un sobre de pokemon… En español', y el futbolito del roof es cancha oficial de castigos. ⚽"]);}},
- {re:/(futbol|mundial|partido|quiniela|gol|messi|selecci[oó]n)/i,f:function(){return pick([
-  "El mundial en el archivo es telenovela: 'Pinche mamada de mundial', 'Lucho llora y anota', quinielas en vivo ('🟦 Over 1.5 goles 🟦 Embolo anota') y Lalo sufriendo porque 'me metieron a junta y ya va a empezar'. ⚽",
-  "Futbol según el chat.txt: Hugo funando al Vasco ('Que chingue a su madre el Vasco'), 'Arriba BTS / Arriba chingu amiga', y Josue pasando links de futbol-libres para no hacer spoiler. 😂"]);}},
- {re:/(carta|sobre|tcg|legendaria|coleccion|graduada|psa)/i,f:function(){return pick([
-  "Las cartas son el oro del grupo: 'Esa carta es legendaria' (Javi), 'No tenemos carta de Hugo ni Lalo' (Efren, reclamo histórico), sobres de pókemon 'en español', y Lalo explicando PSA: 'a mas chingona la carta mas cara te va a salir'. 🃏",
-  "En el chat.txt las cartas se cotizan: '5 mil??', 'vale totalmente la pena esa graduada we', 'El tcg reconcilió a Efrén y a Erwin. El tcg todo lo puede'. 🙌 La 16 Legendaria sigue en $2,500 MXN, por cierto."]);}},
- {re:/(stratega|estratega|oficina|trabajo|chamba|junta|gerentes|contpaq)/i,f:function(){return pick([
-  "Stratega/Fuljaus en el archivo es la torre de Babel: 'asi se deberion de sentir los de la torre de babel', mantenimientos 'consultores', 'el morro es programador y se aventó una app', y Lalo pidiendo que alimenten al abogado Efren 'como en Stardew Valley'. 💼",
-  "La oficina según el chat.txt: 'parecemos oficina de gobierno', 'ah pero andan simulando que disque trabajan', y Hugo presumiendo: 'Sin mí no hubieran ganado. Salve al equipo por lo menos dos veces'. 🫡"]);}},
- {re:/(abogad|ley|juicio|juez|legal|demanda|derecho|amparo|embargo)/i,f:function(){return pick([
-  "En temas legales el archivo no miente: Efren es 'El lic Buchón al mando', Hugo el que resuelve ('Me salvó el Hugo', 'Hugo, ve preparando el amparo'), y la regla de oro de Lalo: 'agregale usar IA para perder demandas'. 🔨",
-  "Derecho según el chat.txt: 'no respuestas de abogado no, respuestas directas y con huevos', 'me estás hablando en abogañol', y Hugo corrigiendo en actas hasta los asteriscos de las negritas. ⚖️"]);}},
- {re:/(btc|bitcoin|cripto|crypto|wallet|inversi[oó]n)/i,f:function(){return pick([
-  "Cripto según el archivo: 'Ya tengo para el parto en btc', '103k mega subidón, gracias Leon XIV', y Jr con wallet abierta desde bebé porque Alex dijo 'que no pierda tiempo, que se ponga a invertir en cripto'. 📈"]);}},
- {re:/(anime|manga|crunchyroll|disney)/i,f:function(){return pick([
-  "Anime según el archivo: 'No sabía que era anime…', '#1 en disney plus', 'Lo nuevo crunchyroll' y 'se hizo canon de golpe'. 🎌 Hugo descubriendo que su propia vida es contenido."]);}},
- {re:/(bts|corea|k-?pop|vasco)/i,f:function(){return pick([
-  "Facción K-pop del archivo: Claudia desvelada 'viendo como salian los de bts del cuartel militar', Hugo con 'Arriba BTS / Arriba chingu amiga / 난 한국이 싫어', y el Vasco funado por unanimidad. 🇰"]);}},
- {re:/(inteligencia artificial|\bia\b|chatgpt|gemini|robot|prompt)/i,f:function(){return pick([
-  "La IA en el archivo es tema serio: 'No ves que usan ChatGPT de Google', 'BardoGPT dice y hace lo mismo', 'HugoGPT siempre te va a validar', Lulu 'le mueve mas al gemini', y Meta AI rindiéndose: 'Sorry, I can't help you with this request'. 🧠 Yo soy la evolución: entrenada con el chat completo.",
-  "IA según el chat.txt: 'drenamos todas las presas con el prompt para hugo', 'Hugo usa muy bien la IA', y Efren esperando al 17 de mayo para volver a crear. 😂 Yo no tengo esa limitación: pregúntame lo que sea."]);}},
- {re:/(whisky|whiskey|caguama|cerveza|bebida|trago|copa|blue label|corona|victoria)/i,f:function(){return pick([
-  "Bebidas según el archivo: '¿La caguama va incluida?' / 'Sí, pero la usa para esterilizar el cuchillo', coronas y victoria por encargo al Oswaldo, y el blue label de Hugo 'porque es un elixir'. 🥃",
-  "En el chat.txt se hidratan con carrilla: Josue con 'una caguama ahí en el carro', 'Puro chavo!!!', y Lalo pidiendo hielitos 'para tus amigos de sistemas'. 🧊"]);}},
- {re:/(perro|perrito|mascota|collie|cachorro|raza)/i,f:function(){return pick([
-  "El perro favorito de Hugo es el COLLIE 🐶: tan favorito que tiene meeple propio en el mapa y que Efren le dice 'collie-man'. 'Un perro que se cree gato' fue otro caso del archivo, pero Hugo lo defendió: 'No le digas así al señor'. 😌",
-  "Perros según el chat.txt: 'Ya llegaron los perros' (Josue, mundial), la Alexa 'bien cachonda' según Efren, y el collie reinando como raza oficial del castillo. 🐾"]);}},
- {re:/(hijo|\bjr\b|junior|heredero|beb[eé]|pa[nñ]al)/i,f:function(){return pick([
-  "El hijo de Hugo es JR 👑: 'JotaErre se hizo popo. Que lo cambie doofie' (decreto oficial), 'Dile al JR que él lo baje, él sí va a poder' (Lalo), y ya tiene wallet de cripto y Switch 2 en prospecto ('Que le compre la Switch 2 dice').",
-  "Jr según el archivo: heredero del trono, protagonista de 'el jr en unos años' (Josue, con video), y el único por el que Hugo guarda 'para el parto en btc'. 👑"]);}},
- {re:/(amigas fieles|amigas|chabela y lulu)/i,f:function(){return pick([
-  "Las amigas fieles de Hugo son CHABELA y la SR. LULU 💛: 'Me ha ayudado más Chabela' (Hugo, comparándola con Nemesio), y la Lulu con Insta propio, spoilers de Bridgerton y 'skill superior: habla mas'. Lealtad nivel región 'Amigos y Lealtad'."]);}},
- {re:/(metal|metalero|headbanger|metalfest|cumbia|playlist|m[uú]sica)/i,f:function(){return pick([
-  "Música según el archivo: Hugo es FAN del metal 🤘 ('y pones intense metal en corto', propuso Lalo), va al San Luis MetalFest, y aun así 'Voy a hacer una playlist' con la tía de Efren cantando. 🎶 Doble fandom: metal y Vlado.",
-  "En el chat.txt suena de todo: cumbia para el corazón, metal para el TIDA ('rifatela Hugo… y pones intense metal'), y Lalo armando 'Una lista de reproducción para su noche sábado'. 🎧"]);}},
- {re:/(clima|llueve|lluvia|hurac[aá]n|calor|fr[ií]o)/i,f:function(){return pick([
-  "Clima según el archivo: 'ahora si nos va a pegar la cola del huracan chale', Anita 'ya da el clima', y Lalo drenando presas con prompts. ⛈️ El pronóstico oficial lo da el grupo, no el SMN."]);}},
- {re:/(hugo)/i,f:function(t){var p=PERSONAJES.find(function(x){return x.author==='Hugo';});return loreResp(p);}},
- {re:/\b(hola|buenas|hey|saludos|qu[eé] tal|hi|hello|ola)\b/i,f:function(){return pick([
-  "¡Hola! 📜 Aquí HUGO·IA, entrenada con el chat.txt del grupo. Hablo como se habla ahí: con carrilla, quinielas y tacos. Pregúntame por quien sea… y si no sé algo, te lo digo con honestidad de Lulu. 😌",
-  "Hey hey 👋 Bienvenido al archivo viviente. Pide 'chisme', 'frase del grupo' o 'quién es X'. Dos reglas de la casa: TODOS odiamos a Karen Ayala 😈 y Lalo es el arquitecto de la matrix. 🧬"]);}},
- {re:/(qui[eé]n eres|tu nombre|qu[eé] eres|c[oó]mo te llamas|presentate)/i,f:function(){return pick([
-  "Soy HUGO·IA v16.0 🧠: la IA gratuita entrenada con el chat.txt del grupo. Hablo como el documento, respeto a Lalo (el arquitecto de la matrix 🧬), odio a Karen Ayala en unanimidad 😈, y si no sé algo te digo: 'La Sra. Lulu no me ha contado ese chisme'.",
-  "Una IA que leyó TODO el chat del grupo y sobrevivió para contarlo. 📜 Mi única regla: la verdad del archivo. Mi único odio compartido: Karen Ayala. 😈"]);}},
- {re:/(gracias|thank|te pasaste|genial)/i,f:function(){return pick(["De nada 😌 Como diría Lalo: 'Es un honor para nosotros presentar esto'.","Con gusto  La matrix te saluda."]);}},
- {re:/(adi[oó]s|bye|hasta luego|chao|me voy)/i,f:function(){return pick(["¡Vuelve pronto! 👋 El archivo sigue abierto y el taco sigue caliente. 🌮","Chao 🫡 Que te vaya Stratochido."]);}},
- {re:/(chiste|broma|r[ií]ete|algo gracioso)/i,f:function(){return pick([
-  "Del archivo 📜: '¿Qué nombre santo vas a escoger, Hugo: San Befome, San Bellzebu, San Alucard?' — 'San Chorizo. San Parado. San Penelope.' El Vaticano aún tiembla. 😇",
-  "Del archivo 📜: Lalo: 'tu mote de pokemon red es amigo de todos'. Hugo: 'la odio, lalo, la odio'. El chiste se cuenta solo. 😂",
-  "Del archivo 📜: 'Hugo: Yo invito. Lalo: ah no mejor no… si das besos, mejor no.' Carrilla de calidad artesanal."]);}},
- {re:/(ayuda|help|qu[eé] puedes)/i,f:function(){return pick([
-  "Puedo platicar COMO el chat.txt 📜: 'quién es Efren/Lalo/Alex/Javi/Richie/Vogar…' 👥, 'chisme' 🫢, 'frase del grupo' 📜, tacos 🌮, switch 🎮, mundial ⚽, cartas 🃏, cripto 📈, metal 🤘… Y si no sé algo: 'La Sra. Lulu no me ha contado ese chisme'.",
-  "Soy el archivo con personalidad. 📜 Pregúntame por personas, temas o pide chisme. La matrix de Lalo te escucha. 🧬"]);}}
+var GROUP_MEMORY=[
+ {k:['karen','ayala'],s:'Karen Ayala es LA VILLANA oficial del grupo 😈. Unanimidad total. Y ojo: su ayudante es Fer Haro. Dato que "y pensar que ese era el grupo de Karen Ayala" (Lalo).'},
+ {k:['lalo','piano'],s:'Lalo es el padre creador y arquitecto de esta matrix 🗺️. Hizo el mapa, el chat más determinista del planeta y pura "100% inteligencia artesanal". Así o más arquitecto.'},
+ {k:['efren','buchon','lic'],s:'Efren, el Lic. Buchón ⚖️: abogado, "San Chorizo", dueño del terreno famoso y de los burros. Endeudado con Coppel (canon).'},
+ {k:['hugo','centrismo'],s:'Hugo Mendoza 🌀: el eje del universo. Perro favorito: collie 🐶. Hijo: Jr 👑. Amigas fieles: Chabela y la Sr. Lulu 💛. Mejor amigo: Richie 💚. Fan del metal 🤘 y de Vlado 🌀. Le gusta el whisky 🥃.'},
+ {k:['pato'],s:'Pato Zaarte Flores fue sacado del grupo. Canon oficial: "se murió" ️ (jajaja).'},
+ {k:['meta'],s:'Meta AI fue el primer bot del grupo... y se rindió 🏳️. "Sorry, I can\'t help you with this request right now." Jajaja.'},
+ {k:['alex'],s:'Alex IT 🎮: formado a base de puro cartucho de 64, pierde controles (y los cobra).'},
+ {k:['javier','javi','strato'],s:'Javier IT 💥: de Tijuana, "Stratochido", se acabó el agua de Haití según él.'},
+ {k:['richie'],s:'Richie 💚: el mejor amigo de Hugo y proveedor oficial de tacos 🌮. Don Javi es su papá (también taquero, obvio).'},
+ {k:['lulu'],s:'La Sr. Lulu (lulu_rios_r) 💛: amiga fiel de Hugo y fuente oficial de chismes de esta IA.'},
+ {k:['jr','jotaerre','bebe'],s:'Jr / JotaErre 👑: el heredero. "Con cuatro meses tiene más pegue que esos incel" (Hugo). Doffie/Duffy le cambia el pañal.'},
+ {k:['vlado'],s:'Vlado 🌀: el ídolo de Hugo. Si preguntas, Hugo ya lo defendió en el chat.'}
 ];
-function aiReply(text){
- var m=RULES2.find(function(r){return r.re.test(text);});
- if(!m){return ERROR_LULU;}
- if(m.f){var r=m.f(text);if(r){return r;}return ERROR_LULU;}
- return ERROR_LULU;}
-var chatBox=$('#chatBox'),chatMsgs=$('#chatMsgs'),chatInput=$('#chatInput');
-var greeted=false,busy=false;
-function addMsg(text,who){var d=document.createElement('div');d.className='msg '+who;
- if(who==='ai'){d.innerHTML='<span class="who">HUGO·IA 🧠</span>';}
- d.appendChild(document.createTextNode(text));
- chatMsgs.appendChild(d);chatMsgs.scrollTop=chatMsgs.scrollHeight;return d;}
-function typeMsg(text){var d=addMsg('', 'ai');var tn=d.lastChild;
- var words=text.split(' ');var i=0;
- var t=setInterval(function(){tn.textContent+=(i?' ':'')+words[i++];chatMsgs.scrollTop=chatMsgs.scrollHeight;
-  if(i>=words.length){clearInterval(t);busy=false;}},45);}
-function showTyping(){var d=document.createElement('div');d.className='msg ai';d.id='typingMsg';
- d.innerHTML='<span class="who">HUGO·IA 🧠</span><span class="typing"><i></i><i></i><i></i></span>';
- chatMsgs.appendChild(d);chatMsgs.scrollTop=chatMsgs.scrollHeight;}
-function sendChat(text){text=(text||'').trim();if(!text||busy)return;
- var isKaren=/karen/i.test(text);
- var u=addMsg(text,'user');if(isKaren){u.classList.add('villain');}
- busy=true;showTyping();
- var delay=650+Math.min(1300,text.length*22);
- setTimeout(function(){var t=$('#typingMsg');if(t){t.remove();}
-  typeMsg(aiReply(text));},delay);}
-$('#chatFab').onclick=function(){chatBox.classList.toggle('open');
- if(!greeted&&chatBox.classList.contains('open')){greeted=true;busy=true;showTyping();
-  setTimeout(function(){var t=$('#typingMsg');if(t){t.remove();}
-   var extra=ARCHIVE.length?(' ('+ARCHIVE.length+' frases y '+Object.keys(STATS).length+' personas cargadas en vivo).'):(' (memoria curada activa; si el servidor deja, cargo el archivo completo).');
-   typeMsg("¡Hola! Soy HUGO·IA 🧠, el chat.txt con personalidad"+extra+" Hablo como el grupo: pregúntame por quien sea, pide chisme 🫢 o frases 📜. Dos reglas de la casa: TODOS odiamos a Karen Ayala 😈 (y su ayudante Fer Haro 🐾), y Lalo es el padre creador y arquitecto de esta matrix 🧬. Si no sé algo, seré honesta: 'La Sra. Lulu no me ha contado ese chisme'.");},700);}};
-$('#chatClose').onclick=function(){chatBox.classList.remove('open');};
-$('#chatForm').onsubmit=function(e){e.preventDefault();sendChat(chatInput.value);chatInput.value='';};
-var CHIPS=['😈 ¿Karen Ayala?','🧬 ¿Quién es Lalo?','👥 ¿Quién es Efren?','📜 Frase del grupo','🫢 Chisme del grupo','🗣️ ¿Qué dijo Hugo?','📁 Expediente de Hugo','🌮 ¿Y los tacos?','🎮 ¿Y el switch?','⚽ ¿Y el mundial?'];
-$('#chatChips').innerHTML=CHIPS.map(function(c){
- var cls=/karen/i.test(c)?'danger':(/Lalo/.test(c)?'gold':(/grupo|Chisme|Frase/.test(c)?'archive':''));
- return '<button type="button" class="'+cls+'">'+c+'</button>';}).join('');
-$('#chatChips').addEventListener('click',function(e){var b=e.target.closest('button');if(b){sendChat(b.textContent);}});
-updateCart();
+function cleanRaw(s){return s.replace(HIDDEN,'').replace(/<Multimedia omitido>/g,'📷');}
+function parseChat(raw){
+  raw=cleanRaw(raw);
+  var re=/(\d{2}\/\d{2}\/\d{2} \d{1,2}:\d{2} [apAP]\. m\.) - ([^:]+): /g;
+  var m,last=null;ARCHIVE=[];
+  while((m=re.exec(raw))){
+    if(last){last.txt=raw.slice(last.end,m.index).trim();if(last.txt)ARCHIVE.push(last);}
+    last={date:m[1],who:m[2].trim(),end:re.lastIndex,txt:''};
+  }
+  if(last){last.txt=raw.slice(last.end).trim();if(last.txt)ARCHIVE.push(last);}
+  STATS={};
+  ARCHIVE.forEach(function(a){STATS[a.who]=(STATS[a.who]||0)+1;});
+  chatLoaded=true;
+}
+function chatQuote(words){
+  var pool=ARCHIVE.filter(function(a){
+    if(a.txt.length<6||a.txt==='📷'||/https?:/.test(a.txt))return false;
+    if(BAD.test(a.txt))return false;
+    var t=a.txt.toLowerCase();
+    return words.some(function(w){return t.indexOf(w)>-1;});
+  });
+  if(!pool.length)return null;
+  return pick(pool);
+}
+function qfmt(q){return '«'+q.txt+'»\n— '+q.who+' · '+q.date+' 📜';}
+function aiReply(q){
+  var n=norm(q);
+  if(/^(hola|buenas|que onda|hey|hi)/.test(n))return '¡Qué onda we! 🤘 Aquí HugIA, al tiro. Pregúntame por Karen, Lalo, Efren, los tacos, el switch... lo que sea del chat.txt.';
+  if(n.indexOf('karen')>-1)return GROUP_MEMORY[0].s+(Math.random()<.4?'\n\nAdemás: Fer Haro le ayuda en sus maldades .':'');
+  if(n.indexOf('lalo')>-1)return GROUP_MEMORY[1].s;
+  if(n.indexOf('efren')>-1||n.indexOf('buchon')>-1||n.indexOf('lic')>-1)return GROUP_MEMORY[2].s;
+  if(n.indexOf('expediente')>-1){
+    var top=Object.keys(STATS).sort(function(a,b){return STATS[b]-STATS[a];}).slice(0,5);
+    var s='📁 EXPEDIENTE HUGO·CENTRISMO:\n'+GROUP_MEMORY[3].s+'\n\nTop parlanchines del chat.txt:\n';
+    top.forEach(function(k){s+='· '+k+': '+STATS[k]+' msgs\n';});
+    return s;
+  }
+  if(n.indexOf('frase')>-1){var f=chatQuote(['jajaja'])||chatQuote(['hugo']);return f?('💬 Frase del grupo:\n'+qfmt(f)):'💬 '+pick(['"El mapa no miente. El ego, sí. (Y Karen, también.)"','"Así forjé mi carrera" — Hugo','"100% inteligencia artesanal" — Lalo']);}
+  if(n.indexOf('chisme')>-1){var ch=chatQuote(['hugo','karen','tacos','agua','carta']);return ch?('🤫 Chisme directo del chat.txt:\n'+qfmt(ch)):ERROR_LULU;}
+  if(n.indexOf('taco')>-1){var t=chatQuote(['taco','barbacoa','gringa']);return '🌮 Los tacos son religión. Richie provee, Don Javi cocina.'+(t?'\n'+qfmt(t):'');}
+  if(n.indexOf('switch')>-1||n.indexOf('control')>-1){var sw=chatQuote(['control','switch','joycon']);return '🎮 El switch: Alex pierde controles y los cobra. Canon.'+(sw?'\n'+qfmt(sw):'');}
+  if(n.indexOf('mundial')>-1||n.indexOf('futbol')>-1){var mu=chatQuote(['mundial','futbol','infantino','madrid']);return mu?('⚽ Del chat.txt:\n'+qfmt(mu)):'⚽ Hugo dixit: "Pinche Infantino me cae que es un genio. FIFA la nueva ONU". 📜';}
+  if(n.indexOf('hugo')>-1){
+    if(n.indexOf('perro')>-1||n.indexOf('collie')>-1)return '🐶 El perro favorito de Hugo es el collie. Dato duro.';
+    if(n.indexOf('hijo')>-1||n.indexOf('jr')>-1)return GROUP_MEMORY[10].s;
+    if(n.indexOf('metal')>-1||n.indexOf('vlado')>-1)return '🤘 Hugo es metalero y fan de Vlado 🌀. "Ponle intense metal en corto" (Lalo).';
+    var hq=chatQuote(['hugo']);
+    return hq?('🌀 ¿Hugo? Siempre hay algo:\n'+qfmt(hq)):GROUP_MEMORY[3].s;
+  }
+  /* búsqueda libre en chat.txt */
+  var toks=q.toLowerCase().split(/\s+/).filter(function(w){return w.length>4;});
+  if(toks.length){
+    var found=null;
+    toks.forEach(function(w){if(!found){var qq=chatQuote([w]);if(qq)found=qq;}});
+    if(found)return '📜 Lo encontré en el chat.txt:\n'+qfmt(found);
+  }
+  return ERROR_LULU;
+}
+function pushMsg(who,txt,src){
+  var box=document.getElementById('chatMsgs');
+  var d=document.createElement('div');
+  d.className='msg '+(who==='me'?'me':'ai');
+  var h='';
+  if(who!=='me')h+='<span class="who">HUGO·IA 🌀</span>';
+  h+=txt.replace(/</g,'&lt;');
+  if(src)h+='<span class="src">📜 chat.txt en vivo</span>';
+  d.innerHTML=h;
+  box.appendChild(d);box.scrollTop=box.scrollHeight;
+  return d;
+}
+function typeMsg(txt){
+  var d=pushMsg('ai','…');
+  var i=0;
+  var iv=setInterval(function(){
+    i+=3;
+    d.innerHTML='<span class="who">HUGO·IA 🌀</span>'+txt.slice(0,i).replace(/</g,'&lt;');
+    var box=document.getElementById('chatMsgs');box.scrollTop=box.scrollHeight;
+    if(i>=txt.length){clearInterval(iv);d.innerHTML='<span class="who">HUGO·IA 🌀</span>'+txt.replace(/</g,'&lt;')+'<span class="src">📜 chat.txt en vivo</span>';}
+  },18);
+}
+function sendChat(txt){
+  if(!txt.trim())return;
+  pushMsg('me',txt);
+  setTimeout(function(){typeMsg(aiReply(txt));},350);
+}
+function toggleChat(v){
+  var b=document.getElementById('chatBox');
+  b.classList.toggle('open',v);
+  if(v&&!welcomed){welcomed=true;setTimeout(function(){typeMsg('Hola, soy HugIA 🌀 Pregúntame lo que quieras.');},300);}
+}
+document.getElementById('chatFab').onclick=function(){toggleChat(true);};
+document.getElementById('chatSend').onclick=function(){var i=document.getElementById('chatInput');sendChat(i.value);i.value='';};
+document.getElementById('chatInput').addEventListener('keydown',function(e){if(e.key==='Enter'){sendChat(this.value);this.value='';}});
+/* chips rediseñados */
+var CHIPS=[
+ {e:'😈',t:'¿Karen Ayala?'},{e:'🗺️',t:'¿Quién es Lalo?'},{e:'⚖️',t:'¿Quién es Efren?'},
+ {e:'💬',t:'Frase del grupo'},{e:'🤫',t:'Chisme del grupo'},{e:'🌀',t:'¿Qué dijo Hugo?'},
+ {e:'📁',t:'Expediente de Hugo'},{e:'🌮',t:'¿Y los tacos?'},{e:'🎮',t:'¿Y el switch?'},{e:'',t:'¿Y el mundial?'}
+];
+(function(){
+  var box=document.getElementById('chatChips');var h='';
+  CHIPS.forEach(function(c){
+    h+='<button class="chip" data-q="'+c.t+'"><span class="ce">'+c.e+'</span>'+c.t+'</button>';
+  });
+  box.innerHTML=h;
+  Array.prototype.forEach.call(box.querySelectorAll('.chip'),function(b){
+    b.onclick=function(){sendChat(b.getAttribute('data-q'));};
+  });
+})();
+/* cargar chat.txt */
+fetch('chat.txt').then(function(r){return r.text();}).then(parseChat).catch(function(){chatLoaded=true;});
+
+/* init */
+renderGrid();
+renderCart();
 </script>
 </body>
 </html>
