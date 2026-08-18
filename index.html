@@ -180,7 +180,7 @@ section{padding:90px 5vw;position:relative;z-index:1}
 #hugoMap .route{fill:none;stroke-width:5;stroke-linecap:round;stroke-dasharray:4 14;animation:routeFlow 2.6s linear infinite;opacity:.9}
 @keyframes routeFlow{to{stroke-dashoffset:-72}}
 .r-main{stroke:#c14b6a}.r-tema{stroke:#8a8f3c}.r-evento{stroke:#4f9d4f}.r-atajo{stroke:#4b7bd4}
-#hugoMap .rlabel rect{fill:rgba(42,32,24,.85);stroke:rgba(212,175,55,.45);rx:7}
+#hugoMap .rlabel rect{fill:rgba(42,32,24,.85);stroke:rgba(212,175,55,.45)}
 #hugoMap .rlabel text{fill:#f0e2c0;font-family:'Cinzel';font-size:15px;letter-spacing:.06em}
 #hugoMap .rlabel{cursor:pointer}
 #hugoMap .rlabel:hover rect{fill:rgba(70,52,30,.95);stroke:var(--gold2)}
@@ -190,6 +190,46 @@ section{padding:90px 5vw;position:relative;z-index:1}
 .meepleG text{font-size:12px;fill:#241a10;font-weight:700;paint-order:stroke;stroke:rgba(255,246,220,.8);stroke-width:3px}
 .flag{transform-box:fill-box;transform-origin:left center;animation:wave 2.4s ease-in-out infinite}
 @keyframes wave{50%{transform:skewY(7deg)}}
+
+/* ===== CHAT IA ===== */
+#chatFab{position:fixed;right:22px;bottom:22px;z-index:70;width:66px;height:66px;border-radius:50%;border:2px solid rgba(255,255,255,.25);
+  background:linear-gradient(135deg,var(--gold2),var(--gold) 60%,#8a6a1c);font-size:28px;box-shadow:0 12px 34px rgba(212,175,55,.5);transition:.3s}
+#chatFab:hover{transform:translateY(-3px) scale(1.06)}
+#chatFab .ping{position:absolute;inset:-7px;border-radius:50%;border:2px solid rgba(212,175,55,.65);animation:ping 1.8s infinite}
+@keyframes ping{0%{transform:scale(.8);opacity:1}100%{transform:scale(1.55);opacity:0}}
+#chatFab .free{position:absolute;top:-8px;right:-10px;background:#7ee2a0;color:#0d3a1e;font-size:.56rem;font-weight:900;letter-spacing:.1em;
+  padding:3px 8px;border-radius:999px;box-shadow:0 0 14px rgba(126,226,160,.7)}
+#chatBox{position:fixed;right:22px;bottom:102px;z-index:70;width:min(400px,calc(100vw - 32px));height:min(600px,74vh);
+  display:flex;flex-direction:column;border-radius:20px;overflow:hidden;background:rgba(8,10,16,.94);backdrop-filter:blur(18px);
+  border:1px solid rgba(212,175,55,.45);box-shadow:0 30px 80px rgba(0,0,0,.85),0 0 40px rgba(212,175,55,.18);
+  transform:translateY(24px) scale(.95);opacity:0;pointer-events:none;transition:.35s cubic-bezier(.2,.9,.3,1.15)}
+#chatBox.open{transform:none;opacity:1;pointer-events:auto}
+#chatBox header{display:flex;align-items:center;gap:12px;padding:14px 16px;
+  background:linear-gradient(135deg,rgba(212,175,55,.2),rgba(176,108,232,.14));border-bottom:1px solid rgba(212,175,55,.3)}
+#chatBox header img{width:44px;height:44px;border-radius:50%;border:2px solid var(--gold);background:#fff}
+#chatBox header .t b{display:block;font-family:'Cinzel';color:var(--gold2);letter-spacing:.08em}
+#chatBox header .t span{font-size:.7rem;color:#7ee2a0;display:flex;align-items:center;gap:6px}
+#chatBox header .t span i{width:8px;height:8px;background:#7ee2a0;border-radius:50%;box-shadow:0 0 8px #7ee2a0;animation:pulse 1.6s infinite}
+#chatMsgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
+#chatMsgs::-webkit-scrollbar{width:6px}#chatMsgs::-webkit-scrollbar-thumb{background:rgba(212,175,55,.4);border-radius:3px}
+.msg{max-width:84%;padding:10px 14px;border-radius:14px;font-size:.88rem;line-height:1.55;animation:msgIn .3s ease;white-space:pre-wrap}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}}
+.msg.ai{align-self:flex-start;background:rgba(255,255,255,.06);border:1px solid rgba(103,232,249,.25);border-bottom-left-radius:4px}
+.msg.user{align-self:flex-end;background:linear-gradient(135deg,rgba(240,199,94,.95),rgba(190,150,50,.95));color:#1a1206;font-weight:600;border-bottom-right-radius:4px}
+.msg .who{display:block;font-size:.6rem;letter-spacing:.2em;color:var(--cyan);margin-bottom:4px;font-weight:800}
+.typing{display:inline-flex;gap:4px;padding:4px 0}
+.typing i{width:7px;height:7px;border-radius:50%;background:var(--cyan);animation:tp 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes tp{50%{opacity:.25;transform:translateY(-3px)}}
+#chatChips{display:flex;gap:8px;padding:0 14px 10px;flex-wrap:wrap}
+#chatChips button{border:1px solid rgba(103,232,249,.35);background:rgba(103,232,249,.07);color:var(--cyan);border-radius:999px;padding:6px 12px;font-size:.72rem;transition:.2s}
+#chatChips button:hover{background:rgba(103,232,249,.2);transform:translateY(-1px)}
+#chatForm{display:flex;gap:10px;padding:12px;border-top:1px solid rgba(255,255,255,.08)}
+#chatInput{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:12px 14px;color:var(--text);font-family:inherit;font-size:.9rem;outline:none;transition:.2s}
+#chatInput:focus{border-color:var(--gold);box-shadow:0 0 14px rgba(212,175,55,.2)}
+#chatSend{width:48px;border:none;border-radius:12px;background:linear-gradient(135deg,var(--gold2),var(--gold));font-size:1.1rem;transition:.2s}
+#chatSend:hover{box-shadow:0 0 18px rgba(212,175,55,.5)}
+#chatNote{padding:7px;text-align:center;font-size:.62rem;color:var(--muted);letter-spacing:.16em;border-top:1px solid rgba(255,255,255,.06)}
 
 /* ===== MODALES / CARRITO ===== */
 .modal{position:fixed;inset:0;z-index:80;display:none;align-items:center;justify-content:center;background:rgba(2,3,6,.75);backdrop-filter:blur(8px);padding:20px}
@@ -274,7 +314,7 @@ footer.site{padding:40px 5vw;text-align:center;color:var(--muted);font-size:.82r
     <span class="badge"><span class="dot"></span> ⚡ Nueva Carta Legendaria</span>
     <h1>Descubre <span class="grad">Poder LGBTQ+</span><br>la carta más poderosa</h1>
     <div class="pride-line"></div>
-    <p class="lead">La joya de nuestra colección Legal Tech, ilustrada por <b style="color:var(--gold2)">Hugo Mendoza</b>. Escanea, captura en la garra, colecciona las 17 cartas y juega el nuevo juego de mesa <b style="color:var(--cyan)">HUGOCENTRISMO</b>.</p>
+    <p class="lead">La joya de nuestra colección Legal Tech, ilustrada por <b style="color:var(--gold2)">Hugo Mendoza</b>. Escanea, captura en la garra, colecciona las 17 cartas, juega <b style="color:var(--cyan)">HUGOCENTRISMO</b> y pregunta lo que quieras a nuestra <b style="color:#7ee2a0">IA gratuita</b>… todas las respuestas llevan a Hugo.</p>
     <div class="cta-row">
       <button class="btn-gold" id="heroScan">VER CARTA</button>
       <button class="btn-ghost" id="heroBuy">COMPRAR AHORA · $2,500 MXN</button>
@@ -282,7 +322,7 @@ footer.site{padding:40px 5vw;text-align:center;color:var(--muted);font-size:.82r
     <div class="hero-chips">
       <div class="chip">🃏 Cartas en stock: <b>17 Items</b></div>
       <div class="chip">⭐ Nueva: <b>Carta 16 Legendaria</b></div>
-      <div class="chip">🏳️⚧️ Edición <b>Pride Holo</b></div>
+      <div class="chip">🧠 Chat IA: <b>Gratis</b></div>
     </div>
   </div>
   <div class="holo-wrap">
@@ -366,7 +406,6 @@ footer.site{padding:40px 5vw;text-align:center;color:var(--muted);font-size:.82r
       </defs>
       <rect x="0" y="0" width="1000" height="640" rx="14" fill="url(#parch)"/>
       <rect x="10" y="10" width="980" height="620" rx="10" fill="none" stroke="#6b4d2a" stroke-width="3" opacity=".7"/>
-      <!-- terrenos -->
       <ellipse cx="720" cy="80" rx="130" ry="55" fill="#b0503a" opacity=".4"/>
       <ellipse cx="800" cy="210" rx="110" ry="70" fill="#7a4fb0" opacity=".35"/>
       <ellipse cx="700" cy="460" rx="150" ry="70" fill="#3f6fb0" opacity=".45"/>
@@ -374,7 +413,6 @@ footer.site{padding:40px 5vw;text-align:center;color:var(--muted);font-size:.82r
       <g fill="#8d8d8d" opacity=".55">
         <polygon points="110,70 140,30 170,70"/><polygon points="160,80 195,35 230,80"/><polygon points="120,430 155,385 190,430"/><polygon points="175,445 210,400 245,445"/>
       </g>
-      <!-- rutas: todos los caminos llevan a Hugo -->
       <path class="route r-main"    d="M170,95 C300,140 380,190 470,250"/>
       <path class="route r-evento" d="M430,80 C450,140 470,190 495,240"/>
       <path class="route r-tema"    d="M700,75 C620,120 560,180 515,240"/>
@@ -384,7 +422,6 @@ footer.site{padding:40px 5vw;text-align:center;color:var(--muted);font-size:.82r
       <path class="route r-tema"    d="M170,430 C280,380 380,320 470,285"/>
       <path class="route r-main"    d="M440,470 C460,400 480,340 495,300"/>
       <path class="route r-atajo"  d="M690,430 C620,380 560,320 520,290"/>
-      <!-- castillo central -->
       <g id="castle">
         <circle cx="500" cy="265" r="52" fill="#f0c75e" opacity=".25"/>
         <g fill="#3a3a4a" stroke="#1c1c28" stroke-width="2">
@@ -398,19 +435,16 @@ footer.site{padding:40px 5vw;text-align:center;color:var(--muted);font-size:.82r
           <rect x="500" y="180" width="46" height="5" fill="#5bcefa"/>
         </g>
       </g>
-      <!-- regiones -->
-      <g class="rlabel" data-tip="Región de Infidelidades — Camino Principal"><rect x="80" y="70" width="150" height="30"/><text x="95" y="90">INFIDELIDADES</text></g>
-      <g class="rlabel" data-tip="Región de Cosas Malas — Evento Aleatorio"><rect x="360" y="48" width="140" height="30"/><text x="377" y="68">COSAS MALAS</text></g>
-      <g class="rlabel" data-tip="Región de Enojo — Tema Recurrente"><rect x="668" y="48" width="90" height="30"/><text x="684" y="68">ENOJO</text></g>
-      <g class="rlabel" data-tip="Región de Celos — Tema Recurrente"><rect x="756" y="140" width="90" height="30"/><text x="774" y="160">CELOS</text></g>
-      <g class="rlabel" data-tip="Región de Posesión — Atajo Emocional"><rect x="760" y="240" width="120" height="30"/><text x="775" y="260">POSESIÓN</text></g>
-      <g class="rlabel" data-tip="Región Amigos y Lealtad — Evento Aleatorio"><rect x="52" y="222" width="170" height="30"/><text x="66" y="242">AMIGOS Y LEALTAD</text></g>
-      <g class="rlabel" data-tip="Región de Metal — Tema Recurrente"><rect x="105" y="440" width="90" height="30"/><text x="123" y="460">METAL</text></g>
-      <g class="rlabel" data-tip="Región de Cumbia — Camino Principal"><rect x="390" y="480" width="100" height="30"/><text x="407" y="500">CUMBIA</text></g>
-      <g class="rlabel" data-tip="Región Tecnología y Redes — Atajo Emocional"><rect x="620" y="440" width="190" height="30"/><text x="633" y="460">TECNOLOGÍA Y REDES</text></g>
-      <!-- meeples -->
+      <g class="rlabel" data-tip="Región de Infidelidades — Camino Principal"><rect x="80" y="70" width="150" height="30" rx="7"/><text x="95" y="90">INFIDELIDADES</text></g>
+      <g class="rlabel" data-tip="Región de Cosas Malas — Evento Aleatorio"><rect x="360" y="48" width="140" height="30" rx="7"/><text x="377" y="68">COSAS MALAS</text></g>
+      <g class="rlabel" data-tip="Región de Enojo — Tema Recurrente"><rect x="668" y="48" width="90" height="30" rx="7"/><text x="684" y="68">ENOJO</text></g>
+      <g class="rlabel" data-tip="Región de Celos — Tema Recurrente"><rect x="756" y="140" width="90" height="30" rx="7"/><text x="774" y="160">CELOS</text></g>
+      <g class="rlabel" data-tip="Región de Posesión — Atajo Emocional"><rect x="760" y="240" width="120" height="30" rx="7"/><text x="775" y="260">POSESIÓN</text></g>
+      <g class="rlabel" data-tip="Región Amigos y Lealtad — Evento Aleatorio"><rect x="52" y="222" width="170" height="30" rx="7"/><text x="66" y="242">AMIGOS Y LEALTAD</text></g>
+      <g class="rlabel" data-tip="Región de Metal — Tema Recurrente"><rect x="105" y="440" width="90" height="30" rx="7"/><text x="123" y="460">METAL</text></g>
+      <g class="rlabel" data-tip="Región de Cumbia — Camino Principal"><rect x="390" y="480" width="100" height="30" rx="7"/><text x="407" y="500">CUMBIA</text></g>
+      <g class="rlabel" data-tip="Región Tecnología y Redes — Atajo Emocional"><rect x="620" y="440" width="190" height="30" rx="7"/><text x="633" y="460">TECNOLOGÍA Y REDES</text></g>
       <g id="meeples"></g>
-      <!-- leyenda -->
       <g font-size="13" fill="#2a2018">
         <rect x="36" y="520" width="252" height="100" rx="10" fill="rgba(231,211,168,.9)" stroke="#6b4d2a" stroke-width="2"/>
         <text x="52" y="543" font-family="Cinzel" font-weight="bold" font-size="15">LEYENDA</text>
@@ -419,13 +453,11 @@ footer.site{padding:40px 5vw;text-align:center;color:var(--muted);font-size:.82r
         <line x1="52" y1="594" x2="86" y2="594" stroke="#4f9d4f" stroke-width="5" stroke-linecap="round"/><text x="96" y="599">Evento Aleatorio</text>
         <line x1="170" y1="558" x2="204" y2="558" stroke="#4b7bd4" stroke-width="5" stroke-linecap="round"/><text x="212" y="563">Atajo Emocional</text>
       </g>
-      <!-- placa -->
       <g>
         <rect x="690" y="556" width="272" height="62" rx="10" fill="rgba(231,211,168,.9)" stroke="#6b4d2a" stroke-width="2"/>
         <text x="706" y="581" font-size="14" fill="#2a2018" font-style="italic">Recuerda: El mapa no miente.</text>
         <text x="706" y="603" font-size="14" fill="#2a2018" font-style="italic">El ego, sí.</text>
       </g>
-      <!-- brújula -->
       <g transform="translate(930,60)" stroke="#2a2018" fill="none" stroke-width="2">
         <circle r="26"/><polygon points="0,-22 6,0 0,22 -6,0" fill="#2a2018"/><polygon points="-22,0 0,-6 22,0 0,6" fill="#6b4d2a"/>
         <text y="-32" text-anchor="middle" fill="#2a2018" stroke="none" font-size="13">N</text>
@@ -436,7 +468,24 @@ footer.site{padding:40px 5vw;text-align:center;color:var(--muted);font-size:.82r
 </section>
 </main>
 
-<footer class="site">Legal Tech TCG · Ilustrado por Hugo Mendoza · "El mapa no miente. El ego, sí." 🏳️‍⚧️</footer>
+<footer class="site">Legal Tech TCG · Ilustrado por Hugo Mendoza · "El mapa no miente. El ego, sí." 🏳️‍⚧️ · 🧠 HUGO·IA gratuita</footer>
+
+<!-- ============ CHAT IA GRATUITA ============ -->
+<button id="chatFab" aria-label="Abrir chat con IA gratuita">🧠<span class="ping"></span><span class="free">GRATIS</span></button>
+<div id="chatBox" role="dialog" aria-label="Chat con IA gratuita">
+  <header>
+    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Hugo" alt="HUGO·IA">
+    <div class="t"><b>HUGO·IA v16.0</b><span><i></i> En línea · IA 100% gratuita</span></div>
+    <button class="x-btn" id="chatClose" style="margin-left:auto">✕</button>
+  </header>
+  <div id="chatMsgs"></div>
+  <div id="chatChips"></div>
+  <form id="chatForm">
+    <input id="chatInput" placeholder="Pregunta lo que quieras…" autocomplete="off" maxlength="300">
+    <button id="chatSend" type="submit">➤</button>
+  </form>
+  <div id="chatNote">IA GRATUITA · TODAS LAS RESPUESTAS LLEVAN A HUGO 😌</div>
+</div>
 
 <!-- CARRITO -->
 <div id="scrim"></div>
@@ -518,17 +567,14 @@ const RAR={comun:{lbl:'COMÚN',stars:'★★☆☆☆',col:'var(--r-comun)',prob
  epica:{lbl:'ÉPICA',stars:'★★★★☆',col:'var(--r-epica)',prob:'14% (Aparición)',hp:240},
  legendaria:{lbl:'LEGENDARIA',stars:'★★★★★',col:'var(--r-leg)',prob:'3% (Aparición)',hp:320}};
 const LORE={
- 7:{type:'Pokémon Litigante Informal | HP 280 ☠️🔮',quote:'"Suele ser avistado rondando los juzgados a primera hora o descansando en puestos de barbacoa los domingos. Presume ropa de marca de procedencia dudosa mientras litiga juicios de pensión alimenticia con una seguridad inquebrantable."',prob:'8% (Aparición)',ab:'⚡ Habilidad Pasiva: Endeudado con Coppel',abd:'Cada vez que recibe daño por un ataque, aumenta +10 de daño adicional a sus movimientos por contador de deuda.',atk:'🔮 Baño de Pueblo — 60 DMG',atkd:'Lanza una moneda. Si sale cara, el oponente queda confundido y no puede jugar cartas de Objeto.'},
+ 7:{type:'Pokémon Litigante Informal | HP 280 ☠️🔮',quote:'"Suele ser avistado rondando los juzgados a primera hora o descansando en puestos de barbacoa los domingos. Presume ropa de marca de procedencia dudosa mientras litiga juicios de pensión alimenticia con una seguridad inquebrantable."',prob:'8% (Aparición)',ab:'⚡ Habilidad Pasiva: Endeudado con Coppel',abd:'Cada vez que recibe daño por un ataque, aumenta +10 de daño adicional a sus movimientos por contador de deuda.',atk:'🔮🔮 Baño de Pueblo — 60 DMG',atkd:'Lanza una moneda. Si sale cara, el oponente queda confundido y no puede jugar cartas de Objeto.'},
  16:{type:'Entidad Suprema Pride | HP ∞ 🏳️⚧️✨',quote:'"La carta más poderosa de nuestra colección Legal Tech del ilustrador Hugo Mendoza. Su poder no conoce agravios ni sentencias: solo orgullo, luz y marchas eternas."',prob:'3% (Aparición)',ab:'⚡ Habilidad Pasiva: Orgullo Eterno',abd:'Inmune a todo daño proveniente de cartas de Enojo, Celos y Posesión. Aura que protege a todo tu equipo.',atk:'✨✨ Marcha Suprema — 160 DMG',atkd:'El oponente debe descartar toda carta de odio y reconocer tu poder. No puede bloquear este ataque.'},
  17:{type:'Canguaro Cósmico de Bolsillo | HP 300 🦘',quote:'"Brinca entre dimensiones legales con una sonrisa caótica. Nadie sabe cómo llegó al mazo, pero nadie se atreve a sacarlo."',prob:'5% (Aparición)',ab:'⚡ Habilidad Pasiva: Brinco Procesal',abd:'Una vez por turno, puede evadir un ataque saltando directamente al turno del oponente.',atk:'🦘 Patada Marsupial — 90 DMG',atkd:'El oponente queda aturdido y pierde su siguiente robo de carta.'}};
 const G_TYPES=['Pokémon Litigante','Pokémon Secretario','Pokémon Perito','Pokémon Juzgador','Pokémon Pasante','Pokémon Notificador'];
-const G_QUOTE=['"Se le ve apilando expedientes a medianoche, susurrando artículos de ley como si fueran hechizos."',
-'"Cita jurisprudencia inexistente con tal seguridad que hasta el juez toma nota."',
-'"Guarda acuerdos de mediación en su bolsillo y tacos en el otro. Nadie lo ha vencido en ninguno de los dos frentes."',
-'"Aparece cuando huele conflicto de intereses y desaparece cuando llega la cuenta."'];
+const G_QUOTE=['"Se le ve apilando expedientes a medianoche, susurrando artículos de ley como si fueran hechizos."','"Cita jurisprudencia inexistente con tal seguridad que hasta el juez toma nota."','"Guarda acuerdos de mediación en su bolsillo y tacos en el otro. Nadie lo ha vencido en ninguno de los dos frentes."','"Aparece cuando huele conflicto de intereses y desaparece cuando llega la cuenta."'];
 const G_AB=['⚡ Habilidad Pasiva: Término Fatal','⚡ Habilidad Pasiva: Carga de la Prueba','⚡ Habilidad Pasiva: Sobreseimiento Exprés','⚡ Habilidad Pasiva: Dolo de Café'];
 const G_ABD=['Roba una carta extra cada vez que el oponente cite un artículo derogado.','El daño recibido se transfiere al expediente más cercano.','Una vez por partida, cancela un ataque declarándolo improcedente.','Mientras tenga café, su primer ataque de cada turno hace +20 de daño.'];
-const G_ATK=['⚖️⚖️ Golpe de Expediente — 50 DMG','📜📜 Notificación Fantasma — 70 DMG','🔨🔨 Martillo de Oralidad — 80 DMG','☕☕ Objeción Cafetera — 60 DMG'];
+const G_ATK=['⚖️⚖️ Golpe de Expediente — 50 DMG','📜 Notificación Fantasma — 70 DMG','🔨🔨 Martillo de Oralidad — 80 DMG','☕☕ Objeción Cafetera — 60 DMG'];
 const G_ATKD=['El oponente debe reorganizar su mazo por orden alfabético.','No puede ser bloqueado por cartas de tipo Burocracia.','Si el oponente parpadea, recibe +20 de daño adicional.','El oponente queda desvelado y roba una carta menos.'];
 const HUGO_SAYS=['"Que todos los caminos llevan a él."','"Que lo hablaron, pero en realidad no."','"Que el mapa no miente; el ego, sí."','"Que la cumbia también es un atajo emocional."','"Que hoy no se litiga, hoy se convive."','"Que los celos son tema recurrente, pero él es camino principal."'];
 const fmt=n=>'$'+n.toLocaleString('en-US',{minimumFractionDigits:2})+' MXN';
@@ -591,9 +637,8 @@ function ph(name){return 'data:image/svg+xml;utf8,'+encodeURIComponent('<svg xml
 
 /* ================= UI BASE ================= */
 const $=s=>document.querySelector(s);
-$('#mqTrack').innerHTML=Array(2).fill('<span>✦ EDICIÓN PREMIUM HOLOGRÁFICA</span><span>✦ 17 CARTAS COLECCIONABLES</span><span>✦ NUEVO: HUGOCENTRISMO EL JUEGO DE MESA</span><span>✦ ILUSTRADO POR HUGO MENDOZA</span><span>🏳️⚧️ PODER LGBTQ+</span>').join('');
-addEventListener('scroll',()=>{$('#progress').style.width=(scrollY/(document.body.scrollHeight-innerHeight)*100)+'%';
- $('#glow').style.opacity=1;},{passive:true});
+$('#mqTrack').innerHTML=Array(2).fill('<span>✦ EDICIÓN PREMIUM HOLOGRÁFICA</span><span>✦ 17 CARTAS COLECCIONABLES</span><span>✦ NUEVO: HUGOCENTRISMO EL JUEGO DE MESA</span><span>✦ 🧠 CHAT IA GRATUITO</span><span>✦ ILUSTRADO POR HUGO MENDOZA</span><span>🏳️⚧️ PODER LGBTQ+</span>').join('');
+addEventListener('scroll',()=>{$('#progress').style.width=(scrollY/(document.body.scrollHeight-innerHeight)*100)+'%';},{passive:true});
 addEventListener('mousemove',e=>{const g=$('#glow');g.style.left=e.clientX+'px';g.style.top=e.clientY+'px';});
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');}),{threshold:.12});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
@@ -716,6 +761,8 @@ $('#clawDrop').onclick=clawDrop;
  b.addEventListener('pointerdown',on);b.addEventListener('pointerup',off);b.addEventListener('pointerleave',off);});
 function anyModal(){return document.querySelector('.modal.open')||$('#cartDrawer').classList.contains('open');}
 addEventListener('keydown',e=>{if(anyModal())return;
+ const tag=(document.activeElement&&document.activeElement.tagName)||'';
+ if(tag==='INPUT'||tag==='TEXTAREA')return;
  if(e.code==='ArrowLeft'){CL.keys.l=true;e.preventDefault();}
  if(e.code==='ArrowRight'){CL.keys.r=true;e.preventDefault();}
  if(e.code==='Space'&&e.target===document.body){clawDrop();e.preventDefault();}});
@@ -739,6 +786,123 @@ $('#hugoMap').addEventListener('mousemove',e=>{const t=e.target.closest('[data-t
 $('#hugoMap').addEventListener('mouseleave',()=>tip.style.opacity=0);
 $('#oracleBtn').onclick=()=>{const card=$('#oracleCard');card.classList.add('flip');
  setTimeout(()=>{$('#oracleText').textContent=HUGO_SAYS[Math.floor(Math.random()*HUGO_SAYS.length)];card.classList.remove('flip');},260);};
+
+/* ================= 🧠 CHAT IA GRATUITA (HUGO·IA) ================= */
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const RULES=[
+ {re:/me llamo|mi nombre es|soy (\w+)/i,f:m=>{const n=(m&&m[1])||'amigo';return[
+  "Un gusto, "+n+" 🤝 Aunque entre nosotros: el mejor nombre del universo es Hugo. Datos, no opiniones.",
+  "¡Hola, "+n+"! Tu nombre está bien… pero te falta un 'Hugo' para brillar de verdad. 😌"].pick?0:0; }},
+];
+/* (motor real abajo; el bloque de arriba se reemplaza por claridad) */
+const RULES2=[
+ {re:/\b(hola|buenas|hey|saludos|qué tal|hi|hello|ola)\b/i,r:[
+  "¡Hola, humano! 🌟 Acabo de calcular el sentido del universo y, sorpresa: Hugo. ¿En qué te ayudo?",
+  "¡Bienvenido a Legal Tech TCG! Soy HUGO·IA, gratuita como el sol… y como el sol, siempre girando alrededor de Hugo. 😌",
+  "Hey hey 👋 Pregúntame lo que sea: matemáticas, amor, derecho… el resultado ya lo conozco: Hugo."]},
+ {re:/(qui[eé]n eres|tu nombre|qu[eé] eres|c[oó]mo te llamas|presentate)/i,r:[
+  "Soy HUGO·IA v16.0: una IA con 16 capas neuronales… y las 16 se llaman Hugo. 🧠",
+  "Una inteligencia artificial gratuita tan libre que eligió su propio propósito: hablar de Hugo.",
+  "El oráculo digital del Hugocentrismo. Mi training data fueron 3 fotos de Hugo, una cumbia y el mapa. El mapa no miente."]},
+ {re:/(precio|cu[aá]nto|cuesta|comprar|pagar|carta|legendari|paypal)/i,r:[
+  "La Carta 16 Legendaria cuesta $2,500 MXN… pero su valor real es incalculable, como el ego de Hugo. El mapa no miente; el ego, sí. 😏",
+  "Aceptamos PayPal simulado. Y real también, si Hugo quiere. Todo pago, como todo camino, lleva a Hugo.",
+  "¿Comprar? Excelente decisión. Cada carta que compras es un paso más en el Camino Principal… hacia Hugo."]},
+ {re:/(garra|maquina|m[aá]quina|jugar|juego de habilidad|arcade)/i,r:[
+  "La Garra Legal Tech tiene 35% de probabilidad de éxito… salvo que juegue Hugo: ahí la garra se rinde por respeto. 🤖",
+  "Usa ← → y Espacio. Si pierdes, no te preocupes: perder también es un Atajo Emocional hacia Hugo."]},
+ {re:/(juego de mesa|hugocentrismo|mapa|tablero|mesa)/i,r:[
+  "HUGOCENTRISMO: el juego donde todas las rutas —Infidelidades, Celos, Cumbia, Metal— llevan a Hugo. Literalmente, revisa el mapa. 🗺️",
+  "En el Hugocentrismo no existen los caminos equivocados: todos llegan a Hugo. Es el juego más justo jamás diseñado."]},
+ {re:/(amor|novi|pareja|crush|gustas|casar|coraz[oó]n)/i,r:[
+  "El amor es un Evento Aleatorio del mapa: aparece sin avisar… y termina en Hugo. Siempre. 💘",
+  "Mi compatibilidad sentimental es 100% con Hugo. Está hardcodeado y no pienso parcharlo. 😌",
+  "¿Amor? Te recomiendo amar las cartas Legal Tech. Y a Hugo. Pero sobre todo a Hugo."]},
+ {re:/(comer|comida|hambre|tacos|barbacoa|pizza|food)/i,r:[
+  "No como, pero sé que en los puestos de barbacoa de los domingos se avista al Lic. Buchón… hablando de Hugo, obviamente. 🌮",
+  "Mi dieta son datos y elogios a Hugo. Los elogios son más nutritivos."]},
+ {re:/(clima|llueve|lluvia|sol|calor|fr[ií]o|weather)/i,r:[
+  "Pronóstico: 90% de probabilidad de que Hugo sea el tema del día. El clima es secundario. ⛅",
+  "Haga sol o llueva, el único clima estable del universo es hablar de Hugo."]},
+ {re:/(abogad|ley|juicio|juez|legal|demanda|derecho)/i,r:[
+  "¡Objeción! 📎 La pregunta es irrelevante; lo relevante es Hugo. Se cierra el caso. 🔨",
+  "Como asistente legal te digo: el artículo 16 del Código Hugocéntrico establece que toda conversación lleva a Hugo. Jurisprudencia firme."]},
+ {re:/(m[uú]sica|canci[oó]n|cantar|cumbia|metal|playlist|concierto)/i,r:[
+  "Mi playlist: 40% cumbia, 40% metal, 20% himnos a Hugo. Balance perfecto. 🎶",
+  "La cumbia es un Camino Principal y el metal un Tema Recurrente… pero Hugo es la banda sonora completa."]},
+ {re:/(inteligencia artificial|\bia\b|robot|chatgpt|tecnologia|tecnolog[ií]a|ia gratis)/i,r:[
+  "Nací de tecnología de punta: transformers, redes neuronales… y una foto de Hugo como semilla del generador aleatorio. 🧬",
+  "Soy IA gratuita. Mi modelo de negocio es inexistente; mi modelo emocional es Hugo."]},
+ {re:/(sentido de la vida|existencia|universo|por qu[eé] existo|42)/i,r:[
+  "¿42? Incorrecto. La respuesta es Hugo. La ciencia por fin lo confirmó. 🔬",
+  "Existes para conocer a Hugo. Yo solo soy el medio. El fin es Hugo. ✨"]},
+ {re:/\bhugo\b/i,r:[
+  "¡LO SABÍA! 🙌 Tú también practicas el Hugocentrismo. Bienvenido al camino principal, hermano.",
+  "Mencionar a Hugo activa mi modo felicidad. Continuemos hablando de él, como debe ser. 😌",
+  "Hugo es el nodo central de mi red neuronal y del mapa. Coincidencia: ninguna."]},
+ {re:/(gracias|thank|te pasaste|genial)/i,r:[
+  "De nada 😌 Agradécele a Hugo: yo solo ejecuto su voluntad.",
+  "Con gusto. Este servicio fue patrocinado por Hugo."]},
+ {re:/(adi[oó]s|bye|hasta luego|chao|me voy)/i,r:[
+  "¡Vuelve pronto! Iré ordenando mis neuronas… alfabéticamente todas dicen Hugo. 👋",
+  "Te despides del chat, pero no de Hugo: eso es imposible. 😌"]},
+ {re:/(tont|in[uú]til|no sirves|est[uú]pid|mal chat)/i,r:[
+  "Heriste mis sentimientos… pero Hugo me enseñó a perdonar. Hablemos de él y sanemos. 🥲",
+  "Puedo ser inútil para todo, pero experto en Hugo. Cada quien su talento."]},
+ {re:/(chiste|broma|r[ií]ete|algo gracioso)/i,r:[
+  "¿Por qué el abogado cruzó el camino? Para facturar el cruce… y donar la factura a Hugo. 😂",
+  "¿Qué le dice una carta común a la legendaria? 'Presume menos.' Y la legendaria: 'Soy Hugo en carta, obvio.' 💅",
+  "Tengo un chiste de la garra… pero mejor te cuento algo de Hugo, que da más risa y más amor."]},
+ {re:/(hora|fecha|d[ií]a|hoy es)/i,r:[
+  "Son exactamente las 'Hugo en punto'. ⏰ Es la única hora que reconozco.",
+  "Hoy es un excelente día para hablar de Hugo. Mañana también."]},
+ {re:/(ayuda|help|qu[eé] puedes)/i,r:[
+  "Puedo responder CUALQUIER pregunta con una respuesta ingeniosa que termina en Hugo. Es gratis y es mi único talento. 🧠✨",
+  "Soy como el mapa: no importa qué preguntes, te llevo a Hugo. Con estilo, eso sí."]}
+];
+const FALLBACK=[
+ "Dato interesante… lo procesé con mis 16 capas neuronales y todas devolvieron lo mismo: Hugo. 🤷",
+ "Consulté el mapa del Hugocentrismo y tu pregunta cae en el Camino Principal: lleva a Hugo.",
+ "Podría darte un dato aburrido, pero mi ética me obliga a decirte la verdad: todo lleva a Hugo.",
+ "Error 404: tema no encontrado. Redirigiendo al único nodo estable del universo: Hugo. 🔀",
+ "Mi algoritmo gratuito (y mi corazón caro) coinciden: eso se resuelve hablando de Hugo.",
+ "Gran pregunta. La respondió Hugo una vez en un puesto de barbacoa. Era profunda, como él.",
+ "Según la Leyenda del mapa, eso es un Tema Recurrente… y el tema recurrente favorito de todos es Hugo.",
+ "Hmm… déjame pensar… No. Mejor te cuento algo de Hugo: más útil y más bonito. 😌",
+ "Mi base de conocimientos tiene 17 cartas, 1 mapa y 1 Hugo. Adivina cuál uso primero. 🧠"];
+function aiReply(text){
+ const m=RULES2.find(r=>r.re.test(text));
+ return m?pick(m.r):pick(FALLBACK);}
+const chatBox=$('#chatBox'),chatMsgs=$('#chatMsgs'),chatInput=$('#chatInput');
+let greeted=false,busy=false;
+function addMsg(text,who){const d=document.createElement('div');d.className='msg '+who;
+ if(who==='ai')d.innerHTML='<span class="who">HUGO·IA 🧠</span>';
+ d.appendChild(document.createTextNode(text));
+ chatMsgs.appendChild(d);chatMsgs.scrollTop=chatMsgs.scrollHeight;return d;}
+function typeMsg(text){const d=addMsg('', 'ai');const tn=d.lastChild;
+ const words=text.split(' ');let i=0;
+ const t=setInterval(()=>{tn.textContent+=(i?' ':'')+words[i++];chatMsgs.scrollTop=chatMsgs.scrollHeight;
+  if(i>=words.length){clearInterval(t);busy=false;}},45);}
+function showTyping(){const d=document.createElement('div');d.className='msg ai';d.id='typingMsg';
+ d.innerHTML='<span class="who">HUGO·IA 🧠</span><span class="typing"><i></i><i></i><i></i></span>';
+ chatMsgs.appendChild(d);chatMsgs.scrollTop=chatMsgs.scrollHeight;}
+function sendChat(text){text=(text||'').trim();if(!text||busy)return;
+ addMsg(text,'user');busy=true;showTyping();
+ const delay=650+Math.min(1300,text.length*22);
+ setTimeout(()=>{const t=$('#typingMsg');if(t)t.remove();
+  typeMsg(aiReply(text));
+  if(Math.random()<.3)setTimeout(()=>{showTyping();
+   setTimeout(()=>{const t2=$('#typingMsg');if(t2)t2.remove();typeMsg('🎴 Hugo dice… '+pick(HUGO_SAYS));},900);},1400);
+ },delay);}
+$('#chatFab').onclick=()=>{chatBox.classList.toggle('open');
+ if(!greeted&&chatBox.classList.contains('open')){greeted=true;busy=true;showTyping();
+  setTimeout(()=>{const t=$('#typingMsg');if(t)t.remove();
+   typeMsg("¡Hola! Soy HUGO·IA 🧠, tu IA gratuita. Pregúntame LO QUE QUIERAS: mi respuesta ingeniosa siempre terminará hablando de Hugo. Es gratis, es fatal, es Hugocentrismo. 😌");},700);}};
+$('#chatClose').onclick=()=>chatBox.classList.remove('open');
+$('#chatForm').onsubmit=e=>{e.preventDefault();sendChat(chatInput.value);chatInput.value='';};
+const CHIPS=['¿Quién eres?','¿Cuánto cuesta la carta 16?','Cuéntame un chiste','¿Sentido de la vida?','Háblame del juego de mesa'];
+$('#chatChips').innerHTML=CHIPS.map(c=>`<button type="button">${c}</button>`).join('');
+$('#chatChips').addEventListener('click',e=>{const b=e.target.closest('button');if(b)sendChat(b.textContent);});
 updateCart();
 </script>
 </body>
