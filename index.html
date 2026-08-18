@@ -1,1136 +1,745 @@
 <!DOCTYPE html>
-<html class="dark" lang="es">
+<html lang="es">
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>LEGAL TECH TCG - Carta Legendaria & Pokédex Scanner</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    <script id="tailwind-config">
-          tailwind.config = {
-            darkMode: "class",
-            theme: {
-              extend: {
-                colors: {
-                  "surface": "#0a0e14",
-                  "surface-container": "#151a21",
-                  "surface-bright": "#262c36",
-                  "on-secondary-container": "#e8fbff",
-                  "on-surface-variant": "#a8abb3",
-                  "surface-container-low": "#0f141a",
-                  "surface-container-highest": "#20262f",
-                  "on-surface": "#f1f3fc",
-                  "secondary": "#00e3fd",
-                  "primary": "#ffd96f",
-                  "primary-fixed": "#fcc800",
-                  "outline-variant": "#44484f",
-                },
-                fontFamily: {
-                  "headline": ["Space Grotesk"],
-                  "body": ["Inter"],
-                  "label": ["Space Grotesk"]
-                },
-              },
-            },
-          }
-    </script>
-    <style>
-        * { -webkit-tap-highlight-color: transparent; }
-        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-        .scanline-overlay {
-            background: linear-gradient(to bottom, transparent 50%, rgba(241, 243, 252, 0.02) 50%);
-            background-size: 100% 4px;
-            pointer-events: none;
-        }
-        .chamfer-clip { clip-path: polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px); }
-        .card-perspective { perspective: 1200px; }
-        
-        .card-interactive {
-            transform-style: preserve-3d;
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
-                        box-shadow 0.4s ease, 
-                        filter 0.4s ease;
-            will-change: transform, box-shadow;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            position: relative;
-            cursor: pointer;
-        }
-        
-        .card-interactive::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 50%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent 0%,
-                rgba(255, 255, 255, 0.05) 30%,
-                rgba(255, 255, 255, 0.1) 50%,
-                rgba(255, 255, 255, 0.05) 70%,
-                transparent 100%
-            );
-            transform: skewX(-25deg);
-            transition: left 0.6s ease;
-            z-index: 2;
-            pointer-events: none;
-        }
-        
-        .card-interactive:hover::before {
-            left: 150%;
-            transition: left 0.6s ease;
-        }
-        
-        .card-particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 3;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .card-interactive:hover .card-particles {
-            opacity: 1;
-        }
-        
-        .particle {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: #ffd96f;
-            border-radius: 50%;
-            animation: floatParticle 2s infinite;
-            box-shadow: 0 0 4px #ffd96f, 0 0 8px rgba(255, 217, 111, 0.5);
-        }
-        
-        @keyframes floatParticle {
-            0%, 100% { transform: translateY(0) translateX(0) scale(1); opacity: 0; }
-            50% { transform: translateY(-20px) translateX(10px) scale(1.5); opacity: 1; }
-            75% { transform: translateY(-30px) translateX(-5px) scale(1); opacity: 0.5; }
-        }
-        
-        @media (hover: hover) {
-            .card-interactive:hover {
-                box-shadow: 
-                    0 25px 45px rgba(255, 217, 111, 0.15),
-                    0 10px 20px rgba(0, 0, 0, 0.4),
-                    0 0 30px rgba(255, 217, 111, 0.1) inset,
-                    0 0 60px rgba(255, 217, 111, 0.05) inset;
-                filter: brightness(1.1) contrast(1.05);
-            }
-        }
-        
-        .card-interactive:active { 
-            transform: scale3d(0.95, 0.95, 0.95) !important;
-            transition: transform 0.1s ease !important;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Legal Tech TCG — Edición Premium | Hugocentrismo</title>
+<!-- ⚠️ Guarda la imagen adjunta del juego de mesa como: hugocentrismo.png (en la raíz) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05060a; --panel:#0b0e17; --panel2:#101527;
+  --gold:#d4af37; --gold2:#f5d67a; --cyan:#67e8f9; --violet:#b06ce8;
+  --tblue:#5bcefa; --tpink:#f5a9b8;
+  --text:#e9e6dc; --muted:#9aa0b4;
+  --r-comun:#8fa3b8; --r-rara:#4b9bd4; --r-epica:#a45bd4; --r-leg:#f0c75e;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;overflow-x:hidden}
+h1,h2,h3,.cinzel{font-family:'Cinzel',serif}
+img{max-width:100%;display:block}
+button{font-family:inherit;cursor:pointer}
+#bg3d{position:fixed;inset:0;z-index:-2;display:block}
+body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 0%,transparent 55%,rgba(0,0,0,.55) 100%);}
+#glow{position:fixed;width:520px;height:520px;border-radius:50%;pointer-events:none;z-index:0;
+  background:radial-gradient(circle,rgba(212,175,55,.10),transparent 60%);transform:translate(-50%,-50%);mix-blend-mode:screen}
+#progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:100;
+  background:linear-gradient(90deg,var(--gold),var(--cyan),var(--violet))}
 
-        .reflection-overlay {
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(
-                circle at 30% 30%,
-                rgba(255, 255, 255, 0.2) 0%,
-                rgba(255, 255, 255, 0.1) 15%,
-                transparent 40%
-            );
-            pointer-events: none;
-            z-index: 1;
-            mix-blend-mode: overlay;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-        
-        .card-interactive:hover .reflection-overlay {
-            opacity: 1;
-        }
+/* ===== HEADER ===== */
+header.top{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;gap:24px;
+  padding:14px 4vw;backdrop-filter:blur(16px);background:rgba(5,6,10,.55);
+  border-bottom:1px solid rgba(212,175,55,.18)}
+.logo{display:flex;align-items:center;gap:12px;font-family:'Cinzel';font-weight:900;font-size:1.15rem;letter-spacing:.06em}
+.logo .gem{width:34px;height:34px;border-radius:8px;display:grid;place-items:center;font-size:18px;
+  background:linear-gradient(135deg,var(--gold),#7a5a17);box-shadow:0 0 18px rgba(212,175,55,.5)}
+.logo b{background:linear-gradient(90deg,var(--gold2),#fff8e0,var(--gold));-webkit-background-clip:text;background-clip:text;color:transparent}
+nav.main{margin-left:auto;display:flex;gap:6px}
+nav.main a{color:var(--muted);text-decoration:none;font-size:.86rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  padding:8px 14px;border-radius:999px;transition:.3s}
+nav.main a:hover{color:var(--gold2);background:rgba(212,175,55,.08)}
+#cartBtn{margin-left:12px;position:relative;display:flex;align-items:center;gap:8px;border:1px solid rgba(212,175,55,.4);
+  background:linear-gradient(135deg,rgba(212,175,55,.15),rgba(212,175,55,.05));color:var(--gold2);
+  padding:10px 18px;border-radius:999px;font-weight:700;letter-spacing:.05em;transition:.3s}
+#cartBtn:hover{box-shadow:0 0 22px rgba(212,175,55,.35);transform:translateY(-1px)}
+#cartCount{min-width:22px;height:22px;border-radius:999px;background:var(--gold);color:#1a1206;display:grid;place-items:center;font-size:.75rem;font-weight:800}
+#cartCount.bump{animation:bump .4s}
+@keyframes bump{40%{transform:scale(1.45)}}
 
-        .featured-card {
-            animation: featuredGlow 3s ease-in-out infinite;
-        }
-        
-        @keyframes featuredGlow {
-            0%, 100% { 
-                box-shadow: 0 0 30px rgba(255, 217, 111, 0.3), 0 0 60px rgba(255, 217, 111, 0.1);
-                border-color: rgba(255, 217, 111, 0.3);
-            }
-            50% { 
-                box-shadow: 0 0 50px rgba(255, 217, 111, 0.5), 0 0 100px rgba(255, 217, 111, 0.2);
-                border-color: rgba(255, 217, 111, 0.6);
-            }
-        }
+/* ===== HERO ===== */
+#hero{min-height:100vh;display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:4vw;padding:120px 5vw 60px;position:relative;z-index:1}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:999px;font-size:.75rem;font-weight:700;letter-spacing:.22em;
+  color:var(--gold2);border:1px solid rgba(212,175,55,.45);background:rgba(212,175,55,.08);text-transform:uppercase}
+.badge .dot{width:8px;height:8px;border-radius:50%;background:var(--gold2);box-shadow:0 0 10px var(--gold2);animation:pulse 1.6s infinite}
+@keyframes pulse{50%{opacity:.35}}
+#hero h1{font-size:clamp(2.4rem,5vw,4.3rem);line-height:1.05;margin:22px 0 10px;font-weight:900}
+#hero h1 .grad{background:linear-gradient(100deg,var(--gold2) 10%,#fff 40%,var(--cyan) 70%,var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 24px rgba(212,175,55,.25))}
+#hero p.lead{color:var(--muted);font-size:1.06rem;max-width:520px;line-height:1.7}
+.pride-line{height:4px;width:220px;margin:18px 0;border-radius:4px;
+  background:linear-gradient(90deg,var(--tblue),var(--tpink),#fff,var(--tpink),var(--tblue));box-shadow:0 0 16px rgba(91,206,250,.5)}
+.cta-row{display:flex;gap:16px;margin-top:26px;flex-wrap:wrap}
+.btn-gold{position:relative;overflow:hidden;border:none;border-radius:14px;padding:15px 30px;font-weight:800;letter-spacing:.08em;font-size:.9rem;
+  background:linear-gradient(135deg,var(--gold2),var(--gold) 55%,#8a6a1c);color:#1a1206;transition:.3s;box-shadow:0 8px 26px rgba(212,175,55,.28)}
+.btn-gold::after{content:"";position:absolute;top:0;left:-80%;width:50%;height:100%;transform:skewX(-24deg);
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);transition:.6s}
+.btn-gold:hover::after{left:130%}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(212,175,55,.45)}
+.btn-ghost{border:1px solid rgba(103,232,249,.4);background:rgba(103,232,249,.06);color:var(--cyan);border-radius:14px;padding:15px 28px;font-weight:700;letter-spacing:.08em;font-size:.9rem;transition:.3s}
+.btn-ghost:hover{background:rgba(103,232,249,.14);box-shadow:0 0 24px rgba(103,232,249,.25)}
+.hero-chips{display:flex;gap:12px;margin-top:34px;flex-wrap:wrap}
+.chip{padding:10px 16px;border-radius:12px;background:rgba(11,14,23,.7);border:1px solid rgba(255,255,255,.08);font-size:.82rem;color:var(--muted)}
+.chip b{color:var(--gold2)}
 
-        .pack-container { position: relative; width: 220px; height: 310px; perspective: 1200px; cursor: pointer; margin-top: 60px; }
-        .pack-container .card-surprise {
-            position: absolute; width: 100%; height: 100%; border-radius: 12px; background-size: cover; background-position: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8); z-index: 2; transition: all 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform: translateY(0) scale(0.95);
-            overflow: hidden;
-        }
-        
-        .card-surprise::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 50%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent 0%,
-                rgba(255, 255, 255, 0.1) 30%,
-                rgba(255, 255, 255, 0.2) 50%,
-                rgba(255, 255, 255, 0.1) 70%,
-                transparent 100%
-            );
-            transform: skewX(-25deg);
-            z-index: 2;
-            pointer-events: none;
-        }
-        
-        .pack-container:hover .card-surprise::before {
-            animation: shimmerCard 1s ease;
-        }
-        
-        @keyframes shimmerCard {
-            0% { left: -100%; }
-            100% { left: 200%; }
-        }
-        
-        .pack-back { position: absolute; width: 100%; height: 100%; background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-radius: 10px; z-index: 1; }
-        .pack-front {
-            position: absolute; width: 100%; height: 100%; background: linear-gradient(135deg, #ffd96f 0%, #fcc800 100%);
-            border-radius: 10px; z-index: 3; display: flex; justify-content: center; align-items: center; color: #0a0e14; font-size: 20px; font-weight: 900;
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 10px 30px rgba(255, 217, 111, 0.3);
-        }
-        .pack-front::after { content: 'MYSTERY\APACK'; white-space: pre; border: 2px solid rgba(10,14,20,0.4); padding: 15px; border-radius: 8px; }
-        .pack-flap { 
-            position: absolute; top: -15px; left: 0; width: 100%; height: 30px; 
-            background: repeating-linear-gradient(45deg, #ffd96f, #ffd96f 8px, #fcc800 8px, #fcc800 16px); 
-            z-index: 4; border-radius: 6px 6px 0 0; transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform-origin: bottom; 
-            box-shadow: 0 -5px 15px rgba(255, 217, 111, 0.3);
-        }
-        .pack-container:hover .card-surprise { 
-            transform: translateY(-115%) scale(1.1) rotateZ(3deg); 
-            z-index: 5; 
-            box-shadow: 0 30px 60px rgba(255, 217, 111, 0.3), 0 0 40px rgba(255, 217, 111, 0.2);
-        }
-        .pack-container:hover .pack-front { 
-            transform: rotateX(20deg) scale(0.98); 
-            box-shadow: 0 20px 40px rgba(255, 217, 111, 0.2);
-        }
-        .pack-container:hover .pack-flap { 
-            transform: rotateX(180deg); 
-            opacity: 0;
-            box-shadow: none;
-        }
+/* Holo card */
+.holo-wrap{display:grid;place-items:center;perspective:1200px}
+.holo{transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transform-style:preserve-3d;transition:transform .15s ease-out;position:relative;width:min(360px,80vw)}
+.holo-frame{position:relative;border-radius:20px;overflow:hidden;border:2px solid rgba(212,175,55,.65);
+  box-shadow:0 0 0 4px rgba(0,0,0,.5),0 0 45px rgba(212,175,55,.35),0 0 90px rgba(176,108,232,.25),0 30px 60px rgba(0,0,0,.6);
+  aspect-ratio:5/7;background:var(--panel)}
+.holo-frame img{width:100%;height:100%;object-fit:cover}
+.holo-rainbow{position:absolute;inset:0;mix-blend-mode:color-dodge;opacity:var(--ho,0);transition:opacity .3s;pointer-events:none;
+  background:repeating-linear-gradient(115deg,rgba(255,0,90,.35) 0 12%,rgba(255,190,0,.35) 12% 24%,rgba(0,255,170,.35) 24% 36%,rgba(0,170,255,.35) 36% 48%,rgba(160,0,255,.35) 48% 60%);
+  background-size:300% 300%;background-position:var(--gx,50%) var(--gy,50%)}
+.holo-glare{position:absolute;inset:0;pointer-events:none;opacity:var(--ho,0);transition:opacity .3s;
+  background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.5),transparent 55%)}
+.holo-plate{margin-top:18px;text-align:center;transform:translateZ(40px)}
+.holo-plate h3{font-size:1.25rem;color:var(--gold2);letter-spacing:.05em}
+.holo-plate span{color:var(--muted);font-size:.82rem;letter-spacing:.22em}
+.holo-float{animation:hfloat 6s ease-in-out infinite}
+@keyframes hfloat{50%{transform:translateY(-16px)}}
 
-        .claw-machine-wrap { 
-            width: 340px; height: 460px; background: linear-gradient(180deg, #151a21 0%, #0a0e14 100%); 
-            border: 6px solid #262c36; border-radius: 16px; position: relative; overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), inset 0 0 80px rgba(0, 227, 253, 0.1);
-        }
-        .claw-glass-area { position: absolute; inset: 10px; bottom: 85px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); overflow: hidden; border-radius: 8px; }
-        
-        #main-claw-arm { 
-            position: absolute; top: 0; left: 50%; width: 4px; height: 40px; 
-            background: linear-gradient(180deg, #ffd96f 0%, #fcc800 100%); 
-            transition: left 0.15s ease-out, height 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55); 
-            z-index: 50; 
-            box-shadow: 0 0 10px rgba(255, 217, 111, 0.5);
-            transform: translateX(-50%);
-        }
-        #main-claw-hook { 
-            position: absolute; bottom: -22px; left: -14px; font-size: 26px; 
-            filter: drop-shadow(0 0 5px #ffd96f);
-            transition: transform 0.3s ease;
-            user-select: none;
-        }
-        
-        .claw-open { transform: scaleX(1.3) rotate(180deg); }
-        .claw-closed { transform: scaleX(0.8) rotate(180deg); }
-        
-        #mini-caught-card { 
-            position: absolute; top: 30px; left: 50%; transform: translateX(-50%); 
-            width: 42px; height: 58px; border: 1.5px solid #ffd96f; z-index: 45; display: none; object-fit: cover;
-            box-shadow: 0 0 15px rgba(255, 217, 111, 0.6);
-            animation: cardDangle 0.4s ease-in-out infinite alternate;
-            border-radius: 4px;
-        }
-        
-        @keyframes cardDangle {
-            from { transform: translateX(-50%) rotate(-6deg); }
-            to { transform: translateX(-50%) rotate(6deg); }
-        }
-        
-        .claw-pile-container { position: absolute; bottom: 0; width: 100%; height: 75px; pointer-events: none; }
-        
-        #claw-card-won { 
-            position: absolute; top: 40%; left: 50%; 
-            transform: translate(-50%, -50%) scale(0); 
-            width: 170px; z-index: 100; 
-            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            pointer-events: none; 
-        }
-        
-        #claw-card-won.show {
-            animation: cardReveal 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-        }
-        
-        @keyframes cardReveal {
-            0% { transform: translate(-50%, -50%) scale(0) rotateY(180deg); opacity: 0; }
-            50% { transform: translate(-50%, -50%) scale(1.2) rotateY(90deg); opacity: 0.8; }
-            100% { transform: translate(-50%, -50%) scale(1) rotateY(0deg); opacity: 1; }
-        }
+/* ===== MARQUEE ===== */
+.marquee{overflow:hidden;border-top:1px solid rgba(212,175,55,.25);border-bottom:1px solid rgba(212,175,55,.25);
+  background:linear-gradient(90deg,rgba(212,175,55,.08),rgba(176,108,232,.08),rgba(103,232,249,.08));padding:14px 0;position:relative;z-index:1}
+.marquee .track{display:flex;gap:60px;white-space:nowrap;width:max-content;animation:mq 26s linear infinite;font-family:'Cinzel';letter-spacing:.25em;font-size:.85rem;color:var(--gold2)}
+@keyframes mq{to{transform:translateX(-50%)}}
 
-        .card-interactive::after, .card-surprise::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(
-                115deg,
-                transparent 20%,
-                rgba(255, 217, 111, 0.15) 30%,
-                rgba(255, 255, 255, 0.3) 40%,
-                rgba(0, 227, 253, 0.15) 50%,
-                rgba(255, 217, 111, 0.15) 60%,
-                transparent 70%
-            );
-            background-size: 300% 300%;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            pointer-events: none;
-            mix-blend-mode: color-dodge;
-            z-index: 10;
-            border-radius: inherit;
-        }
-        .card-interactive:hover::after, .pack-container:hover .card-surprise::after {
-            opacity: 1;
-            animation: holo-shimmer 3s infinite linear;
-        }
-        @keyframes holo-shimmer {
-            0% { background-position: 200% 0; }
-            100% { background-position: -200% 0; }
-        }
-        
-        @keyframes cardAppear {
-            from { opacity: 0; transform: scale(0.8) rotateY(90deg); }
-            to { opacity: 1; transform: scale(1) rotateY(0deg); }
-        }
-        
-        .card-appear { animation: cardAppear 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+/* ===== SECTIONS ===== */
+section{padding:90px 5vw;position:relative;z-index:1}
+.sec-head{display:flex;align-items:end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:44px}
+.sec-head h2{font-size:clamp(1.7rem,3.2vw,2.6rem);font-weight:900}
+.sec-head h2 em{font-style:normal;background:linear-gradient(90deg,var(--gold2),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sec-head p{color:var(--muted)}
+.glass{background:rgba(11,14,23,.62);backdrop-filter:blur(14px);border:1px solid rgba(212,175,55,.16);border-radius:20px}
 
-        .new-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: linear-gradient(135deg, #ffd96f 0%, #fcc800 100%);
-            color: #0a0e14;
-            padding: 4px 12px;
-            font-size: 10px;
-            font-weight: 900;
-            text-transform: uppercase;
-            border-radius: 4px;
-            z-index: 20;
-            animation: badgePulse 2s ease-in-out infinite;
-            letter-spacing: 1px;
-        }
-        
-        @keyframes badgePulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
+/* ===== COLECCIÓN ===== */
+.stats{display:flex;gap:14px;flex-wrap:wrap}
+.stat{padding:12px 20px;border-radius:14px;background:rgba(11,14,23,.7);border:1px solid rgba(255,255,255,.08)}
+.stat small{display:block;color:var(--muted);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase}
+.stat b{color:var(--gold2);font-size:1.05rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:26px}
+.tcg{perspective:1000px}
+.tcg-inner{position:relative;border-radius:16px;overflow:hidden;background:var(--panel2);
+  border:1px solid rgba(255,255,255,.09);transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .12s ease-out,box-shadow .3s;
+  box-shadow:0 14px 34px rgba(0,0,0,.5)}
+.tcg-inner:hover{box-shadow:0 20px 50px rgba(0,0,0,.65),0 0 30px var(--rc,rgba(255,255,255,.12))}
+.tcg.r-comun .tcg-inner{--rc:rgba(143,163,184,.25)} .tcg.r-rara .tcg-inner{--rc:rgba(75,155,212,.35)}
+.tcg.r-epica .tcg-inner{--rc:rgba(164,91,212,.4)} .tcg.r-legendaria .tcg-inner{--rc:rgba(240,199,94,.5);border-color:rgba(240,199,94,.6)}
+.tcg-img{position:relative;aspect-ratio:5/7;overflow:hidden}
+.tcg-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.tcg-inner:hover .tcg-img img{transform:scale(1.07)}
+.tcg-shine{position:absolute;inset:0;opacity:0;transition:.3s;pointer-events:none;mix-blend-mode:color-dodge;
+  background:radial-gradient(circle at var(--gx,50%) var(--gy,50%),rgba(255,255,255,.45),transparent 50%)}
+.tcg-inner:hover .tcg-shine{opacity:1}
+.tcg-rar{position:absolute;top:10px;right:10px;padding:5px 10px;border-radius:999px;font-size:.62rem;font-weight:800;letter-spacing:.16em;background:rgba(0,0,0,.6);backdrop-filter:blur(6px)}
+.r-comun .tcg-rar{color:var(--r-comun);border:1px solid var(--r-comun)} .r-rara .tcg-rar{color:var(--r-rara);border:1px solid var(--r-rara)}
+.r-epica .tcg-rar{color:var(--r-epica);border:1px solid var(--r-epica)} .r-legendaria .tcg-rar{color:var(--r-leg);border:1px solid var(--r-leg);box-shadow:0 0 14px rgba(240,199,94,.5)}
+.tcg-body{padding:14px 14px 16px}
+.tcg-body h4{font-family:'Cinzel';font-size:.98rem;color:#f4efdf;letter-spacing:.03em}
+.tcg-body .sub{color:var(--muted);font-size:.74rem;margin:3px 0 10px}
+.tcg-foot{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.price{color:var(--gold2);font-weight:800;font-size:.92rem}
+.tcg-actions{display:flex;gap:6px}
+.icon-btn{width:34px;height:34px;border-radius:10px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);color:var(--text);font-size:.9rem;transition:.25s}
+.icon-btn:hover{border-color:var(--gold);color:var(--gold2);background:rgba(212,175,55,.12)}
 
-        .spinner {
-            border: 4px solid rgba(255, 217, 111, 0.1);
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border-left-color: #ffd96f;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        
-        .checkmark-circle {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            background: rgba(34, 197, 94, 0.1);
-            border: 2px solid #22c55e;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto;
-            animation: scaleCheck 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        @keyframes scaleCheck { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+/* ===== GARRA ===== */
+.claw-cab{max-width:1000px;margin:0 auto;padding:22px;position:relative}
+.claw-cab::before{content:"";position:absolute;inset:-2px;border-radius:22px;z-index:-1;
+  background:linear-gradient(135deg,rgba(212,175,55,.5),transparent 30%,transparent 70%,rgba(103,232,249,.4))}
+#clawCanvas{width:100%;border-radius:14px;background:#0a0d18;display:block}
+.claw-ctrl{display:flex;justify-content:center;gap:16px;margin-top:18px;flex-wrap:wrap}
+.pad-btn{width:64px;height:54px;border-radius:14px;border:1px solid rgba(103,232,249,.4);background:rgba(103,232,249,.08);color:var(--cyan);font-size:1.3rem;transition:.2s}
+.pad-btn:active{transform:scale(.92);background:rgba(103,232,249,.2)}
+.hint{text-align:center;color:var(--muted);margin-top:12px;font-size:.85rem}
 
-        /* ESCÁNER POKÉDEX EN EL MODAL */
-        .pokedex-scanner-box {
-            background: #0f1219;
-            border: 1px solid rgba(239, 68, 68, 0.4);
-            box-shadow: 0 0 30px rgba(220, 38, 38, 0.15), inset 0 0 15px rgba(0, 0, 0, 0.8);
-        }
-        .scanning-line {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 4px;
-            background: linear-gradient(90deg, transparent, #00e3fd, transparent);
-            animation: scanAnim 2s infinite ease-in-out;
-            z-index: 30;
-        }
-        @keyframes scanAnim {
-            0% { top: 0%; opacity: 0.8; }
-            50% { top: 95%; opacity: 1; }
-            100% { top: 0%; opacity: 0.8; }
-        }
-    </style>
+/* ===== HUGOCENTRISMO ===== */
+#hugo{background:linear-gradient(180deg,transparent,rgba(122,90,23,.12) 20%,rgba(122,90,23,.12) 80%,transparent)}
+.hugo-head{text-align:center;margin-bottom:50px}
+.hugo-head h2{font-size:clamp(2.2rem,4.6vw,3.6rem);font-weight:900;margin:16px 0 8px;
+  background:linear-gradient(100deg,#f5d67a,#fff8e0 40%,#d4af37 75%);-webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 0 30px rgba(212,175,55,.3))}
+.hugo-head .tag{color:var(--muted);font-style:italic;font-size:1.05rem}
+.hugo-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:30px;align-items:stretch;margin-bottom:34px}
+.board-frame{padding:16px;border-radius:22px;position:relative;transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .15s;
+  background:linear-gradient(160deg,#171226,#0b0e17);border:1px solid rgba(212,175,55,.35);box-shadow:0 30px 70px rgba(0,0,0,.6),0 0 50px rgba(212,175,55,.15)}
+.board-frame img{border-radius:14px;width:100%}
+.board-frame figcaption{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);padding:8px 22px;border-radius:999px;
+  background:rgba(0,0,0,.65);backdrop-filter:blur(8px);border:1px solid rgba(212,175,55,.5);color:var(--gold2);font-family:'Cinzel';letter-spacing:.2em;font-size:.72rem}
+.hugo-side{display:flex;flex-direction:column;gap:22px}
+.oracle{padding:24px;text-align:center;flex:1}
+.oracle h3{color:var(--gold2);letter-spacing:.1em;margin-bottom:14px}
+.oracle-card{min-height:120px;margin:0 auto 16px;max-width:320px;display:grid;place-items:center;padding:20px;border-radius:14px;
+  background:linear-gradient(160deg,#e7d3a8,#c9ad76);color:#2a2018;font-weight:600;font-style:italic;transition:transform .5s;transform:rotateY(0)}
+.oracle-card.flip{transform:rotateY(90deg)}
+.oracle-card .q{font-size:.98rem;line-height:1.5}
+.deck{display:flex;gap:14px;justify-content:center}
+.mini-card{width:110px;aspect-ratio:5/7;border-radius:12px;padding:10px 8px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;
+  background:linear-gradient(170deg,#1a2340,#0b0e17);border:1px solid rgba(212,175,55,.4);transition:.35s;transform-style:preserve-3d}
+.mini-card:hover{transform:translateY(-10px) rotateZ(-2deg);box-shadow:0 16px 34px rgba(0,0,0,.6),0 0 24px rgba(212,175,55,.3)}
+.mini-card .art{font-size:2.2rem}
+.mini-card span{font-family:'Cinzel';font-size:.68rem;letter-spacing:.12em;color:var(--gold2);text-align:center}
+.map-wrap{padding:20px;position:relative}
+#hugoMap{width:100%;border-radius:14px;display:block}
+#mapTip{position:fixed;z-index:60;pointer-events:none;padding:8px 14px;border-radius:10px;background:rgba(0,0,0,.85);border:1px solid rgba(212,175,55,.5);
+  color:var(--gold2);font-size:.8rem;opacity:0;transition:opacity .15s;backdrop-filter:blur(6px);max-width:260px}
+#hugoMap .route{fill:none;stroke-width:5;stroke-linecap:round;stroke-dasharray:4 14;animation:routeFlow 2.6s linear infinite;opacity:.9}
+@keyframes routeFlow{to{stroke-dashoffset:-72}}
+.r-main{stroke:#c14b6a}.r-tema{stroke:#8a8f3c}.r-evento{stroke:#4f9d4f}.r-atajo{stroke:#4b7bd4}
+#hugoMap .rlabel rect{fill:rgba(42,32,24,.85);stroke:rgba(212,175,55,.45);rx:7}
+#hugoMap .rlabel text{fill:#f0e2c0;font-family:'Cinzel';font-size:15px;letter-spacing:.06em}
+#hugoMap .rlabel{cursor:pointer}
+#hugoMap .rlabel:hover rect{fill:rgba(70,52,30,.95);stroke:var(--gold2)}
+.meepleG{cursor:pointer;transform-box:fill-box;transform-origin:center;animation:bob 3s ease-in-out infinite}
+.meepleG:nth-child(odd){animation-delay:1.2s}
+@keyframes bob{50%{transform:translateY(-4px)}}
+.meepleG text{font-size:12px;fill:#241a10;font-weight:700;paint-order:stroke;stroke:rgba(255,246,220,.8);stroke-width:3px}
+.flag{transform-box:fill-box;transform-origin:left center;animation:wave 2.4s ease-in-out infinite}
+@keyframes wave{50%{transform:skewY(7deg)}}
+
+/* ===== MODALES / CARRITO ===== */
+.modal{position:fixed;inset:0;z-index:80;display:none;align-items:center;justify-content:center;background:rgba(2,3,6,.75);backdrop-filter:blur(8px);padding:20px}
+.modal.open{display:flex}
+.modal-box{width:min(760px,94vw);max-height:90vh;overflow:auto;border-radius:20px;background:var(--panel);border:1px solid rgba(212,175,55,.35);box-shadow:0 40px 90px rgba(0,0,0,.8)}
+.modal-box header{display:flex;align-items:center;justify-content:space-between;padding:18px 24px;border-bottom:1px solid rgba(255,255,255,.08);
+  font-family:'Cinzel';letter-spacing:.18em;color:var(--cyan);font-weight:700}
+.x-btn{border:none;background:rgba(255,255,255,.06);color:var(--muted);width:36px;height:36px;border-radius:10px;font-size:1rem;transition:.2s}
+.x-btn:hover{color:#fff;background:rgba(255,80,80,.25)}
+.scan-stage{display:grid;grid-template-columns:.9fr 1.1fr;gap:0}
+.scan-card{position:relative;margin:22px;border-radius:14px;overflow:hidden;aspect-ratio:5/7;border:1px solid rgba(103,232,249,.4)}
+.scan-card img{width:100%;height:100%;object-fit:cover}
+.scanline{position:absolute;left:0;right:0;height:3px;top:0;background:linear-gradient(90deg,transparent,var(--cyan),transparent);
+  box-shadow:0 0 18px var(--cyan);animation:scan 1.4s linear infinite}
+@keyframes scan{to{top:100%}}
+.scan-tag{position:absolute;top:10px;left:10px;padding:5px 12px;border-radius:999px;background:rgba(0,0,0,.7);color:var(--cyan);font-size:.7rem;letter-spacing:.2em}
+.scan-data{padding:26px 26px 26px 4px}
+.scan-data .rar{font-size:.72rem;letter-spacing:.24em;font-weight:800}
+.scan-data h3{font-size:1.4rem;margin:8px 0 4px;color:#f4efdf}
+.scan-data .type{color:var(--cyan);font-size:.86rem;margin-bottom:12px}
+.scan-data .quote{color:var(--muted);font-size:.88rem;line-height:1.65;font-style:italic;border-left:3px solid rgba(212,175,55,.5);padding-left:12px;margin:12px 0}
+.scan-meta{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+.scan-meta div{padding:8px 14px;border-radius:10px;background:rgba(255,255,255,.05);font-size:.8rem;color:var(--muted)}
+.scan-meta b{color:var(--gold2)}
+.ability{border:1px solid rgba(240,199,94,.3);background:rgba(240,199,94,.06);border-radius:12px;padding:12px 14px;margin-top:10px;font-size:.84rem}
+.ability b{color:var(--gold2)} .ability.atk{border-color:rgba(176,108,232,.4);background:rgba(176,108,232,.07)} .ability.atk b{color:var(--violet)}
+.scan-data .btn-gold{margin-top:16px;width:100%}
+.scanning .scan-data{visibility:hidden}
+.scanning .scanline,.scanning .scan-tag{display:block}
+.done .scanline,.done .scan-tag{display:none}
+
+#cartDrawer{position:fixed;top:0;right:0;bottom:0;width:min(420px,94vw);z-index:90;background:var(--panel);border-left:1px solid rgba(212,175,55,.35);
+  transform:translateX(105%);transition:transform .45s cubic-bezier(.2,.9,.25,1);display:flex;flex-direction:column;box-shadow:-30px 0 70px rgba(0,0,0,.7)}
+#cartDrawer.open{transform:translateX(0)}
+#cartDrawer header{padding:20px 24px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,.08);font-family:'Cinzel';letter-spacing:.16em;color:var(--gold2)}
+#cartItems{flex:1;overflow:auto;padding:16px 20px;display:flex;flex-direction:column;gap:12px}
+.cart-row{display:flex;gap:12px;align-items:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:10px}
+.cart-row img{width:52px;height:70px;object-fit:cover;border-radius:8px}
+.cart-row .inf{flex:1}.cart-row .inf b{font-size:.88rem;display:block}.cart-row .inf span{color:var(--gold2);font-size:.8rem}
+.cart-row .rm{border:none;background:none;color:var(--muted);font-size:1rem}.cart-row .rm:hover{color:#ff6b6b}
+#cartDrawer footer{padding:20px 24px;border-top:1px solid rgba(255,255,255,.08)}
+.total-row{display:flex;justify-content:space-between;font-weight:800;margin-bottom:14px}.total-row b{color:var(--gold2)}
+#scrim{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:85;opacity:0;pointer-events:none;transition:.3s}
+#scrim.on{opacity:1;pointer-events:auto}
+
+.pay-body{padding:34px;text-align:center}
+.spinner{width:64px;height:64px;margin:0 auto 20px;border-radius:50%;border:4px solid rgba(103,232,249,.15);border-top-color:var(--cyan);animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.pay-lines{color:var(--muted);font-size:.9rem;display:flex;flex-direction:column;gap:6px;margin-top:14px}
+.pay-lines b{color:var(--text)}
+.success-ico{width:80px;height:80px;margin:0 auto 18px;border-radius:50%;display:grid;place-items:center;font-size:2rem;color:#0d3a1e;
+  background:linear-gradient(135deg,#7ee2a0,#2fae62);box-shadow:0 0 40px rgba(60,220,130,.45)}
+.reveal{opacity:0;transform:translateY(36px);transition:opacity .8s ease,transform .8s ease}
+.reveal.in{opacity:1;transform:none}
+footer.site{padding:40px 5vw;text-align:center;color:var(--muted);font-size:.82rem;border-top:1px solid rgba(255,255,255,.06);position:relative;z-index:1}
+@media(max-width:960px){
+  #hero{grid-template-columns:1fr;padding-top:110px}
+  .hugo-grid{grid-template-columns:1fr}
+  .scan-stage{grid-template-columns:1fr}
+  .scan-data{padding:0 22px 24px}
+  nav.main{display:none}
+}
+</style>
 </head>
-<body class="bg-surface text-on-surface font-body selection:bg-primary selection:text-on-primary">
+<body>
+<canvas id="bg3d"></canvas>
+<div id="glow"></div>
+<div id="progress"></div>
 
-<nav class="fixed top-0 z-40 flex justify-between items-center w-full px-4 md:px-6 py-4 bg-slate-950/80 backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.8)] pt-safe">
-    <div class="text-xl md:text-2xl font-black italic text-[#FFCB05] font-headline">Legal Tech TCG</div>
-    <div class="flex items-center gap-4">
-        <button onclick="document.getElementById('sideCartPanel').classList.remove('translate-x-full')" class="relative flex items-center justify-center p-2 rounded-full hover:bg-surface-bright transition-colors">
-            <span class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-colors">shopping_cart</span>
-            <span id="cartBadge" class="absolute -top-1 -right-1 bg-primary text-black font-black text-[10px] w-5 h-5 rounded-full flex items-center justify-center hidden">0</span>
-        </button>
-        <div class="w-10 h-10 bg-surface-container-highest border border-outline-variant rounded-full overflow-hidden">
-            <img alt="User" class="w-full h-full object-cover" src="https://api.dicebear.com/7.x/avataaars/svg?seed=Trainer1"/>
-        </div>
+<header class="top">
+  <div class="logo"><span class="gem">⚖️</span><b>LEGAL TECH TCG</b></div>
+  <nav class="main">
+    <a href="#coleccion">Colección</a><a href="#garra">La Garra</a><a href="#hugo">Hugocentrismo</a>
+  </nav>
+  <button id="cartBtn">🛒 CARRITO <span id="cartCount">0</span></button>
+</header>
+
+<main>
+<!-- ============ HERO ============ -->
+<section id="hero">
+  <div>
+    <span class="badge"><span class="dot"></span> ⚡ Nueva Carta Legendaria</span>
+    <h1>Descubre <span class="grad">Poder LGBTQ+</span><br>la carta más poderosa</h1>
+    <div class="pride-line"></div>
+    <p class="lead">La joya de nuestra colección Legal Tech, ilustrada por <b style="color:var(--gold2)">Hugo Mendoza</b>. Escanea, captura en la garra, colecciona las 17 cartas y juega el nuevo juego de mesa <b style="color:var(--cyan)">HUGOCENTRISMO</b>.</p>
+    <div class="cta-row">
+      <button class="btn-gold" id="heroScan">VER CARTA</button>
+      <button class="btn-ghost" id="heroBuy">COMPRAR AHORA · $2,500 MXN</button>
     </div>
-</nav>
-
-<main class="relative min-h-screen pt-28 pb-12 px-4 md:px-12 lg:px-24">
-    <div class="fixed inset-0 scanline-overlay z-10"></div>
-
-    <section class="relative mb-20 z-20">
-        <div class="grid lg:grid-cols-2 gap-12 items-center">
-            <div class="space-y-6 text-center lg:text-left">
-                <div class="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 border-l-4 border-primary text-primary-fixed font-label text-xs tracking-widest uppercase">
-                    ⚡ NUEVA CARTA LEGENDARIA
-                </div>
-                <h1 class="text-5xl md:text-7xl font-headline font-black uppercase italic tracking-tighter leading-none">
-                    Carta <span class="text-primary">Legendaria</span>
-                </h1>
-                <p class="text-lg text-on-surface-variant max-w-xl font-body">
-                    Descubre la nueva <span class="text-primary font-bold">Poder LGBTQ+</span>, la más poderosa de nuestra colección Legal Tech del ilustrador Hugo Mendoza.
-                </p>
-                <div class="flex gap-4 justify-center lg:justify-start">
-                    <button onclick="document.querySelector('.featured-card').scrollIntoView({behavior: 'smooth'})" 
-                            class="px-6 py-3 bg-primary text-black font-black uppercase text-sm chamfer-clip hover:bg-primary-fixed transition-all">
-                        Ver Carta
-                    </button>
-                    <button onclick="addToCart(inventoryData[inventoryData.length-1])" 
-                            class="px-6 py-3 bg-surface-bright border border-primary text-primary font-black uppercase text-sm chamfer-clip hover:bg-surface-container-highest transition-all">
-                        Comprar Ahora
-                    </button>
-                </div>
-            </div>
-            <div class="relative flex justify-center card-perspective">
-                <div class="relative w-full max-w-[300px] aspect-[3/4] bg-surface-container-low rounded-xl border-2 border-primary/30 overflow-hidden card-interactive cursor-pointer tilt-element featured-card">
-                    <div class="new-badge">NUEVO</div>
-                    <img class="w-full h-full object-contain" src="carta16.png" alt="Carta Legendaria 16"/>
-                    <div class="reflection-overlay"></div>
-                    <div class="card-particles" id="featuredParticles"></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="mb-24 relative z-20">
-        <h2 class="text-3xl font-headline font-black uppercase mb-10">Inventario <span class="text-primary">Actualizado</span></h2>
-        <div class="grid lg:grid-cols-3 gap-8">
-            <div class="lg:col-span-2 bg-surface-container border border-outline-variant/30 chamfer-clip p-6">
-                <div id="inventoryGrid" class="grid grid-cols-2 md:grid-cols-4 gap-4 card-perspective"></div>
-            </div>
-            
-            <div class="flex flex-col gap-4">
-                <div class="bg-surface-container-highest border border-outline-variant/30 chamfer-clip p-6">
-                    <h3 class="font-headline font-bold text-sm text-primary uppercase mb-4">Resumen MXN</h3>
-                    <div class="space-y-4">
-                        <div class="bg-surface-container p-3 border border-outline-variant/20">
-                            <div class="text-[8px] text-on-surface-variant uppercase font-mono mb-1">Cartas en stock</div>
-                            <div class="text-xl font-headline font-black text-secondary" id="stockCounter">17 Items</div>
-                        </div>
-                        <div class="bg-gradient-to-r from-primary/10 to-transparent p-3 border border-primary/20">
-                            <div class="text-[8px] text-primary uppercase font-mono mb-1">⭐ Nueva Carta</div>
-                            <div class="text-sm font-headline font-bold text-primary">Carta 16 Legendaria</div>
-                            <div class="text-xs text-on-surface-variant mt-1">$2,500 MXN</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex-1 bg-surface-container-highest border border-outline-variant/30 chamfer-clip overflow-hidden relative min-h-[300px]">
-                    <video 
-                        src="https://entendiendocosas.lat/tcg/tcg.mp4" 
-                        class="w-full h-full object-cover opacity-80 hover:opacity-100 transition-opacity"
-                        autoplay 
-                        muted 
-                        loop 
-                        playsinline>
-                    </video>
-                    <div class="absolute inset-0 pointer-events-none border-1 border-primary/10 shadow-[inset_0_0_20px_rgba(0,227,253,0.1)]"></div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="flex flex-col lg:flex-row justify-center items-center py-16 gap-16 lg:gap-32 relative z-20">
-        <svg id="pokedexElement" width="180" height="240" viewBox="0 0 150 200" fill="none" class="transition-all duration-500 drop-shadow-[0_0_15px_rgba(255,50,50,0.3)]">
-            <rect x="10" y="10" width="130" height="180" rx="15" fill="#dc2626"/>
-            <circle cx="45" cy="40" r="14" fill="#3b82f6" class="animate-pulse"/>
-            <circle id="pokedexBuyBtn" cx="115" cy="25" r="5" fill="#22c55e" class="cursor-pointer hover:fill-green-400 transition-colors"/>
-            <rect x="25" y="100" width="100" height="65" rx="5" fill="#1e293b"/>
-            <image id="pokedexScreenImg" x="35" y="110" width="80" height="45" preserveAspectRatio="xMidYMid meet" opacity="0" href="" />
-        </svg>
-
-        <div class="pack-container">
-            <div class="pack-flap"></div>
-            <div class="pack-back"></div>
-            <div class="card-surprise" id="randomCardElement"></div>
-            <div class="pack-front"></div>
-        </div>
+    <div class="hero-chips">
+      <div class="chip">🃏 Cartas en stock: <b>17 Items</b></div>
+      <div class="chip">⭐ Nueva: <b>Carta 16 Legendaria</b></div>
+      <div class="chip">🏳️⚧️ Edición <b>Pride Holo</b></div>
     </div>
-
-    <div class="flex flex-col items-center py-20 relative z-20 border-t border-outline-variant/20 mt-10">
-        <div class="text-center mb-6">
-            <h2 class="text-3xl font-headline font-black uppercase text-secondary">🕹️ La Garra Legal Tech</h2>
-            <p class="text-xs text-on-surface-variant font-mono mt-1">Usa los botones en pantalla o las flechas <kbd class="bg-surface-bright px-1 py-0.5 rounded border border-outline-variant text-primary">←</kbd> <kbd class="bg-surface-bright px-1 py-0.5 rounded border border-outline-variant text-primary">→</kbd> y <kbd class="bg-surface-bright px-1 py-0.5 rounded border border-outline-variant text-primary">Espacio</kbd></p>
+  </div>
+  <div class="holo-wrap">
+    <div class="holo-float">
+      <div class="holo" id="heroHolo">
+        <div class="holo-frame">
+          <img src="carta16.png" alt="Carta 16 Legendaria Poder LGBTQ+" onerror="this.onerror=null;this.src=ph('Poder LGBTQ+')">
+          <div class="holo-rainbow"></div><div class="holo-glare"></div>
         </div>
-
-        <div class="claw-machine-wrap">
-            <div class="claw-glass-area">
-                <div id="main-claw-arm">
-                    <div id="main-claw-hook" class="claw-open">🏗️</div>
-                    <img id="mini-caught-card" src="" alt="Carta Atrapada">
-                </div>
-                <img id="claw-card-won" src="" class="rounded border-2 border-primary shadow-2xl" alt="Carta Ganada">
-                <div id="claw-pile" class="claw-pile-container"></div>
-            </div>
-
-            <div class="absolute bottom-0 w-full h-20 bg-surface-container-highest border-t border-outline-variant flex items-center justify-between px-6">
-                <div class="flex gap-2">
-                    <button id="btnLeft" 
-                            onmousedown="startMovingClaw(-3)" 
-                            onmouseup="stopMovingClaw()" 
-                            onmouseleave="stopMovingClaw()"
-                            ontouchstart="startMovingClaw(-3)" 
-                            ontouchend="stopMovingClaw()" 
-                            class="w-12 h-12 bg-surface-bright border border-outline-variant flex items-center justify-center chamfer-clip active:scale-95 transition-all hover:bg-primary/20 hover:border-primary">
-                        <span class="material-symbols-outlined text-primary">arrow_back</span>
-                    </button>
-                    <button id="btnRight" 
-                            onmousedown="startMovingClaw(3)" 
-                            onmouseup="stopMovingClaw()" 
-                            onmouseleave="stopMovingClaw()"
-                            ontouchstart="startMovingClaw(3)" 
-                            ontouchend="stopMovingClaw()" 
-                            class="w-12 h-12 bg-surface-bright border border-outline-variant flex items-center justify-center chamfer-clip active:scale-95 transition-all hover:bg-primary/20 hover:border-primary">
-                        <span class="material-symbols-outlined text-primary">arrow_forward</span>
-                    </button>
-                </div>
-
-                <button id="dropBtn" onclick="runClawLogic()" class="px-6 py-3 bg-primary text-black font-black uppercase text-xs chamfer-clip active:scale-95 transition-all hover:bg-primary-fixed shadow-lg hover:shadow-primary/30 flex items-center gap-2">
-                    <span class="material-symbols-outlined text-base">file_download</span>
-                    BAJAR GARRA
-                </button>
-            </div>
-        </div>
-        <p id="clawMessage" class="mt-4 font-mono text-[11px] text-primary uppercase font-bold tracking-widest h-4">Apunta sobre las cartas y baja la garra</p>
+        <div class="holo-plate"><h3>Carta 16 — Poder LGBTQ+</h3><span>CARTA LEGENDARIA · HOLO</span></div>
+      </div>
     </div>
+  </div>
+</section>
+
+<div class="marquee"><div class="track" id="mqTrack"></div></div>
+
+<!-- ============ COLECCIÓN ============ -->
+<section id="coleccion">
+  <div class="sec-head">
+    <div><h2>La <em>Colección</em> Completa</h2><p>Pasa el cursor para el efecto holográfico · escanea con el Pokédex</p></div>
+    <div class="stats">
+      <div class="stat"><small>Resumen MXN</small><b id="stockCount">17 Items</b></div>
+      <div class="stat"><small>⭐ Nueva Carta</small><b>Carta 16 Legendaria</b></div>
+      <div class="stat"><small>Precio</small><b>$2,500 MXN</b></div>
+    </div>
+  </div>
+  <div class="grid" id="cardGrid"></div>
+</section>
+
+<!-- ============ GARRA ============ -->
+<section id="garra">
+  <div class="sec-head" style="justify-content:center;text-align:center"><div>
+    <h2>🕹️ La <em>Garra</em> Legal Tech</h2>
+    <p>Usa los botones en pantalla o las flechas ←→ y Espacio</p>
+  </div></div>
+  <div class="claw-cab glass">
+    <canvas id="clawCanvas" width="960" height="540"></canvas>
+    <div class="claw-ctrl">
+      <button class="pad-btn" id="clawLeft">⬅️</button>
+      <button class="btn-gold" id="clawDrop">️ BAJAR GARRA</button>
+      <button class="pad-btn" id="clawRight">➡️</button>
+    </div>
+    <p class="hint">Apunta sobre las cartas y baja la garra</p>
+  </div>
+</section>
+
+<!-- ============ HUGOCENTRISMO ============ -->
+<section id="hugo">
+  <div class="hugo-head reveal">
+    <span class="badge"><span class="dot"></span> 🏗️ Nuevo Juego de Mesa</span>
+    <h2>HUGOCENTRISMO</h2>
+    <p class="tag">"Todos los caminos, sin importar el tema, llevan a Hugo"</p>
+  </div>
+
+  <div class="hugo-grid">
+    <figure class="board-frame reveal" id="boardFrame">
+      <img src="hugocentrismo.png" alt="Hugocentrismo el juego de mesa" onerror="this.onerror=null;this.src=ph('HUGOCENTRISMO')">
+      <figcaption>EDICIÓN DE COLECCIONISTA</figcaption>
+    </figure>
+    <div class="hugo-side">
+      <div class="oracle glass reveal">
+        <h3 class="cinzel">HUGO DICE…</h3>
+        <div class="oracle-card" id="oracleCard"><div class="q" id="oracleText">"Que todos los caminos llevan a él."</div></div>
+        <button class="btn-ghost" id="oracleBtn">🎲 Consultar a Hugo</button>
+      </div>
+      <div class="deck reveal">
+        <div class="mini-card"><div class="art">🐶</div><span>PERROS</span></div>
+        <div class="mini-card"><div class="art">🏰</div><span>INFIDELIDADES</span></div>
+        <div class="mini-card"><div class="art">💜</div><span>CELOS</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="map-wrap glass reveal">
+    <svg id="hugoMap" viewBox="0 0 1000 640" role="img" aria-label="Mapa del juego Hugocentrismo">
+      <defs>
+        <radialGradient id="parch" cx="50%" cy="45%" r="75%">
+          <stop offset="0%" stop-color="#e7d3a8"/><stop offset="70%" stop-color="#d3b988"/><stop offset="100%" stop-color="#a9895c"/>
+        </radialGradient>
+      </defs>
+      <rect x="0" y="0" width="1000" height="640" rx="14" fill="url(#parch)"/>
+      <rect x="10" y="10" width="980" height="620" rx="10" fill="none" stroke="#6b4d2a" stroke-width="3" opacity=".7"/>
+      <!-- terrenos -->
+      <ellipse cx="720" cy="80" rx="130" ry="55" fill="#b0503a" opacity=".4"/>
+      <ellipse cx="800" cy="210" rx="110" ry="70" fill="#7a4fb0" opacity=".35"/>
+      <ellipse cx="700" cy="460" rx="150" ry="70" fill="#3f6fb0" opacity=".45"/>
+      <ellipse cx="130" cy="250" rx="110" ry="80" fill="#3f7d3f" opacity=".35"/>
+      <g fill="#8d8d8d" opacity=".55">
+        <polygon points="110,70 140,30 170,70"/><polygon points="160,80 195,35 230,80"/><polygon points="120,430 155,385 190,430"/><polygon points="175,445 210,400 245,445"/>
+      </g>
+      <!-- rutas: todos los caminos llevan a Hugo -->
+      <path class="route r-main"    d="M170,95 C300,140 380,190 470,250"/>
+      <path class="route r-evento" d="M430,80 C450,140 470,190 495,240"/>
+      <path class="route r-tema"    d="M700,75 C620,120 560,180 515,240"/>
+      <path class="route r-tema"    d="M780,170 C690,200 600,230 530,260"/>
+      <path class="route r-atajo"  d="M800,265 C700,270 610,270 535,275"/>
+      <path class="route r-evento" d="M150,250 C260,255 370,262 465,270"/>
+      <path class="route r-tema"    d="M170,430 C280,380 380,320 470,285"/>
+      <path class="route r-main"    d="M440,470 C460,400 480,340 495,300"/>
+      <path class="route r-atajo"  d="M690,430 C620,380 560,320 520,290"/>
+      <!-- castillo central -->
+      <g id="castle">
+        <circle cx="500" cy="265" r="52" fill="#f0c75e" opacity=".25"/>
+        <g fill="#3a3a4a" stroke="#1c1c28" stroke-width="2">
+          <rect x="470" y="240" width="16" height="50"/><rect x="514" y="240" width="16" height="50"/>
+          <rect x="486" y="222" width="28" height="68"/><polygon points="470,240 478,222 486,240"/><polygon points="514,240 522,222 530,240"/><polygon points="486,222 500,196 514,222"/>
+        </g>
+        <line x1="500" y1="196" x2="500" y2="160" stroke="#1c1c28" stroke-width="3"/>
+        <g class="flag">
+          <rect x="500" y="160" width="46" height="5" fill="#5bcefa"/><rect x="500" y="165" width="46" height="5" fill="#f5a9b8"/>
+          <rect x="500" y="170" width="46" height="5" fill="#ffffff"/><rect x="500" y="175" width="46" height="5" fill="#f5a9b8"/>
+          <rect x="500" y="180" width="46" height="5" fill="#5bcefa"/>
+        </g>
+      </g>
+      <!-- regiones -->
+      <g class="rlabel" data-tip="Región de Infidelidades — Camino Principal"><rect x="80" y="70" width="150" height="30"/><text x="95" y="90">INFIDELIDADES</text></g>
+      <g class="rlabel" data-tip="Región de Cosas Malas — Evento Aleatorio"><rect x="360" y="48" width="140" height="30"/><text x="377" y="68">COSAS MALAS</text></g>
+      <g class="rlabel" data-tip="Región de Enojo — Tema Recurrente"><rect x="668" y="48" width="90" height="30"/><text x="684" y="68">ENOJO</text></g>
+      <g class="rlabel" data-tip="Región de Celos — Tema Recurrente"><rect x="756" y="140" width="90" height="30"/><text x="774" y="160">CELOS</text></g>
+      <g class="rlabel" data-tip="Región de Posesión — Atajo Emocional"><rect x="760" y="240" width="120" height="30"/><text x="775" y="260">POSESIÓN</text></g>
+      <g class="rlabel" data-tip="Región Amigos y Lealtad — Evento Aleatorio"><rect x="52" y="222" width="170" height="30"/><text x="66" y="242">AMIGOS Y LEALTAD</text></g>
+      <g class="rlabel" data-tip="Región de Metal — Tema Recurrente"><rect x="105" y="440" width="90" height="30"/><text x="123" y="460">METAL</text></g>
+      <g class="rlabel" data-tip="Región de Cumbia — Camino Principal"><rect x="390" y="480" width="100" height="30"/><text x="407" y="500">CUMBIA</text></g>
+      <g class="rlabel" data-tip="Región Tecnología y Redes — Atajo Emocional"><rect x="620" y="440" width="190" height="30"/><text x="633" y="460">TECNOLOGÍA Y REDES</text></g>
+      <!-- meeples -->
+      <g id="meeples"></g>
+      <!-- leyenda -->
+      <g font-size="13" fill="#2a2018">
+        <rect x="36" y="520" width="252" height="100" rx="10" fill="rgba(231,211,168,.9)" stroke="#6b4d2a" stroke-width="2"/>
+        <text x="52" y="543" font-family="Cinzel" font-weight="bold" font-size="15">LEYENDA</text>
+        <line x1="52" y1="558" x2="86" y2="558" stroke="#c14b6a" stroke-width="5" stroke-linecap="round"/><text x="96" y="563">Camino Principal</text>
+        <line x1="52" y1="576" x2="86" y2="576" stroke="#8a8f3c" stroke-width="5" stroke-linecap="round"/><text x="96" y="581">Tema Recurrente</text>
+        <line x1="52" y1="594" x2="86" y2="594" stroke="#4f9d4f" stroke-width="5" stroke-linecap="round"/><text x="96" y="599">Evento Aleatorio</text>
+        <line x1="170" y1="558" x2="204" y2="558" stroke="#4b7bd4" stroke-width="5" stroke-linecap="round"/><text x="212" y="563">Atajo Emocional</text>
+      </g>
+      <!-- placa -->
+      <g>
+        <rect x="690" y="556" width="272" height="62" rx="10" fill="rgba(231,211,168,.9)" stroke="#6b4d2a" stroke-width="2"/>
+        <text x="706" y="581" font-size="14" fill="#2a2018" font-style="italic">Recuerda: El mapa no miente.</text>
+        <text x="706" y="603" font-size="14" fill="#2a2018" font-style="italic">El ego, sí.</text>
+      </g>
+      <!-- brújula -->
+      <g transform="translate(930,60)" stroke="#2a2018" fill="none" stroke-width="2">
+        <circle r="26"/><polygon points="0,-22 6,0 0,22 -6,0" fill="#2a2018"/><polygon points="-22,0 0,-6 22,0 0,6" fill="#6b4d2a"/>
+        <text y="-32" text-anchor="middle" fill="#2a2018" stroke="none" font-size="13">N</text>
+      </g>
+    </svg>
+    <div id="mapTip"></div>
+  </div>
+</section>
 </main>
 
-<!-- CARRITO LATERAL -->
-<div id="sideCartPanel" class="fixed top-0 right-0 h-full w-80 bg-surface-container border-l border-outline-variant z-[150] transform translate-x-full transition-transform duration-300 flex flex-col shadow-2xl">
-    <div class="p-5 border-b border-outline-variant flex justify-between items-center bg-surface-container-highest">
-        <h2 class="font-headline font-bold text-primary flex items-center gap-2">
-            <span class="material-symbols-outlined">shopping_bag</span>
-            TU CARRITO
-        </h2>
-        <button onclick="document.getElementById('sideCartPanel').classList.add('translate-x-full')" class="hover:text-primary transition-colors text-lg font-bold">✕</button>
-    </div>
-    <div id="cartItemsContainer" class="flex-1 overflow-y-auto p-4 space-y-3 font-mono text-xs"></div>
-    
-    <div class="p-5 border-t border-outline-variant bg-surface-container-highest flex flex-col gap-4">
-        <div class="flex justify-between items-center">
-            <span class="text-xs text-on-surface-variant font-mono">TOTAL:</span>
-            <div class="font-headline font-black text-secondary text-xl" id="cartTotalEl">$0.00 MXN</div>
-        </div>
-        <button onclick="startPayPalCheckout()" class="w-full py-3.5 px-4 bg-[#ffc439] hover:bg-[#e5b033] text-[#003087] font-black rounded flex items-center justify-center gap-2 transition-all hover:shadow-lg shadow-yellow-500/10 active:scale-98">
-            <span class="font-bold italic text-sm">PayPal</span> Pagar Ahora
-        </button>
-    </div>
-</div>
+<footer class="site">Legal Tech TCG · Ilustrado por Hugo Mendoza · "El mapa no miente. El ego, sí." 🏳️‍⚧️</footer>
 
-<!-- MODAL DE POKÉDEX SCANNER V3.0 (VISTA PREVIA DE CARTA DETALLADA) -->
-<div id="cardModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/95 backdrop-blur-md p-4 overflow-y-auto">
-    <div class="pokedex-scanner-box max-w-4xl w-full rounded-2xl p-6 relative my-8 border border-red-500/30">
-        <!-- CABECERA DEL SCANNER -->
-        <div class="flex justify-between items-center pb-4 mb-6 border-b border-red-500/20">
-            <div class="flex items-center gap-3">
-                <div class="w-6 h-6 rounded-full bg-blue-500 shadow-[0_0_12px_#3b82f6] animate-pulse"></div>
-                <div class="w-3 h-3 rounded-full bg-red-500"></div>
-                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-                <div class="w-3 h-3 rounded-full bg-green-500"></div>
-            </div>
-            <div class="font-mono text-xs text-red-400 font-bold tracking-widest uppercase">
-                POKÉDEX SCANNER V3.0
-            </div>
-            <button onclick="hideModal()" class="text-slate-400 hover:text-white transition-colors text-xl font-bold">✕</button>
-        </div>
+<!-- CARRITO -->
+<div id="scrim"></div>
+<aside id="cartDrawer">
+  <header>🛒 TU CARRITO <button class="x-btn" id="cartClose">✕</button></header>
+  <div id="cartItems"></div>
+  <footer>
+    <div class="total-row"><span>TOTAL:</span><b id="cartTotal">$0.00 MXN</b></div>
+    <button class="btn-gold" id="payBtn" style="width:100%">💳 PayPal · Pagar Ahora</button>
+  </footer>
+</aside>
 
-        <!-- CONTENIDO PRINCIPAL DE LA CARTA -->
-        <div class="grid md:grid-cols-12 gap-6 items-start">
-            <!-- VISTA DE IMAGEN ESCANEO -->
-            <div class="md:col-span-5 relative flex justify-center">
-                <div class="relative w-full max-w-[280px] aspect-[3/4] rounded-xl overflow-hidden border-2 border-cyan-400/50 shadow-[0_0_20px_rgba(0,227,253,0.2)]">
-                    <div class="scanning-line"></div>
-                    <div class="absolute top-2 left-2 z-20 bg-black/70 px-2 py-0.5 rounded text-[10px] font-mono text-cyan-400 tracking-wider">
-                        SCANNING...
-                    </div>
-                    <img id="modalImg" src="" class="w-full h-full object-contain bg-slate-900" alt="Card Preview"/>
-                </div>
-            </div>
+<!-- SCANNER -->
+<div class="modal" id="scannerModal"><div class="modal-box">
+  <header>POKÉDEX SCANNER V3.0 <button class="x-btn" data-close="scannerModal">✕</button></header>
+  <div class="scan-stage scanning" id="scanStage">
+    <div class="scan-card"><img id="scanImg" src="" alt=""><div class="scanline"></div><div class="scan-tag">SCANNING...</div></div>
+    <div class="scan-data" id="scanData"></div>
+  </div>
+</div></div>
 
-            <!-- DATOS POKÉDEX -->
-            <div class="md:col-span-7 space-y-4">
-                <div class="flex items-center justify-between">
-                    <span id="modalRarityBadge" class="px-3 py-1 bg-purple-600/30 border border-purple-400 text-purple-300 font-mono text-xs font-bold rounded uppercase">
-                        ÉPICA
-                    </span>
-                    <span id="modalStars" class="text-yellow-400 tracking-widest text-sm">★★★★☆</span>
-                </div>
+<!-- PAGO -->
+<div class="modal" id="payModal"><div class="modal-box" style="width:min(480px,94vw)">
+  <div class="pay-body" id="payProcessing">
+    <div class="spinner"></div>
+    <h3 class="cinzel">Procesando Pago Seguro</h3>
+    <div class="pay-lines"><span>Conectando con servidores de PayPal...</span>
+      <span>Monto: <b id="payMonto">$0.00 MXN</b></span><span>Método: <b>PayPal Express</b></span></div>
+  </div>
+  <div class="pay-body" id="paySuccess" style="display:none">
+    <div class="success-ico">✓</div>
+    <h3 class="cinzel" style="color:#7ee2a0">Transacción Completada</h3>
+    <p style="margin:8px 0 2px;font-weight:700">¡Pago Aprobado!</p>
+    <p style="color:var(--muted);font-size:.9rem">Tu orden de cartas Legal Tech ha sido procesada con éxito.</p>
+    <div class="pay-lines" style="margin-top:16px">
+      <span>ID Transacción: <b id="txnId">TXN-000000</b></span>
+      <span>Estado: <b style="color:#7ee2a0">Aprobado / Pagado</b></span>
+      <span>Total Pagado: <b id="payTotal">$0.00 MXN</b></span></div>
+    <button class="btn-gold" id="receiveBtn" style="width:100%;margin-top:22px">🎁 Recibir Colección</button>
+  </div>
+</div></div>
 
-                <div>
-                    <h2 id="modalCardTitle" class="text-3xl font-headline font-black text-white italic">
-                        Carta 7 - Lic. Buchón
-                    </h2>
-                    <p id="modalCategory" class="text-xs text-cyan-400 font-mono mt-1">
-                        Pokémon Litigante Informal | HP 280 ☠️🔮
-                    </p>
-                </div>
+<!-- PREMIO GARRA -->
+<div class="modal" id="prizeModal"><div class="modal-box" style="width:min(420px,94vw)">
+  <header>¡CAPTURA EXITOSA! <button class="x-btn" data-close="prizeModal">✕</button></header>
+  <div class="pay-body">
+    <img id="prizeImg" src="" style="width:190px;margin:0 auto 14px;border-radius:14px;border:2px solid var(--gold);box-shadow:0 0 40px rgba(212,175,55,.4)">
+    <h3 class="cinzel" id="prizeName" style="color:var(--gold2)"></h3>
+    <p style="color:var(--muted);margin:6px 0 18px" id="prizePrice"></p>
+    <div style="display:flex;gap:12px"><button class="btn-gold" id="prizeAdd" style="flex:1">🛒 Añadir al Carrito</button>
+    <button class="btn-ghost" data-close="prizeModal" style="flex:1">Seguir Jugando</button></div>
+  </div>
+</div></div>
 
-                <!-- DESCRIPCIÓN Y REGISTRO -->
-                <div class="bg-surface-container-low p-3.5 rounded-lg border border-outline-variant/30 text-xs font-mono text-slate-300 italic leading-relaxed" id="modalDexEntry">
-                    "Suele ser avistado rondando los juzgados a primera hora o descansando en puestos de barbacoa los domingos. Presume ropa de marca de procedencia dudosa mientras litiga juicios de pensión alimenticia con una seguridad inquebrantable."
-                </div>
-
-                <!-- ESTADÍSTICAS RÁPIDAS -->
-                <div class="grid grid-cols-2 gap-3">
-                    <div class="bg-surface-container p-3 rounded border border-outline-variant/20 font-mono">
-                        <div class="text-[9px] text-slate-400 uppercase">PROBABILIDAD:</div>
-                        <div id="modalDropRate" class="text-sm font-bold text-cyan-400">8% (Aparición)</div>
-                    </div>
-                    <div class="bg-surface-container p-3 rounded border border-outline-variant/20 font-mono">
-                        <div class="text-[9px] text-slate-400 uppercase">PRECIO ESTIMADO:</div>
-                        <div id="modalPrice" class="text-sm font-bold text-primary">$950 MXN</div>
-                    </div>
-                </div>
-
-                <!-- PASIVA Y ATAQUES -->
-                <div id="modalAttacksArea" class="space-y-2 pt-2 border-t border-outline-variant/20 text-xs font-mono">
-                    <div id="modalPassive" class="bg-purple-950/30 border border-purple-500/30 p-2.5 rounded text-purple-200">
-                        <span class="font-bold text-yellow-400">⚡ Habilidad Pasiva: Endeudado con Coppel</span>
-                        <p class="text-[11px] mt-1 text-slate-300">Cada vez que recibe daño por un ataque, aumenta +10 de daño adicional a sus movimientos por contador de deuda.</p>
-                    </div>
-
-                    <div id="modalAttackList" class="space-y-2">
-                        <div class="bg-surface-container-low p-2.5 rounded border border-outline-variant/30">
-                            <div class="flex justify-between font-bold text-white">
-                                <span>🔮🔮 Baño de Pueblo</span>
-                                <span class="text-red-400">60 DMG</span>
-                            </div>
-                            <p class="text-[11px] text-slate-400 mt-0.5">Lanza una moneda. Si sale cara, el oponente queda confundido y no puede jugar cartas de Objeto.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- BOTÓN COMPRAR -->
-                <button id="modalAddBtn" class="w-full py-3.5 bg-primary hover:bg-primary-fixed text-black font-black uppercase text-xs chamfer-clip transition-all shadow-lg flex items-center justify-center gap-2 mt-4">
-                    <span class="material-symbols-outlined">shopping_cart</span>
-                    AÑADIR AL CARRITO
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- MODAL SIMULACIÓN DE PAGO APROBADO -->
-<div id="paymentModal" class="fixed inset-0 z-[200] hidden items-center justify-center bg-black/90 backdrop-blur-md p-4">
-    <div class="bg-surface-container border border-primary/40 chamfer-clip p-8 max-w-md w-full text-center space-y-6 relative shadow-2xl">
-        <div id="payProcessingState" class="space-y-6 py-4">
-            <div class="flex justify-center">
-                <div class="spinner"></div>
-            </div>
-            <div>
-                <h3 class="text-xl font-headline font-black text-primary uppercase">Procesando Pago Seguro</h3>
-                <p class="text-xs text-on-surface-variant font-mono mt-2">Conectando con servidores de PayPal...</p>
-            </div>
-            <div class="bg-surface-container-low p-3 rounded border border-outline-variant/30 text-left font-mono text-xs space-y-1">
-                <div class="flex justify-between text-on-surface-variant"><span>Monto:</span> <span id="payModalAmount" class="text-primary font-bold">$0.00 MXN</span></div>
-                <div class="flex justify-between text-on-surface-variant"><span>Método:</span> <span class="text-white">PayPal Express</span></div>
-            </div>
-        </div>
-
-        <div id="paySuccessState" class="space-y-6 py-2 hidden">
-            <div class="checkmark-circle">
-                <span class="material-symbols-outlined text-green-500 text-4xl font-bold">check</span>
-            </div>
-            <div>
-                <div class="inline-block px-3 py-1 bg-green-500/10 border border-green-500/30 text-green-400 font-mono text-[10px] uppercase tracking-widest rounded mb-2">
-                    Transacción Completada
-                </div>
-                <h3 class="text-2xl font-headline font-black text-white uppercase italic">¡Pago Aprobado!</h3>
-                <p class="text-xs text-on-surface-variant font-mono mt-1">Tu orden de cartas Legal Tech ha sido procesada con éxito.</p>
-            </div>
-
-            <div class="bg-surface-container-low p-4 rounded border border-green-500/20 text-left font-mono text-xs space-y-2">
-                <div class="flex justify-between text-slate-400"><span>ID Transacción:</span> <span id="payTxnId" class="text-secondary font-bold">TXN-893271</span></div>
-                <div class="flex justify-between text-slate-400"><span>Estado:</span> <span class="text-green-400 font-bold">Aprobado / Pagado</span></div>
-                <div class="border-t border-outline-variant/30 pt-2 flex justify-between text-white font-bold">
-                    <span>Total Pagado:</span>
-                    <span id="paySuccessAmount" class="text-primary">$0.00 MXN</span>
-                </div>
-            </div>
-
-            <button onclick="closePaymentModal()" class="w-full py-3 bg-primary text-black font-black uppercase text-xs chamfer-clip hover:bg-primary-fixed transition-all">
-                Recibir Colección
-            </button>
-        </div>
-    </div>
-</div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-    // INVENTARIO CON DATOS ESTILO POKÉDEX INTEGRADOS (INCLUYENDO CARTA 7 - LIC. BUCHÓN)
-    const inventoryData = [
-        {img: "carta1.jpg", name: "Carta 1", price: 450}, 
-        {img: "carta2.jpeg", name: "Carta 2", price: 1200},
-        {img: "carta3.jpeg", name: "Carta 3", price: 890}, 
-        {img: "carta4.jpeg", name: "Carta 4", price: 350},
-        {img: "carta5.jpeg", name: "Carta 5", price: 600}, 
-        {img: "carta6.jpeg", name: "Carta 6", price: 150},
-        {
-            img: "carta7.jpeg", 
-            name: "Carta 7 - Lic. Buchón", 
-            price: 950,
-            category: "Pokémon Litigante Informal",
-            type: "Veneno / Psíquico ☠️🔮",
-            hp: 280,
-            rarity: "ÉPICA",
-            stars: "★★★★☆",
-            dropRate: "8% (Aparición)",
-            dexEntry: `"Suele ser avistado rondando los juzgados a primera hora o descansando en puestos de barbacoa los domingos. Presume ropa de marca de procedencia dudosa mientras litiga juicios de pensión alimenticia con una seguridad inquebrantable."`,
-            passive: "Endeudado con Coppel: Cada vez que este Pokémon recibe daño por un ataque, coloca 1 contador de deuda en él. Por cada contador, sus ataques hacen +10 de daño adicional (máximo +50).",
-            attacks: [
-                {cost: "🔮🔮", name: "Baño de Pueblo", damage: "60 DMG", effect: "Lanza una moneda. Si sale cara, el Pokémon activo de tu oponente queda Confundido y no puede jugar cartas de Objeto durante su próximo turno."},
-                {cost: "🔮🔮⚛️⚛️", name: "Ataque de Clase Media", damage: "100+ DMG", effect: "Si tu oponente tiene más cartas en la mano que tú, este ataque hace +80 de daño extra. Descarta 1 carta de Objeto al azar."}
-            ]
-        },
-        {img: "Carta8.jpeg", name: "Carta 8", price: 2100},
-        {img: "carta9.jpeg", name: "Carta 9", price: 420}, 
-        {img: "carta10.jpeg", name: "Carta 10", price: 770},
-        {img: "carta11.jpeg", name: "Carta 11", price: 3500}, 
-        {img: "doffiekang.jpeg", name: "Doffie", price: 800},
-        {img: "carta12.png", name: "Carta 12", price: 1000}, 
-        {img: "13.png", name: "Carta 13", price: 1100},
-        {img: "carta14.png", name: "Carta 14", price: 900}, 
-        {img: "carta15.png", name: "Carta 15", price: 1300},
-        {img: "carta16.png", name: "Carta 16 Legendaria", price: 2500}
-    ];
+/* ================= DATOS ================= */
+const CARDS=[
+ {id:1,file:'carta1.jpg',name:'Carta 1',sub:'Becario Impuntual',rarity:'comun',price:350},
+ {id:2,file:'carta2.jpeg',name:'Carta 2',sub:'La Practicante',rarity:'comun',price:420},
+ {id:3,file:'carta3.jpeg',name:'Carta 3',sub:'El Notificador',rarity:'comun',price:380},
+ {id:4,file:'carta4.jpeg',name:'Carta 4',sub:'Juris Doctor',rarity:'rara',price:520},
+ {id:5,file:'carta5.jpeg',name:'Carta 5',sub:'La Secretarial',rarity:'rara',price:610},
+ {id:6,file:'carta6.jpeg',name:'Carta 6',sub:'El Perito',rarity:'rara',price:480},
+ {id:7,file:'carta7.jpeg',name:'Carta 7',sub:'Lic. Buchón',rarity:'epica',price:950},
+ {id:8,file:'Carta8.jpeg',name:'Carta 8',sub:'La Pasante',rarity:'rara',price:700},
+ {id:9,file:'carta9.jpeg',name:'Carta 9',sub:'El Litigante',rarity:'rara',price:640},
+ {id:10,file:'carta10.jpeg',name:'Carta 10',sub:'La Archivista',rarity:'rara',price:720},
+ {id:11,file:'carta11.jpeg',name:'Carta 11',sub:'El Juzgador',rarity:'epica',price:690},
+ {id:12,file:'carta12.png',name:'Carta 12',sub:'La Tercera en Discordia',rarity:'epica',price:760},
+ {id:13,file:'13.png',name:'Carta 13',sub:'El Amparista',rarity:'epica',price:830},
+ {id:14,file:'carta14.png',name:'Carta 14',sub:'La Magistrada',rarity:'epica',price:880},
+ {id:15,file:'carta15.png',name:'Carta 15',sub:'El Ejecutor',rarity:'rara',price:920},
+ {id:16,file:'carta16.png',name:'Carta 16',sub:'Poder LGBTQ+',rarity:'legendaria',price:2500},
+ {id:17,file:'doffiekang.jpeg',name:'Doffie Kang',sub:'Canguaro Cósmico',rarity:'legendaria',price:1500},
+];
+const RAR={comun:{lbl:'COMÚN',stars:'★★☆☆☆',col:'var(--r-comun)',prob:'55% (Aparición)',hp:110},
+ rara:{lbl:'RARA',stars:'★★★☆☆',col:'var(--r-rara)',prob:'32% (Aparición)',hp:170},
+ epica:{lbl:'ÉPICA',stars:'★★★★☆',col:'var(--r-epica)',prob:'14% (Aparición)',hp:240},
+ legendaria:{lbl:'LEGENDARIA',stars:'★★★★★',col:'var(--r-leg)',prob:'3% (Aparición)',hp:320}};
+const LORE={
+ 7:{type:'Pokémon Litigante Informal | HP 280 ☠️🔮',quote:'"Suele ser avistado rondando los juzgados a primera hora o descansando en puestos de barbacoa los domingos. Presume ropa de marca de procedencia dudosa mientras litiga juicios de pensión alimenticia con una seguridad inquebrantable."',prob:'8% (Aparición)',ab:'⚡ Habilidad Pasiva: Endeudado con Coppel',abd:'Cada vez que recibe daño por un ataque, aumenta +10 de daño adicional a sus movimientos por contador de deuda.',atk:'🔮 Baño de Pueblo — 60 DMG',atkd:'Lanza una moneda. Si sale cara, el oponente queda confundido y no puede jugar cartas de Objeto.'},
+ 16:{type:'Entidad Suprema Pride | HP ∞ 🏳️⚧️✨',quote:'"La carta más poderosa de nuestra colección Legal Tech del ilustrador Hugo Mendoza. Su poder no conoce agravios ni sentencias: solo orgullo, luz y marchas eternas."',prob:'3% (Aparición)',ab:'⚡ Habilidad Pasiva: Orgullo Eterno',abd:'Inmune a todo daño proveniente de cartas de Enojo, Celos y Posesión. Aura que protege a todo tu equipo.',atk:'✨✨ Marcha Suprema — 160 DMG',atkd:'El oponente debe descartar toda carta de odio y reconocer tu poder. No puede bloquear este ataque.'},
+ 17:{type:'Canguaro Cósmico de Bolsillo | HP 300 🦘',quote:'"Brinca entre dimensiones legales con una sonrisa caótica. Nadie sabe cómo llegó al mazo, pero nadie se atreve a sacarlo."',prob:'5% (Aparición)',ab:'⚡ Habilidad Pasiva: Brinco Procesal',abd:'Una vez por turno, puede evadir un ataque saltando directamente al turno del oponente.',atk:'🦘 Patada Marsupial — 90 DMG',atkd:'El oponente queda aturdido y pierde su siguiente robo de carta.'}};
+const G_TYPES=['Pokémon Litigante','Pokémon Secretario','Pokémon Perito','Pokémon Juzgador','Pokémon Pasante','Pokémon Notificador'];
+const G_QUOTE=['"Se le ve apilando expedientes a medianoche, susurrando artículos de ley como si fueran hechizos."',
+'"Cita jurisprudencia inexistente con tal seguridad que hasta el juez toma nota."',
+'"Guarda acuerdos de mediación en su bolsillo y tacos en el otro. Nadie lo ha vencido en ninguno de los dos frentes."',
+'"Aparece cuando huele conflicto de intereses y desaparece cuando llega la cuenta."'];
+const G_AB=['⚡ Habilidad Pasiva: Término Fatal','⚡ Habilidad Pasiva: Carga de la Prueba','⚡ Habilidad Pasiva: Sobreseimiento Exprés','⚡ Habilidad Pasiva: Dolo de Café'];
+const G_ABD=['Roba una carta extra cada vez que el oponente cite un artículo derogado.','El daño recibido se transfiere al expediente más cercano.','Una vez por partida, cancela un ataque declarándolo improcedente.','Mientras tenga café, su primer ataque de cada turno hace +20 de daño.'];
+const G_ATK=['⚖️⚖️ Golpe de Expediente — 50 DMG','📜📜 Notificación Fantasma — 70 DMG','🔨🔨 Martillo de Oralidad — 80 DMG','☕☕ Objeción Cafetera — 60 DMG'];
+const G_ATKD=['El oponente debe reorganizar su mazo por orden alfabético.','No puede ser bloqueado por cartas de tipo Burocracia.','Si el oponente parpadea, recibe +20 de daño adicional.','El oponente queda desvelado y roba una carta menos.'];
+const HUGO_SAYS=['"Que todos los caminos llevan a él."','"Que lo hablaron, pero en realidad no."','"Que el mapa no miente; el ego, sí."','"Que la cumbia también es un atajo emocional."','"Que hoy no se litiga, hoy se convive."','"Que los celos son tema recurrente, pero él es camino principal."'];
+const fmt=n=>'$'+n.toLocaleString('en-US',{minimumFractionDigits:2})+' MXN';
+function ph(name){return 'data:image/svg+xml;utf8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="420"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1a2340"/><stop offset="1" stop-color="#0b0e17"/></linearGradient></defs><rect width="300" height="420" fill="url(#g)"/><rect x="8" y="8" width="284" height="404" fill="none" stroke="#d4af37" stroke-width="3"/><text x="150" y="215" fill="#d4af37" font-family="serif" font-size="26" text-anchor="middle">'+name+'</text></svg>');}
 
-    let cart = [];
-    let clawX = 50;
-    let clawInterval = null;
-    let pilePositions = [];
-    let selectedForPokedex = null;
+/* ================= THREE.JS ================= */
+(function(){
+ if(typeof THREE==='undefined')return;
+ const renderer=new THREE.WebGLRenderer({canvas:document.getElementById('bg3d'),antialias:true});
+ renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+ renderer.setSize(innerWidth,innerHeight);
+ renderer.setClearColor(0x05060a,1);
+ const scene=new THREE.Scene();
+ scene.fog=new THREE.FogExp2(0x05060a,0.0016);
+ const camera=new THREE.PerspectiveCamera(60,innerWidth/innerHeight,.1,4000);
+ camera.position.set(0,0,120);
+ scene.add(new THREE.AmbientLight(0x8899ff,.5));
+ const dl=new THREE.DirectionalLight(0xffd98a,.7);dl.position.set(5,8,10);scene.add(dl);
+ function pts(n,color,size,spread){const g=new THREE.BufferGeometry();const p=new Float32Array(n*3);
+  for(let i=0;i<n;i++){p[i*3]=(Math.random()-.5)*spread*2;p[i*3+1]=(Math.random()-.5)*spread;p[i*3+2]=(Math.random()-.5)*spread;}
+  g.setAttribute('position',new THREE.BufferAttribute(p,3));
+  return new THREE.Points(g,new THREE.PointsMaterial({color,size,transparent:true,opacity:.75,blending:THREE.AdditiveBlending,depthWrite:false}));}
+ const sG=pts(700,0xd4af37,1.5,520),sC=pts(500,0x67e8f9,1.1,520),sV=pts(300,0xb06ce8,1.3,520);
+ scene.add(sG,sC,sV);
+ const rings=new THREE.Group();
+ const rm=c=>new THREE.MeshBasicMaterial({color:c,transparent:true,opacity:.32,blending:THREE.AdditiveBlending,side:THREE.DoubleSide});
+ const r1=new THREE.Mesh(new THREE.TorusGeometry(46,.9,16,140),rm(0xd4af37));
+ const r2=new THREE.Mesh(new THREE.TorusGeometry(58,.55,16,140),rm(0x67e8f9));
+ const r3=new THREE.Mesh(new THREE.TorusGeometry(70,.4,16,160),rm(0xb06ce8));
+ r2.rotation.x=.6;r3.rotation.set(-.4,.3,0);rings.add(r1,r2,r3);rings.position.set(0,10,-140);scene.add(rings);
+ const core=new THREE.Mesh(new THREE.IcosahedronGeometry(16,1),new THREE.MeshBasicMaterial({color:0xf5d67a,wireframe:true,transparent:true,opacity:.35}));
+ core.position.copy(rings.position);scene.add(core);
+ const shards=new THREE.Group();
+ for(let i=0;i<26;i++){
+  const m=new THREE.MeshBasicMaterial({color:i%3?0x1a2340:0x3a2a10,transparent:true,opacity:.5,side:THREE.DoubleSide});
+  const s=new THREE.Mesh(new THREE.PlaneGeometry(6,8.4),m);
+  s.position.set((Math.random()-.5)*460,(Math.random()-.5)*240,(Math.random()-.5)*300-60);
+  s.rotation.set(Math.random()*Math.PI,Math.random()*Math.PI,0);
+  s.userData={rs:(Math.random()-.5)*.012,fs:.2+Math.random()*.5,ph:Math.random()*6.28};
+  shards.add(s);}
+ scene.add(shards);
+ let mx=0,my=0,tx=0,ty=0,sy=0;
+ addEventListener('mousemove',e=>{mx=(e.clientX/innerWidth-.5)*2;my=(e.clientY/innerHeight-.5)*2;});
+ addEventListener('scroll',()=>{sy=window.scrollY;},{passive:true});
+ const clock=new THREE.Clock();
+ (function loop(){
+  const t=clock.getElapsedTime();
+  tx+=(mx-tx)*.04;ty+=(my-ty)*.04;
+  camera.position.x=tx*14;camera.position.y=-ty*10-sy*.02;
+  camera.lookAt(0,-sy*.02,0);
+  rings.rotation.z=t*.12;r1.rotation.x=Math.sin(t*.3)*.4;r2.rotation.y=t*.25;r3.rotation.z=-t*.18;
+  core.rotation.y=t*.4;core.rotation.x=t*.2;
+  sG.rotation.y=t*.02;sC.rotation.y=-t*.015;sV.rotation.y=t*.01;
+  shards.children.forEach(s=>{s.rotation.y+=s.userData.rs;s.position.y+=Math.sin(t*s.userData.fs+s.userData.ph)*.03;});
+  renderer.render(scene,camera);
+  requestAnimationFrame(loop);
+ })();
+ addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);});
+})();
 
-    function playSound(type) {
-        try {
-            const ctx = new (window.AudioContext || window.webkitAudioContext)();
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-            osc.connect(gain);
-            gain.connect(ctx.destination);
+/* ================= UI BASE ================= */
+const $=s=>document.querySelector(s);
+$('#mqTrack').innerHTML=Array(2).fill('<span>✦ EDICIÓN PREMIUM HOLOGRÁFICA</span><span>✦ 17 CARTAS COLECCIONABLES</span><span>✦ NUEVO: HUGOCENTRISMO EL JUEGO DE MESA</span><span>✦ ILUSTRADO POR HUGO MENDOZA</span><span>🏳️⚧️ PODER LGBTQ+</span>').join('');
+addEventListener('scroll',()=>{$('#progress').style.width=(scrollY/(document.body.scrollHeight-innerHeight)*100)+'%';
+ $('#glow').style.opacity=1;},{passive:true});
+addEventListener('mousemove',e=>{const g=$('#glow');g.style.left=e.clientX+'px';g.style.top=e.clientY+'px';});
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+function attachTilt(el,max){el.addEventListener('mousemove',e=>{const r=el.getBoundingClientRect();
+ const px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;
+ el.style.setProperty('--rx',((py-.5)*-2*max)+'deg');el.style.setProperty('--ry',((px-.5)*2*max)+'deg');
+ el.style.setProperty('--gx',px*100+'%');el.style.setProperty('--gy',py*100+'%');el.style.setProperty('--ho',.5);});
+ el.addEventListener('mouseleave',()=>{['--rx','--ry'].forEach(v=>el.style.setProperty(v,'0deg'));el.style.setProperty('--ho',0);});}
+attachTilt($('#heroHolo'),12);attachTilt($('#boardFrame'),5);
 
-            if (type === 'move') {
-                osc.frequency.setValueAtTime(220, ctx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(110, ctx.currentTime + 0.05);
-                gain.gain.setValueAtTime(0.03, ctx.currentTime);
-                gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.05);
-                osc.start(); osc.stop(ctx.currentTime + 0.05);
-            } else if (type === 'win') {
-                [523.25, 659.25, 783.99, 1046.50].forEach((freq, i) => {
-                    const o = ctx.createOscillator();
-                    const g = ctx.createGain();
-                    o.connect(g); g.connect(ctx.destination);
-                    o.frequency.value = freq;
-                    g.gain.setValueAtTime(0.08, ctx.currentTime + i * 0.1);
-                    g.gain.linearRampToValueAtTime(0, ctx.currentTime + i * 0.1 + 0.2);
-                    o.start(ctx.currentTime + i * 0.1);
-                    o.stop(ctx.currentTime + i * 0.1 + 0.2);
-                });
-            } else if (type === 'pay') {
-                [440, 554.37, 659.25, 880].forEach((freq, i) => {
-                    const o = ctx.createOscillator();
-                    const g = ctx.createGain();
-                    o.type = 'triangle';
-                    o.connect(g); g.connect(ctx.destination);
-                    o.frequency.value = freq;
-                    g.gain.setValueAtTime(0.1, ctx.currentTime + i * 0.08);
-                    g.gain.linearRampToValueAtTime(0, ctx.currentTime + i * 0.08 + 0.25);
-                    o.start(ctx.currentTime + i * 0.08);
-                    o.stop(ctx.currentTime + i * 0.08 + 0.25);
-                });
-            }
-        } catch(e) {}
-    }
+/* ================= COLECCIÓN ================= */
+$('#cardGrid').innerHTML=CARDS.map(c=>`
+ <article class="tcg r-${c.rarity} reveal">
+  <div class="tcg-inner">
+   <div class="tcg-img"><img loading="lazy" src="${c.file}" alt="${c.name}" onerror="this.onerror=null;this.src=ph('${c.name}')">
+    <span class="tcg-rar">${RAR[c.rarity].lbl}</span><div class="tcg-shine"></div></div>
+   <div class="tcg-body"><h4>${c.name}</h4><div class="sub">${c.sub} · ${RAR[c.rarity].stars}</div>
+    <div class="tcg-foot"><span class="price">${fmt(c.price)}</span>
+     <div class="tcg-actions"><button class="icon-btn" data-scan="${c.id}" title="Escanear">🔍</button>
+     <button class="icon-btn" data-add="${c.id}" title="Añadir">🛒</button></div></div></div>
+  </div></article>`).join('');
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+document.querySelectorAll('.tcg-inner').forEach(el=>attachTilt(el,10));
+$('#cardGrid').addEventListener('click',e=>{
+ const s=e.target.closest('[data-scan]'),a=e.target.closest('[data-add]');
+ if(s)openScanner(+s.dataset.scan);
+ if(a)addToCart(+a.dataset.add);
+});
 
-    document.addEventListener("DOMContentLoaded", () => {
-        const grid = document.getElementById('inventoryGrid');
-        inventoryData.forEach((card, i) => {
-            const div = document.createElement('div');
-            const isNewCard = i === inventoryData.length - 1;
-            div.className = `card-interactive tilt-element aspect-[3/4] bg-surface-container-highest border ${isNewCard ? 'border-primary/50' : 'border-outline-variant/50'} relative p-1 cursor-pointer overflow-hidden rounded card-appear`;
-            div.style.animationDelay = `${i * 0.05}s`;
-            div.innerHTML = `
-                ${isNewCard ? '<div class="new-badge" style="font-size: 8px; padding: 2px 8px;">NUEVO</div>' : ''}
-                <img class="w-full h-full object-cover pointer-events-none rounded" src="${card.img}" alt="${card.name}">
-                <div class="reflection-overlay"></div>
-                <div class="card-particles">${generateParticles()}</div>
-            `;
-            div.onclick = () => handleCardClick(card);
-            grid.appendChild(div);
-        });
-        
-        initPile();
-        
-        const rand = inventoryData[Math.floor(Math.random()*inventoryData.length)].img;
-        document.getElementById('randomCardElement').style.backgroundImage = `url('${rand}')`;
-        
-        document.getElementById('featuredParticles').innerHTML = generateParticles();
-        init3DTilt();
-        setupKeyboardControls();
-        document.getElementById('stockCounter').textContent = `${inventoryData.length} Items`;
-    });
+/* ================= SCANNER ================= */
+let scanTimer=null;
+function loreOf(c){if(LORE[c.id])return LORE[c.id];const i=c.id;
+ return{type:G_TYPES[i%G_TYPES.length]+' | HP '+(RAR[c.rarity].hp+i*3)+' '+['⚖️','🔮','☠️','✨'][i%4],
+ quote:G_QUOTE[i%G_QUOTE.length],prob:RAR[c.rarity].prob,ab:G_AB[i%G_AB.length],abd:G_ABD[i%G_ABD.length],
+ atk:G_ATK[i%G_ATK.length],atkd:G_ATKD[i%G_ATKD.length]};}
+function openScanner(id){const c=CARDS.find(x=>x.id===id),L=loreOf(c),R=RAR[c.rarity];
+ $('#scanImg').src=c.file;$('#scanImg').onerror=function(){this.onerror=null;this.src=ph(c.name);};
+ const st=$('#scanStage');st.classList.add('scanning');st.classList.remove('done');
+ $('#scanData').innerHTML=`
+  <div class="rar" style="color:${R.col}">${R.lbl} · ${R.stars}</div>
+  <h3>${c.name} — ${c.sub}</h3><div class="type">${L.type}</div>
+  <div class="quote">${L.quote}</div>
+  <div class="scan-meta"><div>PROBABILIDAD: <b>${L.prob}</b></div><div>PRECIO ESTIMADO: <b>${fmt(c.price)}</b></div></div>
+  <div class="ability"><b>${L.ab}</b><br><span style="color:var(--muted)">${L.abd}</span></div>
+  <div class="ability atk"><b>${L.atk}</b><br><span style="color:var(--muted)">${L.atkd}</span></div>
+  <button class="btn-gold" data-add="${c.id}">🛒 AÑADIR AL CARRITO</button>`;
+ $('#scannerModal').classList.add('open');
+ clearTimeout(scanTimer);scanTimer=setTimeout(()=>{st.classList.remove('scanning');st.classList.add('done');},1400);}
+$('#heroScan').onclick=()=>openScanner(16);
+$('#scanData').addEventListener('click',e=>{const a=e.target.closest('[data-add]');if(a){addToCart(+a.dataset.add);closeModals();}});
 
-    function generateParticles() {
-        let particles = '';
-        for (let i = 0; i < 6; i++) {
-            const left = Math.random() * 100;
-            const top = Math.random() * 100;
-            const delay = Math.random() * 2;
-            const duration = 2 + Math.random() * 3;
-            particles += `<div class="particle" style="left: ${left}%; top: ${top}%; animation-delay: ${delay}s; animation-duration: ${duration}s;"></div>`;
-        }
-        return particles;
-    }
+/* ================= CARRITO / PAGO ================= */
+const cart=new Map();
+function addToCart(id){cart.set(id,(cart.get(id)||0)+1);updateCart();
+ const b=$('#cartCount');b.classList.remove('bump');void b.offsetWidth;b.classList.add('bump');}
+function updateCart(){let n=0,t=0;$('#cartItems').innerHTML=[...cart.entries()].map(([id,q])=>{
+ const c=CARDS.find(x=>x.id===id);n+=q;t+=c.price*q;
+ return `<div class="cart-row"><img src="${c.file}" onerror="this.onerror=null;this.src=ph('${c.name}')">
+  <div class="inf"><b>${c.name} — ${c.sub}</b><span>${q} × ${fmt(c.price)}</span></div>
+  <button class="rm" data-rm="${id}">✕</button></div>`;}).join('')||'<p style="color:var(--muted);text-align:center;margin-top:30px">Tu carrito está vacío.</p>';
+ $('#cartCount').textContent=n;$('#cartTotal').textContent=fmt(t);}
+$('#cartItems').addEventListener('click',e=>{const r=e.target.closest('[data-rm]');if(r){cart.delete(+r.dataset.rm);updateCart();}});
+$('#cartBtn').onclick=()=>{$('#cartDrawer').classList.add('open');$('#scrim').classList.add('on');};
+function closeDrawer(){$('#cartDrawer').classList.remove('open');$('#scrim').classList.remove('on');}
+$('#cartClose').onclick=closeDrawer;$('#scrim').onclick=closeDrawer;
+$('#heroBuy').onclick=()=>{addToCart(16);$('#cartDrawer').classList.add('open');$('#scrim').classList.add('on');};
+$('#payBtn').onclick=()=>{if(!cart.size)return;let t=0;cart.forEach((q,id)=>t+=CARDS.find(c=>c.id===id).price*q);
+ closeDrawer();$('#payProcessing').style.display='block';$('#paySuccess').style.display='none';
+ $('#payMonto').textContent=fmt(t);$('#payModal').classList.add('open');
+ setTimeout(()=>{$('#payProcessing').style.display='none';$('#paySuccess').style.display='block';
+  $('#txnId').textContent='TXN-'+Math.floor(100000+Math.random()*899999);$('#payTotal').textContent=fmt(t);},2200);};
+$('#receiveBtn').onclick=()=>{cart.clear();updateCart();closeModals();confetti();};
+function closeModals(){document.querySelectorAll('.modal').forEach(m=>m.classList.remove('open'));}
+document.querySelectorAll('[data-close]').forEach(b=>b.onclick=closeModals);
+document.querySelectorAll('.modal').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)closeModals();}));
+function confetti(){const cols=['#d4af37','#67e8f9','#b06ce8','#5bcefa','#f5a9b8','#ffffff'];
+ for(let i=0;i<70;i++){const s=document.createElement('span');
+  s.style.cssText=`position:fixed;top:-12px;left:${Math.random()*100}vw;width:${6+Math.random()*8}px;height:${10+Math.random()*10}px;background:${cols[i%cols.length]};z-index:120;border-radius:2px;pointer-events:none`;
+  document.body.appendChild(s);
+  s.animate([{transform:'translateY(0) rotate(0)',opacity:1},{transform:`translateY(105vh) rotate(${360+Math.random()*720}deg)`,opacity:.8}],{duration:2200+Math.random()*1800,easing:'cubic-bezier(.2,.6,.4,1)'}).onfinish=()=>s.remove();}}
 
-    function handleCardClick(card) {
-        showModal(card);
-        const screen = document.getElementById('pokedexScreenImg');
-        if(screen) {
-            screen.setAttribute('href', card.img);
-            screen.style.opacity = "1";
-            selectedForPokedex = card;
-        }
-    }
+/* ================= GARRA ================= */
+const cv=$('#clawCanvas'),cx=cv.getContext('2d');
+const CL={x:480,y:90,state:'idle',grab:null,keys:{l:false,r:false},cards:[]};
+function clawReset(){CL.cards=[...CARDS].sort(()=>Math.random()-.5).slice(0,6).map((c,i)=>({card:c,x:140+i*136,y:430}));}
+clawReset();
+function rr(x,y,w,h,r){cx.beginPath();cx.moveTo(x+r,y);cx.arcTo(x+w,y,x+w,y+h,r);cx.arcTo(x+w,y+h,x,y+h,r);cx.arcTo(x,y+h,x,y,r);cx.arcTo(x,y,x+w,y,r);cx.closePath();}
+function drawClaw(){
+ const g=cx.createLinearGradient(0,0,0,540);g.addColorStop(0,'#0a0d18');g.addColorStop(1,'#131b30');
+ cx.fillStyle=g;cx.fillRect(0,0,960,540);
+ cx.fillStyle='rgba(103,232,249,.05)';cx.fillRect(0,470,960,70);
+ cx.fillStyle='#2a2312';cx.fillRect(40,58,880,16);
+ cx.fillStyle='rgba(212,175,55,.7)';cx.fillRect(40,58,880,3);
+ CL.cards.forEach(k=>{if(CL.grab===k)return;const col={comun:'#8fa3b8',rara:'#4b9bd4',epica:'#a45bd4',legendaria:'#f0c75e'}[k.card.rarity];
+  rr(k.x-43,k.y-55,86,110,10);cx.fillStyle='#141a2c';cx.fill();cx.lineWidth=3;cx.strokeStyle=col;cx.stroke();
+  cx.fillStyle='#f0c75e';cx.font='26px serif';cx.textAlign='center';cx.fillText('⚖️',k.x,k.y-8);
+  cx.fillStyle='#e9e6dc';cx.font='bold 13px Outfit';cx.fillText(k.card.name,k.x,k.y+22);
+  cx.fillStyle=col;cx.font='9px Outfit';cx.fillText(RAR[k.card.rarity].lbl,k.x,k.y+40);});
+ cx.strokeStyle='#c9c9c9';cx.lineWidth=3;cx.beginPath();cx.moveTo(CL.x,74);cx.lineTo(CL.x,CL.y-26);cx.stroke();
+ cx.fillStyle='#d4af37';cx.beginPath();cx.arc(CL.x,CL.y-16,12,0,7);cx.fill();
+ cx.strokeStyle='#e6e6e6';cx.lineWidth=4;
+ [-1,0,1].forEach(d=>{cx.beginPath();cx.moveTo(CL.x,CL.y-8);cx.quadraticCurveTo(CL.x+d*22,CL.y+8,CL.x+d*16,CL.y+26);cx.stroke();});
+ if(CL.grab){const k=CL.grab;rr(CL.x-43,CL.y+20,86,110,10);cx.fillStyle='#141a2c';cx.fill();cx.lineWidth=3;cx.strokeStyle='#f0c75e';cx.stroke();
+  cx.fillStyle='#f0c75e';cx.font='26px serif';cx.textAlign='center';cx.fillText('⚖️',CL.x,CL.y+68);
+  cx.fillStyle='#e9e6dc';cx.font='bold 13px Outfit';cx.fillText(k.card.name,CL.x,CL.y+98);}
+ cx.fillStyle='rgba(255,255,255,.04)';cx.beginPath();cx.moveTo(0,0);cx.lineTo(300,0);cx.lineTo(120,540);cx.lineTo(0,540);cx.fill();}
+function clawStep(){
+ if(CL.state==='idle'){if(CL.keys.l)CL.x-=5;if(CL.keys.r)CL.x+=5;CL.x=Math.max(70,Math.min(890,CL.x));}
+ else if(CL.state==='drop'){CL.y+=8;if(CL.y>=400){const hit=CL.cards.find(k=>Math.abs(k.x-CL.x)<40);
+  if(hit&&Math.random()<(Math.abs(hit.x-CL.x)<14?.9:.5)){CL.grab=hit;CL.cards=CL.cards.filter(k=>k!==hit);}
+  CL.state='rise';}}
+ else if(CL.state==='rise'){CL.y-=8;if(CL.y<=90){CL.y=90;CL.state='idle';
+  if(CL.grab){const w=CL.grab;CL.grab=null;if(!CL.cards.length)clawReset();showPrize(w.card);}}}
+ drawClaw();requestAnimationFrame(clawStep);}
+clawStep();
+function clawDrop(){if(CL.state==='idle')CL.state='drop';}
+$('#clawDrop').onclick=clawDrop;
+[['#clawLeft','l'],['#clawRight','r']].forEach(([s,k])=>{const b=$(s);
+ const on=e=>{e.preventDefault();CL.keys[k]=true;},off=()=>CL.keys[k]=false;
+ b.addEventListener('pointerdown',on);b.addEventListener('pointerup',off);b.addEventListener('pointerleave',off);});
+function anyModal(){return document.querySelector('.modal.open')||$('#cartDrawer').classList.contains('open');}
+addEventListener('keydown',e=>{if(anyModal())return;
+ if(e.code==='ArrowLeft'){CL.keys.l=true;e.preventDefault();}
+ if(e.code==='ArrowRight'){CL.keys.r=true;e.preventDefault();}
+ if(e.code==='Space'&&e.target===document.body){clawDrop();e.preventDefault();}});
+addEventListener('keyup',e=>{if(e.code==='ArrowLeft')CL.keys.l=false;if(e.code==='ArrowRight')CL.keys.r=false;});
+let prizeCard=null;
+function showPrize(c){prizeCard=c;$('#prizeImg').src=c.file;$('#prizeImg').onerror=function(){this.onerror=null;this.src=ph(c.name);};
+ $('#prizeName').textContent=c.name+' — '+c.sub;$('#prizePrice').textContent='Rareza: '+RAR[c.rarity].lbl+' · '+fmt(c.price);
+ $('#prizeModal').classList.add('open');}
+$('#prizeAdd').onclick=()=>{if(prizeCard)addToCart(prizeCard.id);closeModals();};
 
-    document.getElementById('pokedexBuyBtn').onclick = () => {
-        if (selectedForPokedex) {
-            addToCart(selectedForPokedex);
-            const btn = document.getElementById('pokedexBuyBtn');
-            btn.style.fill = '#fbbf24';
-            setTimeout(() => { btn.style.fill = '#22c55e'; }, 300);
-        }
-    };
-
-    function showModal(card) {
-        const modal = document.getElementById('cardModal');
-        document.getElementById('modalImg').src = card.img;
-        document.getElementById('modalCardTitle').innerText = card.name;
-        document.getElementById('modalPrice').innerText = `$${card.price.toLocaleString()} MXN`;
-
-        // Datos Pokédex dinámicos
-        document.getElementById('modalRarityBadge').innerText = card.rarity || "RARA";
-        document.getElementById('modalStars').innerText = card.stars || "★★★☆☆";
-        document.getElementById('modalCategory').innerText = `${card.category || "Pokémon Litigante"} | HP ${card.hp || 200} ${card.type || "⚡"}`;
-        document.getElementById('modalDropRate').innerText = card.dropRate || "12% (Aparición)";
-        document.getElementById('modalDexEntry').innerText = card.dexEntry || `"Registro de propiedad intelectual en Blockchain Legal Tech."`;
-
-        // Habilidad Pasiva
-        const passiveEl = document.getElementById('modalPassive');
-        if (card.passive) {
-            passiveEl.classList.remove('hidden');
-            passiveEl.innerHTML = `<span class="font-bold text-yellow-400">⚡ Habilidad Pasiva:</span> ${card.passive}`;
-        } else {
-            passiveEl.classList.add('hidden');
-        }
-
-        // Ataques
-        const attackList = document.getElementById('modalAttackList');
-        if (card.attacks && card.attacks.length > 0) {
-            attackList.innerHTML = card.attacks.map(atk => `
-                <div class="bg-surface-container-low p-2.5 rounded border border-outline-variant/30">
-                    <div class="flex justify-between font-bold text-white">
-                        <span>${atk.cost} ${atk.name}</span>
-                        <span class="text-red-400">${atk.damage}</span>
-                    </div>
-                    <p class="text-[11px] text-slate-400 mt-0.5">${atk.effect}</p>
-                </div>
-            `).join('');
-        } else {
-            attackList.innerHTML = `
-                <div class="bg-surface-container-low p-2.5 rounded border border-outline-variant/30">
-                    <div class="flex justify-between font-bold text-white">
-                        <span>⚡ Litigio Express</span>
-                        <span class="text-red-400">50 DMG</span>
-                    </div>
-                    <p class="text-[11px] text-slate-400 mt-0.5">Ataque legal rápido por defecto.</p>
-                </div>
-            `;
-        }
-
-        document.getElementById('modalAddBtn').onclick = () => { 
-            addToCart(card); 
-            hideModal(); 
-        };
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-    }
-
-    function hideModal() { 
-        document.getElementById('cardModal').classList.replace('flex', 'hidden'); 
-    }
-
-    function addToCart(card) {
-        cart.push(card);
-        updateCartUI();
-        const badge = document.getElementById('cartBadge');
-        badge.classList.remove('hidden');
-        badge.textContent = cart.length;
-    }
-
-    function updateCartUI() {
-        const container = document.getElementById('cartItemsContainer');
-        const totalEl = document.getElementById('cartTotalEl');
-        
-        if (cart.length === 0) {
-            container.innerHTML = `<div class="text-center text-on-surface-variant py-8 font-mono">El carrito está vacío</div>`;
-            totalEl.innerText = `$0.00 MXN`;
-            document.getElementById('cartBadge').classList.add('hidden');
-            return;
-        }
-
-        container.innerHTML = cart.map((item, idx) => 
-            `<div class="flex justify-between items-center bg-surface-container-low p-2.5 rounded border border-outline-variant/30">
-                <div class="flex items-center gap-2">
-                    <img src="${item.img}" class="w-8 h-10 object-cover rounded" alt="">
-                    <span class="font-bold text-white">${item.name}</span>
-                </div>
-                <div class="flex items-center gap-2">
-                    <span class="text-primary font-bold">$${item.price.toLocaleString()}</span>
-                    <button onclick="removeFromCart(${idx})" class="text-slate-500 hover:text-red-400 ml-1">✕</button>
-                </div>
-            </div>`
-        ).join('');
-        
-        const total = cart.reduce((sum, item) => sum + item.price, 0);
-        totalEl.innerText = `$${total.toLocaleString()} MXN`;
-    }
-
-    function removeFromCart(index) {
-        cart.splice(index, 1);
-        updateCartUI();
-    }
-
-    function setupKeyboardControls() {
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft') {
-                moveClaw(-3);
-            } else if (e.key === 'ArrowRight') {
-                moveClaw(3);
-            } else if (e.key === ' ' || e.key === 'Enter') {
-                const btn = document.getElementById('dropBtn');
-                if (!btn.disabled && document.activeElement.tagName !== 'BUTTON') {
-                    runClawLogic();
-                }
-            }
-        });
-    }
-
-    function startMovingClaw(dir) {
-        if (clawInterval) clearInterval(clawInterval);
-        moveClaw(dir);
-        clawInterval = setInterval(() => moveClaw(dir), 60);
-    }
-
-    function stopMovingClaw() {
-        if (clawInterval) {
-            clearInterval(clawInterval);
-            clawInterval = null;
-        }
-    }
-
-    function moveClaw(dir) {
-        const btn = document.getElementById('dropBtn');
-        if (btn.disabled) return;
-        
-        clawX = Math.max(12, Math.min(88, clawX + dir));
-        document.getElementById('main-claw-arm').style.left = clawX + '%';
-        playSound('move');
-    }
-
-    function runClawLogic() {
-        const btn = document.getElementById('dropBtn');
-        const arm = document.getElementById('main-claw-arm');
-        const hook = document.getElementById('main-claw-hook');
-        const mini = document.getElementById('mini-caught-card');
-        const big = document.getElementById('claw-card-won');
-        const msg = document.getElementById('clawMessage');
-        
-        btn.disabled = true;
-        big.classList.remove('show');
-        big.style.transform = 'translate(-50%, -50%) scale(0)';
-        msg.textContent = "¡Bajando garra...";
-        
-        hook.className = "claw-open";
-        arm.style.height = "310px";
-
-        setTimeout(() => {
-            hook.className = "claw-closed";
-            
-            const hitTarget = pilePositions.some(pos => Math.abs(pos - clawX) < 12);
-            const winProbability = hitTarget ? 0.75 : 0.25;
-            const isWinner = Math.random() < winProbability;
-
-            if (isWinner) {
-                const winCard = inventoryData[Math.floor(Math.random() * inventoryData.length)];
-                mini.src = winCard.img;
-                mini.style.display = 'block';
-                msg.textContent = "¡Objeto atrapado! Subiendo...";
-                
-                setTimeout(() => {
-                    arm.style.height = "40px";
-                    setTimeout(() => {
-                        big.src = winCard.img;
-                        big.classList.add('show');
-                        mini.style.display = 'none';
-                        hook.className = "claw-open";
-                        btn.disabled = false;
-                        playSound('win');
-                        msg.textContent = `🎉 ¡CONSEGUIDO: ${winCard.name.toUpperCase()}!`;
-                        initPile();
-                    }, 900);
-                }, 600);
-            } else {
-                msg.textContent = "¡La garra resbaló!";
-                setTimeout(() => {
-                    arm.style.height = "40px";
-                    setTimeout(() => {
-                        hook.className = "claw-open";
-                        btn.disabled = false;
-                        msg.textContent = "Inténtalo de nuevo";
-                    }, 800);
-                }, 400);
-            }
-        }, 850);
-    }
-
-    function initPile() {
-        const pile = document.getElementById('claw-pile');
-        pile.innerHTML = '';
-        pilePositions = [];
-        for(let i = 0; i < 18; i++) {
-            const posX = 10 + Math.random() * 80;
-            pilePositions.push(posX);
-            const img = document.createElement('img');
-            img.src = inventoryData[Math.floor(Math.random() * inventoryData.length)].img;
-            img.className = "absolute w-11 h-15 object-cover border border-white/20 rounded shadow-md pointer-events-none";
-            img.style.left = posX + "%";
-            img.style.bottom = (Math.random() * 12) + "px";
-            img.style.transform = `rotate(${Math.random() * 50 - 25}deg)`;
-            pile.appendChild(img);
-        }
-    }
-
-    function startPayPalCheckout() {
-        if (cart.length === 0) {
-            alert("Tu carrito está vacío. Añade algunas cartas antes de pagar.");
-            return;
-        }
-
-        const total = cart.reduce((sum, item) => sum + item.price, 0);
-        document.getElementById('payModalAmount').innerText = `$${total.toLocaleString()} MXN`;
-        
-        document.getElementById('payProcessingState').classList.remove('hidden');
-        document.getElementById('paySuccessState').classList.add('hidden');
-        
-        const modal = document.getElementById('paymentModal');
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-
-        setTimeout(() => {
-            document.getElementById('payProcessingState').classList.add('hidden');
-            document.getElementById('paySuccessState').classList.remove('hidden');
-            
-            const randomTxn = 'TXN-' + Math.floor(100000 + Math.random() * 900000);
-            document.getElementById('payTxnId').innerText = randomTxn;
-            document.getElementById('paySuccessAmount').innerText = `$${total.toLocaleString()} MXN`;
-            
-            playSound('pay');
-            
-            cart = [];
-            updateCartUI();
-        }, 2200);
-    }
-
-    function closePaymentModal() {
-        const modal = document.getElementById('paymentModal');
-        modal.classList.replace('flex', 'hidden');
-        document.getElementById('sideCartPanel').classList.add('translate-x-full');
-    }
-
-    function init3DTilt() {
-        const tiltElements = document.querySelectorAll('.tilt-element');
-        tiltElements.forEach(el => {
-            el.addEventListener('mousemove', handleTiltMove);
-            el.addEventListener('mouseleave', handleTiltLeave);
-        });
-    }
-
-    function handleTiltMove(e) {
-        const el = this;
-        const rect = el.getBoundingClientRect();
-        const clientX = e.clientX;
-        const clientY = e.clientY;
-
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        
-        const percentX = (clientX - centerX) / (rect.width / 2);
-        const percentY = (clientY - centerY) / (rect.height / 2);
-
-        const rotateX = percentY * -15;
-        const rotateY = percentX * 15;
-        
-        el.style.transform = `perspective(1200px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.04, 1.04, 1.04)`;
-    }
-
-    function handleTiltLeave() {
-        this.style.transform = `perspective(1200px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-    }
+/* ================= HUGOCENTRISMO ================= */
+const MEEPLES=[['Fer Haro','#f0a028',250,120],['jantey','#2f7fe0',430,112],['nora','#d43a3a',640,112],['karen','#8a3fd6',760,192],['Richie','#3fae5a',92,172],['Bardo','#7a2fd0',252,242],['Belia','#9a3fd6',142,322],['collie','#f0a028',300,402],['Vlado','#3fae5a',560,362],['IGA','#2fb8d6',690,302],['giussepe','#2f7fe0',242,482]];
+$('#meeples').innerHTML=MEEPLES.map(([n,c,x,y])=>`
+ <g class="meepleG" transform="translate(${x},${y})" fill="${c}" stroke="rgba(0,0,0,.4)" stroke-width="1.5" data-tip="👤 ${n} — pieza en el mapa">
+  <circle cx="0" cy="-9" r="4.6"/><path d="M-6.5,7 C-6.5,-2 -3,-5 0,-5 C3,-5 6.5,-2 6.5,7 C3,9.5 -3,9.5 -6.5,7 Z"/>
+  <text x="0" y="22" text-anchor="middle">${n}</text></g>`).join('');
+const tip=$('#mapTip');
+$('#hugoMap').addEventListener('mousemove',e=>{const t=e.target.closest('[data-tip]');
+ if(t){tip.textContent=t.dataset.tip;tip.style.opacity=1;tip.style.left=(e.clientX+16)+'px';tip.style.top=(e.clientY+16)+'px';}
+ else tip.style.opacity=0;});
+$('#hugoMap').addEventListener('mouseleave',()=>tip.style.opacity=0);
+$('#oracleBtn').onclick=()=>{const card=$('#oracleCard');card.classList.add('flip');
+ setTimeout(()=>{$('#oracleText').textContent=HUGO_SAYS[Math.floor(Math.random()*HUGO_SAYS.length)];card.classList.remove('flip');},260);};
+updateCart();
 </script>
 </body>
 </html>
