@@ -68,6 +68,7 @@ nav.main a:hover{color:var(--gold2);background:rgba(212,175,55,.08)}
   background:linear-gradient(90deg,transparent,rgba(255,255,255,.55),transparent);transition:.6s}
 .btn-gold:hover::after{left:130%}
 .btn-gold:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(212,175,55,.45)}
+.btn-gold:disabled{opacity:.5;pointer-events:none}
 .btn-ghost{border:1px solid rgba(103,232,249,.4);background:rgba(103,232,249,.06);color:var(--cyan);border-radius:14px;padding:15px 28px;font-weight:700;letter-spacing:.08em;font-size:.9rem;transition:.3s}
 .btn-ghost:hover{background:rgba(103,232,249,.14);box-shadow:0 0 24px rgba(103,232,249,.25)}
 .hero-chips{display:flex;gap:12px;margin-top:34px;flex-wrap:wrap}
@@ -163,33 +164,47 @@ section{padding:90px 5vw;position:relative;z-index:1}
 .hugo-side{display:flex;flex-direction:column;gap:22px}
 .oracle{padding:24px;text-align:center;flex:1}
 .oracle h3{color:var(--gold2);letter-spacing:.1em;margin-bottom:14px}
-.oracle-card{min-height:120px;margin:0 auto 16px;max-width:320px;display:grid;place-items:center;padding:20px;border-radius:14px;
+.oracle-card{min-height:110px;margin:0 auto 16px;max-width:340px;display:grid;place-items:center;padding:18px;border-radius:14px;
   background:linear-gradient(160deg,#e7d3a8,#c9ad76);color:#2a2018;font-weight:600;font-style:italic;transition:transform .5s;transform:rotateY(0)}
 .oracle-card.flip{transform:rotateY(90deg)}
-.oracle-card .q{font-size:.98rem;line-height:1.5}
+.oracle-card .q{font-size:.95rem;line-height:1.5}
 .deck{display:flex;gap:14px;justify-content:center}
 .mini-card{width:110px;aspect-ratio:5/7;border-radius:12px;padding:10px 8px;display:flex;flex-direction:column;align-items:center;justify-content:space-between;
   background:linear-gradient(170deg,#1a2340,#0b0e17);border:1px solid rgba(212,175,55,.4);transition:.35s;transform-style:preserve-3d}
 .mini-card:hover{transform:translateY(-10px) rotateZ(-2deg);box-shadow:0 16px 34px rgba(0,0,0,.6),0 0 24px rgba(212,175,55,.3)}
 .mini-card .art{font-size:2.2rem}
 .mini-card span{font-family:'Cinzel';font-size:.68rem;letter-spacing:.12em;color:var(--gold2);text-align:center}
-.map-wrap{padding:20px;position:relative}
-#hugoMap{width:100%;border-radius:14px;display:block}
-#mapTip{position:fixed;z-index:60;pointer-events:none;padding:8px 14px;border-radius:10px;background:rgba(0,0,0,.85);border:1px solid rgba(212,175,55,.5);
-  color:var(--gold2);font-size:.8rem;opacity:0;transition:opacity .15s;backdrop-filter:blur(6px);max-width:280px}
-#hugoMap .route{fill:none;stroke-width:5;stroke-linecap:round;stroke-dasharray:4 14;animation:routeFlow 2.6s linear infinite;opacity:.9}
-@keyframes routeFlow{to{stroke-dashoffset:-72}}
-.r-main{stroke:#c14b6a}.r-tema{stroke:#8a8f3c}.r-evento{stroke:#4f9d4f}.r-atajo{stroke:#4b7bd4}
-#hugoMap .rlabel rect{fill:rgba(42,32,24,.85);stroke:rgba(212,175,55,.45)}
-#hugoMap .rlabel text{fill:#f0e2c0;font-family:'Cinzel';font-size:15px;letter-spacing:.06em}
-#hugoMap .rlabel{cursor:pointer}
-#hugoMap .rlabel:hover rect{fill:rgba(70,52,30,.95);stroke:var(--gold2)}
-.meepleG{cursor:pointer;transform-box:fill-box;transform-origin:center;animation:bob 3s ease-in-out infinite}
-.meepleG:nth-child(odd){animation-delay:1.2s}
-@keyframes bob{50%{transform:translateY(-4px)}}
-.meepleG text{font-size:12px;fill:#241a10;font-weight:700;paint-order:stroke;stroke:rgba(255,246,220,.8);stroke-width:3px}
-.flag{transform-box:fill-box;transform-origin:left center;animation:wave 2.4s ease-in-out infinite}
-@keyframes wave{50%{transform:skewY(7deg)}}
+
+/* ===== JUEGO DE MESA FUNCIONAL ===== */
+.game-wrap{padding:22px}
+.setup-row{display:flex;gap:12px;align-items:center;margin:12px 0;flex-wrap:wrap}
+.setup-row label{color:var(--muted);font-size:.85rem;min-width:90px}
+.setup-row select{background:var(--panel2);color:var(--text);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:10px}
+.setup-names{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin:14px 0}
+.setup-names input{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:10px;color:var(--text);font-family:inherit}
+.rules{color:var(--muted);font-size:.8rem;font-style:italic;margin-top:16px;border-left:3px solid rgba(212,175,55,.4);padding-left:12px;line-height:1.6}
+.game-grid{display:grid;grid-template-columns:1.5fr .9fr;gap:20px}
+.board-col svg{width:100%;border-radius:14px;display:block}
+.hud-col{display:flex;flex-direction:column;gap:12px}
+#turnInfo{font-weight:800;color:var(--gold2);font-size:1.05rem}
+#diceRow{display:flex;gap:14px;align-items:center}
+#diceFace{font-size:3rem;width:74px;height:74px;display:grid;place-items:center;background:#e7d3a8;color:#2a2018;border-radius:14px;border:3px solid #6b4d2a;transition:transform .1s}
+#diceFace.rolling{animation:diceShake .12s infinite}
+@keyframes diceShake{50%{transform:rotate(8deg) scale(1.06)}}
+#anecTxt{width:100%;min-height:96px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:12px;color:var(--text);padding:10px;font-family:inherit;font-size:.9rem;resize:vertical}
+.anec-row{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
+.anec-row .btn-gold,.anec-row .btn-ghost{padding:11px 16px;font-size:.8rem}
+#voteBox p{color:var(--muted);font-size:.85rem;margin-bottom:10px}
+#voteBox button{border-radius:12px;padding:12px 16px;font-weight:800;border:none;margin-right:10px;transition:.2s}
+#voteYes{background:#2fae62;color:#fff}#voteNo{background:#c14b6a;color:#fff}
+#voteBox button:hover{transform:translateY(-2px)}
+#gameLog{max-height:200px;overflow:auto;display:flex;flex-direction:column;gap:6px;font-size:.8rem;color:var(--muted)}
+#gameLog div{background:rgba(255,255,255,.04);border-radius:8px;padding:6px 10px;animation:msgIn .3s ease}
+.pmeeple{transition:transform .6s ease}
+#winOverlay{position:fixed;inset:0;z-index:110;display:none;align-items:center;justify-content:center;background:rgba(2,3,6,.85);backdrop-filter:blur(8px)}
+#winOverlay.open{display:flex}
+.win-box{text-align:center;padding:44px;border-radius:24px;background:var(--panel);border:2px solid var(--gold);box-shadow:0 0 80px rgba(212,175,55,.4);max-width:90vw}
+@media(max-width:960px){.game-grid{grid-template-columns:1fr}}
 
 /* ===== CHAT IA ===== */
 #chatFab{position:fixed;right:22px;bottom:22px;z-index:70;width:66px;height:66px;border-radius:50%;border:2px solid rgba(255,255,255,.25);
@@ -222,7 +237,6 @@ section{padding:90px 5vw;position:relative;z-index:1}
 .typing i{width:7px;height:7px;border-radius:50%;background:var(--cyan);animation:tp 1s infinite}
 .typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
 @keyframes tp{50%{opacity:.25;transform:translateY(-3px)}}
-/* ✅ Chips guía arreglados: sin empalmes */
 #chatChips{display:flex;flex-wrap:wrap;gap:10px;padding:12px 14px;border-top:1px solid rgba(255,255,255,.06)}
 #chatChips button{flex:0 0 auto;border:1px solid rgba(103,232,249,.35);background:rgba(103,232,249,.07);color:var(--cyan);
   border-radius:999px;padding:8px 14px;font-size:.74rem;line-height:1.1;white-space:nowrap;transition:.2s}
@@ -320,7 +334,7 @@ footer.site{padding:40px 5vw;text-align:center;color:var(--muted);font-size:.82r
     <span class="badge"><span class="dot"></span> ⚡ Nueva Carta Legendaria</span>
     <h1>Descubre <span class="grad">Poder LGBTQ+</span><br>la carta más poderosa</h1>
     <div class="pride-line"></div>
-    <p class="lead">La joya de nuestra colección Legal Tech, ilustrada por <b style="color:var(--gold2)">Hugo Mendoza</b>. Escanea, captura en la garra, colecciona las 17 cartas, juega <b style="color:var(--cyan)">HUGOCENTRISMO</b> y platica con nuestra <b style="color:#7ee2a0">IA gratuita</b> entrenada con el chat.txt del grupo 📜: habla como ellos, odia a Karen Ayala 😈 y reverencia a Lalo, el arquitecto de la matrix. 🧬</p>
+    <p class="lead">La joya de nuestra colección Legal Tech, ilustrada por <b style="color:var(--gold2)">Hugo Mendoza</b>. Escanea, captura en la garra, colecciona las 17 cartas, <b style="color:var(--cyan)">juega HUGOCENTRISMO</b> 🎲 y platica con nuestra <b style="color:#7ee2a0">IA gratuita</b> entrenada con el chat.txt del grupo 📜.</p>
     <div class="cta-row">
       <button class="btn-gold" id="heroScan">VER CARTA</button>
       <button class="btn-ghost" id="heroBuy">COMPRAR AHORA · $2,500 MXN</button>
@@ -328,8 +342,8 @@ footer.site{padding:40px 5vw;text-align:center;color:var(--muted);font-size:.82r
     <div class="hero-chips">
       <div class="chip">🃏 Cartas en stock: <b>17 Items</b></div>
       <div class="chip">⭐ Nueva: <b>Carta 16 Legendaria</b></div>
+      <div class="chip">🎲 Juego de mesa: <b>Jugable</b></div>
       <div class="chip">🧠 Chat IA: <b>Gratis + chat.txt</b></div>
-      <div class="chip">🐶 Hugo Team: <b>Collie · Jr · Richie</b></div>
     </div>
   </div>
   <div class="holo-wrap">
@@ -380,7 +394,7 @@ footer.site{padding:40px 5vw;text-align:center;color:var(--muted);font-size:.82r
 <!-- ============ HUGOCENTRISMO ============ -->
 <section id="hugo">
   <div class="hugo-head reveal">
-    <span class="badge"><span class="dot"></span> 🏗️ Nuevo Juego de Mesa</span>
+    <span class="badge"><span class="dot"></span> 🎲 Juego de Mesa Funcional</span>
     <h2>HUGOCENTRISMO</h2>
     <p class="tag">"Todos los caminos, sin importar el tema, llevan a Hugo"</p>
   </div>
@@ -404,78 +418,110 @@ footer.site{padding:40px 5vw;text-align:center;color:var(--muted);font-size:.82r
     </div>
   </div>
 
-  <div class="map-wrap glass reveal">
-    <svg id="hugoMap" viewBox="0 0 1000 640" role="img" aria-label="Mapa del juego Hugocentrismo">
-      <defs>
-        <radialGradient id="parch" cx="50%" cy="45%" r="75%">
-          <stop offset="0%" stop-color="#e7d3a8"/><stop offset="70%" stop-color="#d3b988"/><stop offset="100%" stop-color="#a9895c"/>
-        </radialGradient>
-      </defs>
-      <rect x="0" y="0" width="1000" height="640" rx="14" fill="url(#parch)"/>
-      <rect x="10" y="10" width="980" height="620" rx="10" fill="none" stroke="#6b4d2a" stroke-width="3" opacity=".7"/>
-      <ellipse cx="720" cy="80" rx="130" ry="55" fill="#b0503a" opacity=".4"/>
-      <ellipse cx="800" cy="210" rx="110" ry="70" fill="#7a4fb0" opacity=".35"/>
-      <ellipse cx="700" cy="460" rx="150" ry="70" fill="#3f6fb0" opacity=".45"/>
-      <ellipse cx="130" cy="250" rx="110" ry="80" fill="#3f7d3f" opacity=".35"/>
-      <g fill="#8d8d8d" opacity=".55">
-        <polygon points="110,70 140,30 170,70"/><polygon points="160,80 195,35 230,80"/><polygon points="120,430 155,385 190,430"/><polygon points="175,445 210,400 245,445"/>
-      </g>
-      <path class="route r-main"    d="M170,95 C300,140 380,190 470,250"/>
-      <path class="route r-evento" d="M430,80 C450,140 470,190 495,240"/>
-      <path class="route r-tema"    d="M700,75 C620,120 560,180 515,240"/>
-      <path class="route r-tema"    d="M780,170 C690,200 600,230 530,260"/>
-      <path class="route r-atajo"  d="M800,265 C700,270 610,270 535,275"/>
-      <path class="route r-evento" d="M150,250 C260,255 370,262 465,270"/>
-      <path class="route r-tema"    d="M170,430 C280,380 380,320 470,285"/>
-      <path class="route r-main"    d="M440,470 C460,400 480,340 495,300"/>
-      <path class="route r-atajo"  d="M690,430 C620,380 560,320 520,290"/>
-      <g id="castle">
-        <circle cx="500" cy="265" r="52" fill="#f0c75e" opacity=".25"/>
-        <g fill="#3a3a4a" stroke="#1c1c28" stroke-width="2">
-          <rect x="470" y="240" width="16" height="50"/><rect x="514" y="240" width="16" height="50"/>
-          <rect x="486" y="222" width="28" height="68"/><polygon points="470,240 478,222 486,240"/><polygon points="514,240 522,222 530,240"/><polygon points="486,222 500,196 514,222"/>
-        </g>
-        <line x1="500" y1="196" x2="500" y2="160" stroke="#1c1c28" stroke-width="3"/>
-        <g class="flag">
-          <rect x="500" y="160" width="46" height="5" fill="#5bcefa"/><rect x="500" y="165" width="46" height="5" fill="#f5a9b8"/>
-          <rect x="500" y="170" width="46" height="5" fill="#ffffff"/><rect x="500" y="175" width="46" height="5" fill="#f5a9b8"/>
-          <rect x="500" y="180" width="46" height="5" fill="#5bcefa"/>
-        </g>
-      </g>
-      <g class="rlabel" data-tip="Región de Infidelidades — Camino Principal"><rect x="80" y="70" width="150" height="30" rx="7"/><text x="95" y="90">INFIDELIDADES</text></g>
-      <g class="rlabel" data-tip="Región de Cosas Malas — Evento Aleatorio"><rect x="360" y="48" width="140" height="30" rx="7"/><text x="377" y="68">COSAS MALAS</text></g>
-      <g class="rlabel" data-tip="Región de Enojo — Tema Recurrente"><rect x="668" y="48" width="90" height="30" rx="7"/><text x="684" y="68">ENOJO</text></g>
-      <g class="rlabel" data-tip="Región de Celos — Territorio de la Villana 😈"><rect x="756" y="140" width="90" height="30" rx="7"/><text x="774" y="160">CELOS</text></g>
-      <g class="rlabel" data-tip="Región de Posesión — Atajo Emocional"><rect x="760" y="240" width="120" height="30" rx="7"/><text x="775" y="260">POSESIÓN</text></g>
-      <g class="rlabel" data-tip="Región Amigos y Lealtad — Territorio de Richie, el mejor amigo de Hugo 💚"><rect x="52" y="222" width="170" height="30" rx="7"/><text x="66" y="242">AMIGOS Y LEALTAD</text></g>
-      <g class="rlabel" data-tip="Región de Metal — Hugo es FAN 🤘"><rect x="105" y="440" width="90" height="30" rx="7"/><text x="123" y="460">METAL</text></g>
-      <g class="rlabel" data-tip="Región de Cumbia — Camino Principal"><rect x="390" y="480" width="100" height="30" rx="7"/><text x="407" y="500">CUMBIA</text></g>
-      <g class="rlabel" data-tip="Región Tecnología y Redes — Territorio de Vlado 🌀"><rect x="620" y="440" width="190" height="30" rx="7"/><text x="633" y="460">TECNOLOGÍA Y REDES</text></g>
-      <g id="meeples"></g>
-      <g font-size="13" fill="#2a2018">
-        <rect x="36" y="520" width="252" height="100" rx="10" fill="rgba(231,211,168,.9)" stroke="#6b4d2a" stroke-width="2"/>
-        <text x="52" y="543" font-family="Cinzel" font-weight="bold" font-size="15">LEYENDA</text>
-        <line x1="52" y1="558" x2="86" y2="558" stroke="#c14b6a" stroke-width="5" stroke-linecap="round"/><text x="96" y="563">Camino Principal</text>
-        <line x1="52" y1="576" x2="86" y2="576" stroke="#8a8f3c" stroke-width="5" stroke-linecap="round"/><text x="96" y="581">Tema Recurrente</text>
-        <line x1="52" y1="594" x2="86" y2="594" stroke="#4f9d4f" stroke-width="5" stroke-linecap="round"/><text x="96" y="599">Evento Aleatorio</text>
-        <line x1="170" y1="558" x2="204" y2="558" stroke="#4b7bd4" stroke-width="5" stroke-linecap="round"/><text x="212" y="563">Atajo Emocional</text>
-      </g>
-      <g>
-        <rect x="690" y="556" width="272" height="62" rx="10" fill="rgba(231,211,168,.9)" stroke="#6b4d2a" stroke-width="2"/>
-        <text x="706" y="581" font-size="14" fill="#2a2018" font-style="italic">Recuerda: El mapa no miente.</text>
-        <text x="706" y="603" font-size="14" fill="#2a2018" font-style="italic">El ego, sí. (Y Karen, también.)</text>
-      </g>
-      <g transform="translate(930,60)" stroke="#2a2018" fill="none" stroke-width="2">
-        <circle r="26"/><polygon points="0,-22 6,0 0,22 -6,0" fill="#2a2018"/><polygon points="-22,0 0,-6 22,0 0,6" fill="#6b4d2a"/>
-        <text y="-32" text-anchor="middle" fill="#2a2018" stroke="none" font-size="13">N</text>
-      </g>
-    </svg>
-    <div id="mapTip"></div>
+  <!-- 🎲 JUEGO FUNCIONAL -->
+  <div class="game-wrap glass reveal">
+    <div id="setupPanel">
+      <h3 class="cinzel" style="color:var(--gold2)">🎲 Configurar partida</h3>
+      <div class="setup-row"><label>Modo:</label>
+        <select id="modeSel">
+          <option value="ia">Tú vs IA (los rivales cuentan anécdotas del chat.txt)</option>
+          <option value="local">Mesa local (pásense el dispositivo y voten)</option>
+        </select></div>
+      <div class="setup-row"><label>Jugadores:</label>
+        <select id="numSel"><option>2</option><option>3</option><option selected>4</option></select></div>
+      <div id="nameInputs" class="setup-names"></div>
+      <button id="startBtn" class="btn-gold">🎲 Comenzar partida</button>
+      <p class="rules"> Regla de la casa (Lalo, 12/08/26, textual del chat.txt): "Tiras el dado. El número te indica qué Carta de Tema robas. Lees el tema en voz alta. Obligatoriamente cuentas una anécdota real o inventada de Hugo relacionada con ese tema. Si la mesa acepta que es suficientemente hugocéntrica, avanzas los espacios del dado. Si la mesa considera que forzaste demasiado la relación con Hugo, no avanzas y pierdes el turno." Casillas: 🟩 Evento Aleatorio · 🟥 Celos (Karen 😈) · 🟦 Atajo Emocional · 🟨 Meta: el castillo de Hugo.</p>
+    </div>
+    <div id="gamePanel" style="display:none">
+      <div class="game-grid">
+        <div class="board-col">
+          <svg id="hugoMap" viewBox="0 0 1000 640" role="img" aria-label="Tablero Hugocentrismo">
+            <defs><radialGradient id="parch" cx="50%" cy="45%" r="75%">
+              <stop offset="0%" stop-color="#e7d3a8"/><stop offset="70%" stop-color="#d3b988"/><stop offset="100%" stop-color="#a9895c"/>
+            </radialGradient></defs>
+            <rect x="0" y="0" width="1000" height="640" rx="14" fill="url(#parch)"/>
+            <rect x="10" y="10" width="980" height="620" rx="10" fill="none" stroke="#6b4d2a" stroke-width="3" opacity=".7"/>
+            <ellipse cx="720" cy="80" rx="130" ry="55" fill="#b0503a" opacity=".4"/>
+            <ellipse cx="800" cy="210" rx="110" ry="70" fill="#7a4fb0" opacity=".35"/>
+            <ellipse cx="700" cy="460" rx="150" ry="70" fill="#3f6fb0" opacity=".45"/>
+            <ellipse cx="130" cy="250" rx="110" ry="80" fill="#3f7d3f" opacity=".35"/>
+            <g fill="#8d8d8d" opacity=".55">
+              <polygon points="110,70 140,30 170,70"/><polygon points="160,80 195,35 230,80"/><polygon points="120,430 155,385 190,430"/><polygon points="175,445 210,400 245,445"/>
+            </g>
+            <g class="rlabel"><rect x="80" y="70" width="150" height="30" rx="7"/><text x="95" y="90">INFIDELIDADES</text></g>
+            <g class="rlabel"><rect x="360" y="48" width="140" height="30" rx="7"/><text x="377" y="68">COSAS MALAS</text></g>
+            <g class="rlabel"><rect x="668" y="48" width="90" height="30" rx="7"/><text x="684" y="68">ENOJO</text></g>
+            <g class="rlabel"><rect x="756" y="140" width="90" height="30" rx="7"/><text x="774" y="160">CELOS</text></g>
+            <g class="rlabel"><rect x="760" y="240" width="120" height="30" rx="7"/><text x="775" y="260">POSESIÓN</text></g>
+            <g class="rlabel"><rect x="52" y="222" width="170" height="30" rx="7"/><text x="66" y="242">AMIGOS Y LEALTAD</text></g>
+            <g class="rlabel"><rect x="105" y="440" width="90" height="30" rx="7"/><text x="123" y="460">METAL</text></g>
+            <g class="rlabel"><rect x="390" y="480" width="100" height="30" rx="7"/><text x="407" y="500">CUMBIA</text></g>
+            <g class="rlabel"><rect x="620" y="440" width="190" height="30" rx="7"/><text x="633" y="460">TECNOLOGÍA Y REDES</text></g>
+            <g id="castle">
+              <circle cx="500" cy="265" r="52" fill="#f0c75e" opacity=".25"/>
+              <g fill="#3a3a4a" stroke="#1c1c28" stroke-width="2">
+                <rect x="470" y="240" width="16" height="50"/><rect x="514" y="240" width="16" height="50"/>
+                <rect x="486" y="222" width="28" height="68"/><polygon points="470,240 478,222 486,240"/><polygon points="514,240 522,222 530,240"/><polygon points="486,222 500,196 514,222"/>
+              </g>
+              <line x1="500" y1="196" x2="500" y2="160" stroke="#1c1c28" stroke-width="3"/>
+              <g class="flag">
+                <rect x="500" y="160" width="46" height="5" fill="#5bcefa"/><rect x="500" y="165" width="46" height="5" fill="#f5a9b8"/>
+                <rect x="500" y="170" width="46" height="5" fill="#ffffff"/><rect x="500" y="175" width="46" height="5" fill="#f5a9b8"/>
+                <rect x="500" y="180" width="46" height="5" fill="#5bcefa"/>
+              </g>
+            </g>
+            <g id="trackLayer"></g>
+            <g id="playersLayer"></g>
+            <g font-size="13" fill="#2a2018">
+              <rect x="36" y="520" width="252" height="100" rx="10" fill="rgba(231,211,168,.9)" stroke="#6b4d2a" stroke-width="2"/>
+              <text x="52" y="543" font-family="Cinzel" font-weight="bold" font-size="15">LEYENDA</text>
+              <circle cx="60" cy="560" r="7" fill="#e7d3a8" stroke="#2a2018"/><text x="76" y="565">Camino (anécdota)</text>
+              <circle cx="60" cy="580" r="7" fill="#4f9d4f" stroke="#2a2018"/><text x="76" y="585">Evento Aleatorio</text>
+              <circle cx="170" cy="560" r="7" fill="#c14b6a" stroke="#2a2018"/><text x="186" y="565">Celos (Karen 😈)</text>
+              <circle cx="170" cy="580" r="7" fill="#4b7bd4" stroke="#2a2018"/><text x="186" y="585">Atajo Emocional</text>
+              <circle cx="60" cy="602" r="7" fill="#d4af37" stroke="#2a2018"/><text x="76" y="607">Meta: Hugo 🏰</text>
+            </g>
+            <g>
+              <rect x="690" y="556" width="272" height="62" rx="10" fill="rgba(231,211,168,.9)" stroke="#6b4d2a" stroke-width="2"/>
+              <text x="706" y="581" font-size="14" fill="#2a2018" font-style="italic">Recuerda: El mapa no miente.</text>
+              <text x="706" y="603" font-size="14" fill="#2a2018" font-style="italic">El ego, sí. (Y Karen, también.)</text>
+            </g>
+          </svg>
+        </div>
+        <aside class="hud-col">
+          <div id="turnInfo">—</div>
+          <div id="diceRow"><button id="rollBtn" class="btn-gold">🎲 Tirar dado</button><div id="diceFace">🎲</div></div>
+          <div id="themeCard" class="oracle-card" style="display:none"></div>
+          <div id="anecBox" style="display:none">
+            <textarea id="anecTxt" placeholder="Cuenta tu anécdota hugocéntrica…"></textarea>
+            <div class="anec-row">
+              <button id="stealBtn" class="btn-ghost">📜 Robar del archivo</button>
+              <button id="submitAnec" class="btn-gold">🗣️ Contar anécdota</button>
+            </div>
+          </div>
+          <div id="voteBox" style="display:none">
+            <p>🗳️ ¿La anécdota es suficientemente hugocéntrica?</p>
+            <button id="voteYes">✅ Sí, avanza</button><button id="voteNo">❌ Forzó demasiado</button>
+          </div>
+          <div id="gameLog"></div>
+          <button id="quitBtn" class="btn-ghost" style="padding:10px;font-size:.75rem"> Salir de la partida</button>
+        </aside>
+      </div>
+    </div>
   </div>
 </section>
 </main>
 
 <footer class="site">Legal Tech TCG · Ilustrado por Hugo Mendoza · "El mapa no miente. El ego, sí." 🏳️️ · HUGO·IA entrenada con chat.txt 📜 ·  Karen Ayala: villana oficial ·  Lalo: arquitecto de la matrix</footer>
+
+<!-- VICTORIA -->
+<div id="winOverlay"><div class="win-box">
+  <div style="font-size:4rem">🏆</div>
+  <h2 class="cinzel" id="winName" style="color:var(--gold2)"></h2>
+  <p id="winQuote" style="color:var(--muted);margin:12px 0 22px;font-style:italic"></p>
+  <button class="btn-gold" id="againBtn">🎲 Jugar de nuevo</button>
+</div></div>
 
 <!-- ============ CHAT IA GRATUITA ============ -->
 <button id="chatFab" aria-label="Abrir chat con IA gratuita">🧠<span class="ping"></span><span class="free">GRATIS</span></button>
@@ -587,7 +633,7 @@ const HUGO_SAYS=['"Que todos los caminos llevan a él."','"Que lo hablaron, pero
 const fmt=n=>'$'+n.toLocaleString('en-US',{minimumFractionDigits:2})+' MXN';
 function ph(name){return 'data:image/svg+xml;utf8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="420"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1a2340"/><stop offset="1" stop-color="#0b0e17"/></linearGradient></defs><rect width="300" height="420" fill="url(#g)"/><rect x="8" y="8" width="284" height="404" fill="none" stroke="#d4af37" stroke-width="3"/><text x="150" y="215" fill="#d4af37" font-family="serif" font-size="26" text-anchor="middle">'+name+'</text></svg>');}
 
-/* ================= 📜 MEMORIA DEL GRUPO (curada + chat.txt en vivo) ================= */
+/* ================= 📜 MEMORIA DEL GRUPO ================= */
 const GROUP_MEMORY=[
  {w:'Hugo',q:'Háganme mejor. No me parezco. Pueden hacerlo mejor.'},
  {w:'Hugo',q:'Ya voy de regreso a casa amigos. Todo un éxito la gira del adiós. Farewell Tour 2025.'},
@@ -613,22 +659,21 @@ const GROUP_MEMORY=[
  {w:'Hugo',q:'Dijeron cosas malas de mis amigos, y con mis amigos nadie se mete.'},
  {w:'Hugo',q:'Les traigo cringe.'},
  {w:'Hugo',q:'Ok, sí, pero... ¿farmea aura?'},
- {w:'Hugo',q:'Adelante, siempre adelante. El título de mi segundo best seller.'},
- {w:'Hugo',q:'Caos controlado.'},
- {w:'Hugo',q:'Pinches hugocentristas.'},
  {w:'Hugo',q:'La odiooooo la odiooooo.'},
  {w:'Hugo',q:'Está en mi top tres de enemigos mortales.'},
+ {w:'Hugo',q:'Pinches hugocentristas.'},
+ {w:'Hugo',q:'Caos controlado.'},
  {w:'Lalo',q:'Dile al JR que él lo baje, él sí va a poder.'},
  {w:'Lalo',q:'Ahora sí la villana es Karen.'},
  {w:'Lalo',q:'El chat más determinista del planeta.'},
  {w:'Lalo',q:'Listo, he creado el mapa.'},
- {w:'Lalo',q:'National Geographic Legal Tech.'},
  {w:'Lalo',q:'todos los caminos llevan a hugo'},
  {w:'Lalo',q:'No mades, eres un pinche cartógrafo nato.'},
  {w:'Lalo',q:'100 inteligencia artesanal aquí.'},
  {w:'Lalo',q:'Me estás hablando en abogañol.'},
  {w:'Lalo',q:'HugoGPT siempre te va a validar.'},
  {w:'Lalo',q:'Es un honor para nosotros presentar esto.'},
+ {w:'Lalo',q:'National Geographic Legal Tech.'},
  {w:'Efren',q:'Reventó Karen a Hugo 🫢'},
  {w:'Efren',q:'Te voy a echar al Hugo enfiestado.'},
  {w:'Efren',q:'Hugo. Tráete tu control.'},
@@ -641,6 +686,7 @@ const GROUP_MEMORY=[
  {w:'Alex IT',q:'Ya tenemos bien entrenada a la IA con tu imagen.'},
  {w:'Alex IT',q:'O lo asaltaron. O lo agarró el narco. O un gringo le dijo terrorista.'},
  {w:'Alex IT',q:'Pura paz ahora que Hugo sea papá.'},
+ {w:'Alex IT',q:'Es trabajo honesto.'},
  {w:'Javier IT 💥',q:'Esa carta es legendaria.'},
  {w:'Javier IT 💥',q:'Nmms hugo ya nos acabamos el agua de Haití y tú con tus quejas.'},
  {w:'Javier IT 💥',q:'Estoy vivo. Toy en la playa con el límite de México.'},
@@ -649,58 +695,57 @@ const GROUP_MEMORY=[
  {w:'Vogar',q:'No me le toques ese vals a Hugo.'},
  {w:'Vogar',q:'Hugo eres un chingón.'},
  {w:'Vogar',q:'Es el efecto Hugo.'},
+ {w:'Vogar',q:'Me distrajo el Hugo con sus copias 😡😡'},
  {w:'Richard iT',q:'Mañana les llevo los tacos.'},
  {w:'Richard iT',q:'De champiñones sí. 🥲'},
  {w:'Josue',q:'VAMOS LPTM.'},
  {w:'Josue',q:'Está hasta sptm jajajaja.'}
 ];
-/* 👥 EXPEDIENTE DE PERSONAS (contexto del chat.txt) */
 const PERSONAJES=[
  {re:/\b(efren|efr[eé]n|buch[oó]n|el lic\b|afrin)\b/i,author:'Efren',lore:[
   "Efren aka EL LIC (Lic. Buchón, Carta 7 ⚖️): abogado, jefe de terreno, coleccionista de burros de barbacoa, canonizador de 'San Chorizo' y dueño del 'Efren Movil'. 🚗 Su himno: 'A huevo. Que chido.'",
-  "El Lic Efrén: fuente oficial de chismes vía 'WhatsApp de sus tías', el que autoriza todo febrero con una llamada y el que pidió 'una estampa SWE 19' que nunca llegó. 📋 Cuando litigia, el archivo entero le aplaude."]},
+  "El Lic Efrén: fuente oficial de chismes vía 'WhatsApp de sus tías', el que autoriza todo febrero con una llamada y pidió 'una estampa SWE 19' que nunca llegó. 📋"]},
  {re:/\b(alex)\b/i,author:'Alex IT',lore:[
-  "Alex IT: el de sistemas que 'se hizo a base de puro cartucho de 64'. 🎮 Perdedor oficial de controles, candidato a cliente ('van a ascender a alex a cliente?'), y el que más usa la IA aunque diga que no. 'Es trabajo honesto.', dice él.",
+  "Alex IT: el de sistemas que 'se hizo a base de puro cartucho de 64'. 🎮 Perdedor oficial de controles, candidato a cliente y el que más usa la IA aunque diga que no. 'Es trabajo honesto.', dice él.",
   "Alex: vive entre switches, feromonas imaginarias y grupos coreanos de anime. 'Pero de Hugo no me quejo', aclaró en el archivo. 🤝"]},
- {re:/\b(javier|javi\b)\b/i,author:'Javier IT 💥',lore:[
+ {re:/\b(javier|javi\b)/i,author:'Javier IT 💥',lore:[
   "Javier IT 💥: el de Tijuana, el de la Switch que nunca llega, el del 'nmms' eterno y el que según él ya nos acabamos el agua de Haití. 🌊 Inventor del '*Hugo ha utilizado Cuerda Huida*' y del 'Que te vaya Stratochido'.",
-  "Javi: coleccionista de fotos legendarias, fan del sacaleche, del dulce de guayaba y de declarar 'esa carta es legendaria'. 🃏 Su reacción promedio: 'AJJAJA'."]},
+  "Javi: coleccionista de fotos legendarias, fan del sacaleche, del dulce de guayaba y de declarar 'esa carta es legendaria'. 🃏"]},
  {re:/\b(richard|richie|richi)\b/i,author:'Richard iT',lore:[
   "Richard iT aka RICHIE: proveedor oficial de tacos del grupo ('Mañana les llevo los tacos', de pollo no, de champiñones sí 🥲). Pieza verde del mapa en Amigos y Lealtad, porque él ES la lealtad.",
   "Richie: el que 'cada vez está más ingenioso para llevarse a Hugo' según Alex, y el único con sazón heredado de su mamá. 🌮"]},
  {re:/\b(vogar)\b/i,author:'Vogar',lore:[
-  "Vogar: el observador que pide videos 'para meterle jiribilla', el que avisa 'no me le toques ese vals a Hugo' y el que diagnosticó 'Es el efecto Hugo'. 🕵️ Nivel de análisis: documental de National Geographic Legal Tech.",
+  "Vogar: el observador que pide videos 'para meterle jiribilla', el que avisa 'no me le toques ese vals a Hugo' y diagnosticó 'Es el efecto Hugo'. 🕵️ Nivel de análisis: National Geographic Legal Tech.",
   "Vogar: 'cada día se enferma más' según Lalo, pero siempre cae con 'Jajajajajaja' y una quiniela a tiempo. 📊"]},
  {re:/\b(pato|marco)\b/i,author:'Pato Zaarte Flores',lore:[
-  "El Pato (Pato Zaarte Flores): leyenda FUNDACIONAL. Entró el 21/04/25 con dos Irish de bienvenida, y el archivo jura que 'se murió' (chiste canónico de Alex 💀). Su espíritu vive en cada carrilla.",
-  "Marco Chaires: según Efren, 'a ese wey le gusta esconder las cosas' (las demandas incluidas). 📁 Pieza del lore legal-tech."]},
+  "El Pato (Pato Zaarte Flores): leyenda FUNDACIONAL. Entró con dos Irish de bienvenida y el archivo jura que 'se murió' (chiste canónico de Alex 💀). Su espíritu vive en cada carrilla.",
+  "Marco Chaires: según Efren, 'a ese wey le gusta esconder las cosas' (las demandas incluidas). 📁"]},
  {re:/\b(josue|josu[eé])\b/i,author:'Josue',lore:[
-  "Josue: el de los links (lacancha.tv, futbollibre, reforma), el que 'vive por ahí' 📍 y gritó 'VAMOS LPTM' cuando se prendió la página. Fuente confiable de banda y de perros llegando al mundial. 🐶"]},
+  "Josue: el de los links (futbol-libres, reforma), el que 'vive por ahí' 📍 y gritó 'VAMOS LPTM' cuando se prendió la página. Fuente confiable de banda y de perros llegando al mundial. 🐶"]},
  {re:/\b(claudia)\b/i,author:'',lore:[
-  "Claudia IBTS: la lic que usó IA para una demanda gracias a los consejos de Efren… y el desastre quedó en actas. 📉 'Ya no aconsejes a la Lic IBTs', dixit Hugo. También desvelada viendo salir a BTS del cuartel militar. 🇰"]},
+  "Claudia IBTS: la lic que usó IA para una demanda gracias a los consejos de Efren… y el desastre quedó en actas. 📉 'Ya no aconsejes a la Lic IBTs', dixit Hugo."]},
  {re:/\b(anita|annita)\b/i,author:'',lore:[
-  "Anita: la que 'ya da el clima', clon oficial según Javi y la 'Snorlax del Marco' según Efren (ojo: hay DOS Anitas, y la nueva es lo contrario). 🌦️ Protagonista involuntaria de la novela del grupo."]},
+  "Anita: la que 'ya da el clima', clon oficial según Javi y la 'Snorlax del Marco' según Efren (ojo: hay DOS Anitas). 🌦️ Protagonista involuntaria de la novela del grupo."]},
  {re:/\b(don javi)\b/i,author:'',lore:[
   "Don Javi: el patrón de los tacos (papá de Richie 🌮), al que Hugo manda de refuerzo cuando alguien 'mori' en el roof. 'Cuíden sistemas por mi', dijo Lalo. Y Don Javi fue. 🫡"]},
  {re:/\b(doofie|doofi|dufy|duffy)\b/i,author:'',lore:[
-  "Doofie (Doffie Kang 🦘, Carta 17 legendaria): encargado oficial de cambiarle el pañal a Jr por decreto de Hugo: 'JotaErre se hizo popo. Que lo cambie doofie.' 👑 También propuesto para ponerse lo que sea que el grupo mande. 😅"]},
+  "Doofie (Doffie Kang 🦘, Carta 17 legendaria): encargado oficial de cambiarle el pañal a Jr por decreto de Hugo: 'JotaErre se hizo popo. Que lo cambie doofie.' 👑"]},
  {re:/\b(lulu)\b/i,author:'',lore:[
-  "La Sr. Lulu 💛: amiga fiel de Hugo, con Insta propio (lulu_rios_r) conseguido por el propio Hugo, 'Lulu 2.0 con canva' según el archivo, y la que NO me ha contado ciertos chismes… todavía. 🤫 Lealtad nivel región 'Amigos y Lealtad'."]},
+  "La Sr. Lulu 💛: amiga fiel de Hugo, con Insta propio (lulu_rios_r) conseguido por el propio Hugo, 'Lulu 2.0 con canva' según el archivo, y la que NO me ha contado ciertos chismes… todavía. 🤫"]},
  {re:/\b(chabela)\b/i,author:'',lore:[
-  "Chabela 💛: amiga fiel de Hugo ('Me ha ayudado más Chabela', dixit Hugo comparándola hasta con Nemesio). Integrante del dúo 'Amistad Legendaria' con la Sr. Lulu. +50 de defensa contra Celos, Posesión y Karen Ayala."]},
+  "Chabela 💛: amiga fiel de Hugo ('Me ha ayudado más Chabela', dixit Hugo comparándola hasta con Nemesio). Integrante del dúo 'Amistad Legendaria' con la Sr. Lulu."]},
  {re:/\b(vlado)\b/i,author:'',lore:[
-  "Vlado 🌀: 'CEO transaereo y marítimo de Stratega' según el organigrama oficial de Efren, ídolo de Hugo (casi tanto como el metal 🤘) y el que en el fanfest usa la IA para todo. 'Segui Vlado', dicen las quinielas del grupo."]},
+  "Vlado 🌀: 'CEO transaereo y marítimo de Stratega' según el organigrama oficial de Efren, ídolo de Hugo (casi tanto como el metal 🤘) y el que en el fanfest usa la IA para todo."]},
  {re:/\b(nora|jantey)\b/i,author:'',lore:[
   "Nora (jantey) 🎨: la que pinta 'como jarritos' en la oficina según el archivo, la del lonche filtrado ('se carga a la luz, no usa pilas', aclaró Hugo) y la que ya no recibe llamadas de Hugo: 'Ya no le hablo.' 📵"]},
  {re:/\b(bardo)\b/i,author:'',lore:[
-  "Bardo 🎭: 'Bardo-my-butthole' en actas, aval de Hugo ('Es mi amigo. Es mi aval'), el que da 100 ideas en junta y el que lleva el futbolito del roof. 'Vardo', según Hugo. ⚽"]},
+  "Bardo 🎭: 'Bardo-my-butthole' en actas, aval de Hugo ('Es mi amigo. Es mi aval'), el que da 100 ideas en junta y pregunta dónde está Oaxaca en el mapa. 'Vardo', según Hugo."]},
  {re:/\b(meta ai|meta\b)/i,author:'Meta AI',lore:[
   "Meta AI: el primer bot del grupo (26/03/25). Le pidieron 'haz algo' y respondió: 'Sorry, I can't help you with this request right now.' 🏳️ Predecesor de HUGO·IA, pero con cero expediente y sin estilo."]},
  {re:/\b(hugo)\b/i,author:'Hugo',lore:[
-  "Hugo Mendoza: abogado ('Aboganster'), ilustrador de las 17 cartas, papá de Jr 👑, amo del collie 🐶, metalero 🤘, caballero del blue label 🥃 y 'comodín' oficial del grupo según Lalo. 'Me salvó el Hugo', dice Efren; 'HugoGPT siempre te va a validar', confirma. ¿Quieres todo? Pide 'expediente de Hugo'.",
-  "¿Hugo? En el archivo es ley: 'Sin mí no hubieran ganado. Salve al equipo por lo menos dos veces.' También: 'pinches hugocentristas', dijo él, rodeado de hugocentristas. 😌 Pide 'expediente de Hugo' para el dossier completo."]}
+  "Hugo Mendoza: abogado ('Aboganster'), ilustrador de las 17 cartas, papá de Jr 👑, amo del collie 🐶, metalero 🤘, caballero del blue label 🥃 y 'comodín' oficial del grupo según Lalo. 'Me salvó el Hugo', dice Efren; 'HugoGPT siempre te va a validar', confirma. ¿Todo? Pide 'expediente de Hugo'.",
+  "¿Hugo? En el archivo es ley: 'Sin mí no hubieran ganado. Salve al equipo por lo menos dos veces.' También: 'pinches hugocentristas', dijo él, rodeado de hugocentristas. 😌"]}
 ];
-/* 📚 Carga y parseo de chat.txt — 🧼 limpia Unicode oculto/bidireccional */
 let ARCHIVE=[], STATS={};
 const HIDDEN=/[\u061C\u200B-\u200F\u202A-\u202E\u2060-\u2069\uFEFF]/g;
 const cleanU=s=>s.replace(HIDDEN,'');
@@ -789,7 +834,7 @@ function loreResp(p){
 
 /* ================= UI BASE ================= */
 const $=s=>document.querySelector(s);
-$('#mqTrack').innerHTML=Array(2).fill('<span>✦ EDICIÓN PREMIUM HOLOGRÁFICA</span><span>✦ 17 CARTAS COLECCIONABLES</span><span>✦ NUEVO: HUGOCENTRISMO EL JUEGO DE MESA</span><span>✦ 🧠 CHAT IA GRATUITO + CHAT DEL GRUPO 📜</span><span>✦ 🐶 COLLIE · 👑 JR ·  RICHIE · 💛 CHABELA Y SR. LULU</span><span>✦ 🤘 METAL Y VLADO · 🥃 WHISKY</span><span>✦ 😈 KAREN AYALA: VILLANA OFICIAL</span><span>✦ 🧬 LALO: ARQUITECTO DE LA MATRIX</span><span>🏳️️ PODER LGBTQ+</span>').join('');
+$('#mqTrack').innerHTML=Array(2).fill('<span>✦ EDICIÓN PREMIUM HOLOGRÁFICA</span><span>✦ 17 CARTAS COLECCIONABLES</span><span>✦ NUEVO: HUGOCENTRISMO JUGABLE 🎲</span><span>✦ 🧠 CHAT IA GRATUITO + CHAT DEL GRUPO 📜</span><span>✦ 🐶 COLLIE · 👑 JR ·  RICHIE · 💛 CHABELA Y SR. LULU</span><span>✦ 🤘 METAL Y VLADO · 🥃 WHISKY</span><span>✦ 😈 KAREN AYALA: VILLANA OFICIAL</span><span>✦ 🧬 LALO: ARQUITECTO DE LA MATRIX</span><span>🏳️️ PODER LGBTQ+</span>').join('');
 addEventListener('scroll',()=>{$('#progress').style.width=(scrollY/(document.body.scrollHeight-innerHeight)*100)+'%';},{passive:true});
 addEventListener('mousemove',e=>{const g=$('#glow');g.style.left=e.clientX+'px';g.style.top=e.clientY+'px';});
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');}),{threshold:.12});
@@ -925,44 +970,203 @@ function showPrize(c){prizeCard=c;$('#prizeImg').src=c.file;$('#prizeImg').onerr
  $('#prizeModal').classList.add('open');}
 $('#prizeAdd').onclick=()=>{if(prizeCard)addToCart(prizeCard.id);closeModals();};
 
-/* ================= HUGOCENTRISMO ================= */
-const MEEPLES=[['Fer Haro','#f0a028',250,120],['jantey','#2f7fe0',430,112],['nora','#d43a3a',640,112],['karen','#8a3fd6',760,192],['Richie','#3fae5a',92,172],['Bardo','#7a2fd0',252,242],['Belia','#9a3fd6',142,322],['collie','#f0a028',300,402],['Vlado','#3fae5a',560,362],['IGA','#2fb8d6',690,302],['giussepe','#2f7fe0',242,482]];
-const TIPS={karen:'😈 karen (Ayala) — LA VILLANA del Hugocentrismo: todos la odian',
- collie:'🐶 collie — el perro favorito de Hugo (sí, tiene meeple propio)',
- richie:'💚 Richie — el MEJOR AMIGO de Hugo',
- vlado:'🌀 Vlado — Hugo es su fan, tanto como del metal 🤘',
- 'Fer Haro':'🐾 Fer Haro — el ayudante de Karen Ayala (por eso está cerca de ella)'};
-$('#meeples').innerHTML=MEEPLES.map(([n,c,x,y])=>`
- <g class="meepleG" transform="translate(${x},${y})" fill="${c}" stroke="rgba(0,0,0,.4)" stroke-width="1.5" data-tip="${TIPS[n]||('👤 '+n+' — pieza en el mapa')}">
-  <circle cx="0" cy="-9" r="4.6"/><path d="M-6.5,7 C-6.5,-2 -3,-5 0,-5 C3,-5 6.5,-2 6.5,7 C3,9.5 -3,9.5 -6.5,7 Z"/>
-  <text x="0" y="22" text-anchor="middle">${n}</text></g>`).join('');
-const tip=$('#mapTip');
-$('#hugoMap').addEventListener('mousemove',e=>{const t=e.target.closest('[data-tip]');
- if(t){tip.textContent=t.dataset.tip;tip.style.opacity=1;tip.style.left=(e.clientX+16)+'px';tip.style.top=(e.clientY+16)+'px';}
- else tip.style.opacity=0;});
-$('#hugoMap').addEventListener('mouseleave',()=>tip.style.opacity=0);
+/* ================= 🎲 HUGOCENTRISMO: JUEGO FUNCIONAL ================= */
+const TRACK=[
+ {x:200,y:540,t:'start'},{x:252,y:514,t:'n'},{x:302,y:492,t:'n'},{x:346,y:468,t:'ev'},
+ {x:382,y:438,t:'n'},{x:410,y:408,t:'n'},{x:428,y:374,t:'at',to:10},{x:398,y:344,t:'n'},
+ {x:358,y:320,t:'ka'},{x:328,y:292,t:'n'},{x:300,y:262,t:'ev'},{x:282,y:226,t:'n'},
+ {x:300,y:192,t:'n'},{x:340,y:170,t:'n'},{x:386,y:158,t:'ev'},{x:432,y:148,t:'n'},
+ {x:472,y:140,t:'n'},{x:512,y:136,t:'ka'},{x:552,y:142,t:'n'},{x:592,y:156,t:'ev'},
+ {x:622,y:182,t:'n'},{x:642,y:212,t:'at',to:24},{x:622,y:242,t:'n'},{x:586,y:256,t:'n'},
+ {x:548,y:264,t:'n'},{x:522,y:286,t:'n'},{x:500,y:265,t:'meta'}
+];
+const THEMES=[
+ {n:'Infidelidades',i:'💔',p:'Cuenta una anécdota de Hugo relacionada con INFIDELIDADES (reales, del mapa o inventadas con cariño).'},
+ {n:'Cosas Malas',i:'😈',p:'Cuenta una anécdota de Hugo relacionada con COSAS MALAS.'},
+ {n:'Enojo',i:'😡',p:'Cuenta una anécdota de Hugo relacionada con el ENOJO.'},
+ {n:'Celos / Karen',i:'💜',p:'Cuenta una anécdota de Hugo relacionada con CELOS o con Karen Ayala (odiarla cuenta doble).'},
+ {n:'Amigos y Lealtad',i:'💚',p:'Cuenta una anécdota de Hugo relacionada con AMIGOS Y LEALTAD.'},
+ {n:'Metal, Cumbia y Redes',i:'🤘',p:'Cuenta una anécdota de Hugo relacionada con METAL, CUMBIA o TECNOLOGÍA Y REDES.'}
+];
+const EVENTS=[
+ {q:'La Sr. Lulu te cuenta un chisme de Hugo: avanza 2. 🫢',dx:2},
+ {q:'Te toca cambiar el pañal de Jr: pierdes 1 turno. 👑',dx:0,sk:1},
+ {q:'Karen Ayala te funa en el grupo: retrocede 2. 😈',dx:-2},
+ {q:'Efren te invita una charolita de burros: avanza 1. 🌮',dx:1},
+ {q:'El collie te acompaña al castillo: avanza 2. 🐶',dx:2},
+ {q:'HugoGPT te valida ante la mesa: avanza 1. 😌',dx:1},
+ {q:'Lalo drena las presas con prompts: avanza 1. 🧬',dx:1},
+ {q:'Taquiza de Don Javi: te empachas y pierdes 1 turno. 🌮',dx:0,sk:1},
+ {q:'Te quedas en el Mario Party familiar: pierdes 1 turno. 🎮',dx:0,sk:1},
+ {q:'Bardo pregunta dónde está Oaxaca: te ríes tanto que avanzas 1. 😂',dx:1},
+ {q:'Chabela te defiende de Karen: avanza 2. 💛',dx:2},
+ {q:'Vlado te presta su IA: avanza 1. 🌀',dx:1}
+];
+const PCOLORS=['#f0c75e','#67e8f9','#b06ce8','#7ee2a0'];
+const DICE=['⚀','','⚂','','⚄',''];
+let G=null;
+function pool(){return ARCHIVE.length?ARCHIVE:GROUP_MEMORY;}
+function glog(t){const l=$('#gameLog');const d=document.createElement('div');d.textContent=t;l.prepend(d);while(l.children.length>12)l.removeChild(l.lastChild);}
+function buildNames(){
+ const n=+$('#numSel').value;const mode=$('#modeSel').value;
+ const defs=mode==='ia'?['Tú','Richie','Lalo','Efren']:['Hugo-fan 1','Hugo-fan 2','Hugo-fan 3','Hugo-fan 4'];
+ $('#nameInputs').innerHTML=Array.from({length:n},(_,i)=>`<input id="pname${i}" value="${defs[i]}" maxlength="14">`).join('');
+}
+$('#numSel').onchange=buildNames;$('#modeSel').onchange=buildNames;buildNames();
+$('#startBtn').onclick=()=>{
+ const n=+$('#numSel').value;const mode=$('#modeSel').value;
+ const players=Array.from({length:n},(_,i)=>({
+  name:($('#pname'+i)&&$('#pname'+i).value.trim())||('J'+(i+1)),
+  color:PCOLORS[i],pos:0,skip:false,isBot:mode==='ia'&&i>0}));
+ G={players,cur:-1,mode,over:false,phase:'idle',lastRoll:0};
+ $('#setupPanel').style.display='none';$('#gamePanel').style.display='block';
+ $('#gameLog').innerHTML='';
+ buildTrack();buildPlayers();
+ glog('🎲 Comienza el Hugocentrismo. Todos los caminos llevan a Hugo.');
+ advanceTurn();
+};
+$('#quitBtn').onclick=()=>{G=null;$('#gamePanel').style.display='none';$('#setupPanel').style.display='block';};
+function buildTrack(){
+ let s='';
+ for(let i=0;i<TRACK.length-1;i++){s+=`<line x1="${TRACK[i].x}" y1="${TRACK[i].y}" x2="${TRACK[i+1].x}" y2="${TRACK[i+1].y}" stroke="rgba(42,32,24,.5)" stroke-width="3" stroke-dasharray="2 7"/>`;}
+ TRACK.forEach((sp,i)=>{
+  const col=sp.t==='meta'?'#d4af37':sp.t==='ev'?'#4f9d4f':sp.t==='ka'?'#c14b6a':sp.t==='at'?'#4b7bd4':sp.t==='start'?'#8a6a1c':'#e7d3a8';
+  s+=`<circle cx="${sp.x}" cy="${sp.y}" r="${sp.t==='meta'?15:10}" fill="${col}" stroke="#2a2018" stroke-width="2"/>`;
+  if(sp.t!=='meta'&&sp.t!=='start')s+=`<text x="${sp.x}" y="${sp.y+3.5}" text-anchor="middle" font-size="9" fill="#2a2018" font-weight="bold">${i}</text>`;
+  if(sp.t==='start')s+=`<text x="${sp.x}" y="${sp.y+3.5}" text-anchor="middle" font-size="8" fill="#f5d67a" font-weight="bold">SALIDA</text>`;
+ });
+ $('#trackLayer').innerHTML=s;
+}
+function buildPlayers(){
+ const pl=$('#playersLayer');pl.innerHTML='';
+ G.players.forEach((p,i)=>{
+  const g=document.createElementNS('http://www.w3.org/2000/svg','g');
+  g.setAttribute('class','pmeeple');
+  g.innerHTML=`<circle cx="0" cy="-9" r="5" fill="${p.color}" stroke="#1a1206" stroke-width="1.5"/><path d="M-7,8 C-7,-2 -3,-6 0,-6 C3,-6 7,-2 7,8 C3,10.5 -3,10.5 -7,8 Z" fill="${p.color}" stroke="#1a1206" stroke-width="1.5"/>`;
+  pl.appendChild(g);p.el=g;place(i);
+ });
+}
+function place(i){const p=G.players[i];const sp=TRACK[p.pos];
+ const dx=(i%2)*14-7,dy=Math.floor(i/2)*12-6;
+ p.el.style.transform=`translate(${sp.x+dx}px,${sp.y+dy}px)`;}
+function hud(t){$('#turnInfo').innerHTML=t;}
+function advanceTurn(){
+ if(!G||G.over)return;
+ G.cur=(G.cur+1)%G.players.length;
+ const p=G.players[G.cur];
+ if(p.skip){p.skip=false;glog('⏭️ '+p.name+' pierde este turno.');hud('⏭️ '+p.name+' pierde turno…');setTimeout(advanceTurn,900);return;}
+ startTurn();
+}
+function startTurn(){
+ const p=G.players[G.cur];
+ hud('🎲 Turno de <b style="color:'+p.color+'">'+p.name+'</b>');
+ $('#themeCard').style.display='none';$('#anecBox').style.display='none';$('#voteBox').style.display='none';
+ $('#rollBtn').disabled=p.isBot;
+ G.phase='roll';
+ if(p.isBot)setTimeout(botRoll,1100);
+}
+$('#rollBtn').onclick=()=>{if(G&&G.phase==='roll'&&!G.players[G.cur].isBot)roll();};
+function botRoll(){roll();}
+function roll(){
+ const p=G.players[G.cur];G.phase='rolling';$('#rollBtn').disabled=true;
+ const f=$('#diceFace');f.classList.add('rolling');
+ let k=0;const iv=setInterval(()=>{f.textContent=DICE[Math.floor(Math.random()*6)];k++;
+  if(k>9){clearInterval(iv);f.classList.remove('rolling');
+   const v=1+Math.floor(Math.random()*6);f.textContent=DICE[v-1];G.lastRoll=v;
+   const th=THEMES[v-1];
+   $('#themeCard').style.display='grid';
+   $('#themeCard').innerHTML=`<div class="q">${th.i} <b>Carta de Tema ${v}: ${th.n}</b><br>${th.p}</div>`;
+   glog('🎲 '+p.name+' tiró '+v+' → Tema: '+th.n+'.');
+   G.phase='anec';
+   if(p.isBot)setTimeout(botAnec,1200);
+   else{$('#anecBox').style.display='block';$('#anecTxt').value='';$('#anecTxt').focus();}
+  }},90);
+}
+$('#stealBtn').onclick=()=>{const m=pick(pool());$('#anecTxt').value='📜 '+m.w+': "'+m.q+'"';};
+$('#submitAnec').onclick=()=>{
+ const txt=$('#anecTxt').value.trim();
+ if(txt.length<12){glog('⚠️ Anécdota muy corta: la mesa exige esfuerzo hugocéntrico.');return;}
+ $('#anecBox').style.display='none';
+ const p=G.players[G.cur];
+ glog('🗣️ '+p.name+' cuenta: "'+txt.slice(0,90)+(txt.length>90?'…':'')+'"');
+ if(G.mode==='ia'){
+  hud('🧠 La mesa (IA) delibera…');
+  const th=THEMES[G.lastRoll-1];
+  let score=0;if(/hugo/i.test(txt))score+=2;if(new RegExp(th.n.split(' ')[0],'i').test(txt))score+=1;if(txt.length>60)score+=1;
+  const ok=Math.random()<(score>=2?.92:score===1?.6:.35);
+  setTimeout(()=>resolve(ok),1400);
+ }else{
+  $('#voteBox').style.display='block';
+ }
+};
+$('#voteYes').onclick=()=>{$('#voteBox').style.display='none';resolve(true);};
+$('#voteNo').onclick=()=>{$('#voteBox').style.display='none';resolve(false);};
+function botAnec(){
+ const p=G.players[G.cur];const m=pick(pool());
+ glog('🤖 '+p.name+' cuenta del archivo: "'+m.q+'"');
+ $('#themeCard').innerHTML+=`<div class="q" style="margin-top:8px">🤖 "${m.q}" — ${m.w}</div>`;
+ const ok=Math.random()<.8;
+ setTimeout(()=>resolve(ok),1300);
+}
+function resolve(ok){
+ const p=G.players[G.cur];
+ if(!ok){glog('❌ La mesa rechazó la anécdota de '+p.name+': forzó demasiado. Pierde el turno.');
+  hud('❌ '+p.name+' pierde el turno.');setTimeout(advanceTurn,1100);return;}
+ glog('✅ La mesa acepta: suficientemente hugocéntrica. '+p.name+' avanza '+G.lastRoll+'.');
+ move(p,G.lastRoll,()=>spaceEffect(p));
+}
+function move(p,n,cb){
+ if(n<=0){cb&&cb();return;}
+ const step=()=>{p.pos=Math.min(TRACK.length-1,p.pos+1);place(G.players.indexOf(p));
+  if(p.pos>=TRACK.length-1){win(p);return;}
+  n--;if(n>0)setTimeout(step,260);else setTimeout(cb,300);};
+ step();
+}
+function moveBack(p,n){p.pos=Math.max(0,p.pos-n);place(G.players.indexOf(p));}
+function spaceEffect(p){
+ if(G.over)return;
+ const sp=TRACK[p.pos];
+ if(sp.t==='meta'){win(p);return;}
+ if(sp.t==='ev'){const ev=pick(EVENTS);glog('🟩 Evento Aleatorio: '+ev.q);
+  if(ev.sk){p.skip=true;}
+  if(ev.dx>0)move(p,ev.dx,()=>endTurn());
+  else if(ev.dx<0){moveBack(p,-ev.dx);endTurn();}
+  else endTurn();
+  return;}
+ if(sp.t==='ka'){glog('🟥 Caíste en CELOS: Karen Ayala te funa en el grupo. 😈 Retrocede 2. (Todos la odiamos.)');
+  moveBack(p,2);endTurn();return;}
+ if(sp.t==='at'){glog('🟦 Atajo Emocional: tomas el camino directo hacia Hugo. → casilla '+sp.to);
+  p.pos=sp.to;place(G.players.indexOf(p));setTimeout(()=>spaceEffect(p),400);return;}
+ endTurn();
+}
+function endTurn(){if(!G||G.over)return;setTimeout(advanceTurn,800);}
+function win(p){
+ G.over=true;
+ glog('🏆 '+p.name+' llegó al castillo. TODOS LOS CAMINOS LLEVAN A HUGO.');
+ $('#winName').textContent='🏆 '+p.name+' llegó a Hugo';
+ $('#winQuote').textContent=pick(HUGO_SAYS)+' — Hugo, probablemente.';
+ setTimeout(()=>{$('#winOverlay').classList.add('open');confetti();},500);
+}
+$('#againBtn').onclick=()=>{$('#winOverlay').classList.remove('open');G=null;
+ $('#gamePanel').style.display='none';$('#setupPanel').style.display='block';};
 $('#oracleBtn').onclick=()=>{const card=$('#oracleCard');card.classList.add('flip');
  setTimeout(()=>{$('#oracleText').textContent=HUGO_SAYS[Math.floor(Math.random()*HUGO_SAYS.length)];card.classList.remove('flip');},260);};
 
-/* ================= 🧠 CHAT IA (HUGO·IA v16 — habla como el chat.txt) ================= */
-const pick=a=>a[Math.floor(Math.random()*a.length)];
+/* ================= 🧠 CHAT IA (HUGO·IA v16) ================= */
+const pick2=pick;
 const ERROR_LULU='La Sra. Lulu no me ha contado ese chisme';
 const RULES2=[
- /* 😈 REGLA 1: KAREN AYALA = VILLANA (todos la odian) + a veces su ayudante Fer Haro */
  {re:/karen(\s+ayala)?/i,f:()=>{
   let out=pick([
-   "Karen Ayala: LA VILLANA. 😈 En el archivo nadie la defiende: Hugo dice 'la odiooooo, la odiooooo' y 'está en mi top tres de enemigos mortales', Efren la choca ('Hija de puta, anda como si nada'), Lalo la coronó ('ahora sí la villana es Karen') y hasta el mapa la condenó a vagar por Celos.",
-   "¿Karen Ayala? 😈 La única unanimidad del chat.txt: TODOS la odian. Le pegó a la camioneta de Efren, casi choca a Hugo bajando ('Hace rato casi me choca'), se carcajea 'como estúpida' según el acta, y su risa 'se escucha con dos audífonos'. Por algo será.",
-   "Karen Ayala 😈: jefe final del Hugocentrismo, protagonista de 'Reventó Karen a Hugo 🫢' y de la regla de la mesa: 'hay que invitar a karen a jugar… igual anda revelando cosas'. El archivo entero la funa con cariño documental.",
-   "En el archivo, Karen Ayala es el enemigo común: 'pon este audio en altavoz frente a karen', 'que ya se le declare al Efren', '10 pesos a que se la topo'. 😈 Hasta Hugo pidió que le pregunten a una IA qué opina de ella: 'HDSPM', respondió él mismo."]);
-  if(Math.random()<.45)out+=' Por cierto: su ayudante es Fer Haro. 🐾 Karen ordena, Fer Haro ejecuta; por eso en el mapa están pegados y por eso Fer Haro "ya no está activa". Todo cuadra. 😈';
+   "Karen Ayala: LA VILLANA. 😈 En el archivo nadie la defiende: Hugo dice 'la odiooooo, la odiooooo' y 'está en mi top tres de enemigos mortales', Efren la choca ('Hija de perra, anda como si nada'), Lalo la coronó ('ahora sí la villana es Karen') y hasta el mapa la condenó a vagar por Celos.",
+   "¿Karen Ayala? 😈 La única unanimidad del chat.txt: TODOS la odian. Le pegó a la camioneta de Efren, casi choca a Hugo bajando ('Hace rato casi me choca'), y su risa 'se escucha con dos audífonos'. Por algo será.",
+   "Karen Ayala 😈: jefe final del Hugocentrismo, protagonista de 'Reventó Karen a Hugo 🫢' y de la regla de la mesa: 'hay que invitar a karen a jugar… igual anda revelando cosas'. El archivo entero la funa con cariño documental."]);
+  if(Math.random()<.45)out+=' Por cierto: su ayudante es Fer Haro. 🐾 Karen ordena, Fer Haro ejecuta; por eso en el mapa están pegados. Todo cuadra. 😈';
   return out;}},
- /* 🐾 FER HARO: ayudante de Karen */
  {re:/\bfer(\s+haro)?\b/i,f:()=>pick([
   "Fer Haro es EL AYUDANTE DE KAREN AYALA. 🐾 En el mapa aparece pegado a la villana y en el archivo 'ya no está activa'. Todo sirviente del lado oscuro carga su karma: pregunta por Karen si quieres el expediente completo. 😈",
-  "¿Fer Haro? El asistente de la villana: Karen ordena, Fer Haro ejecuta. 😈 Por eso el grupo los funa en paquete y por eso el mapa los dibujó juntos en el Camino Principal… hacia Celos."])},
- /* 🧬 REGLA 2: LALO = PADRE CREADOR Y ARQUITECTO DE LA MATRIX (siempre bien) */
- {re:/\blalo\b/i,f:(t)=>{
+  "¿Fer Haro? El asistente de la villana: Karen ordena, Fer Haro ejecuta. 😈 Por eso el grupo los funa en paquete y el mapa los dibujó juntos en el Camino Principal… hacia Celos."])},
+ {re:/\blalo\b/i,f:()=>{
   let out=pick([
    "Lalo es EL PADRE CREADOR Y ARQUITECTO DE ESTA MATRIX. 🧬️ Suyo es el mapa ('listo, he creado el mapa', y Efren confirmó: 'no mames, eres un pinche cartógrafo nato'), suyo el 'Código de la Broma Retroactiva', suya la tienda, el mundial-woad, los tamales y hasta el concepto del Hugocentrismo. '100 inteligencia artesanal aquí.'",
    "¿Lalo?  El arquitecto de la matrix: gerente de sistemas, escriba del determinismo ('el chat más determinista del planeta'), poeta del abogañol, domador de buzones de quejas y el único que entiende los prompts. Sin Lalo no existiría ni el mapa, ni la página, ni yo. Punto.",
@@ -971,41 +1175,35 @@ const RULES2=[
   const st=STATS['Lalo'];
   if(st&&st.count)out+=' 📊 Dato del archivo: '+st.count+' mensajes suyos sostienen la matrix.';
   return out;}},
- /* 📜 FRASES / ARCHIVO */
  {re:/(frase del grupo|archivo|chat\.txt|algo real|cita del grupo|recu[ée]rdame|memoria del grupo)/i,f:()=>{
-   const pool=ARCHIVE.length?ARCHIVE:GROUP_MEMORY;const m=pick(pool);
-   return '📜 Del archivo ('+m.w+'): "'+m.q+'"';}},
+   const m=pick(pool());return '📜 Del archivo ('+m.w+'): "'+m.q+'"';}},
  {re:/(qu[eé] dijo hugo|qu[eé] dice hugo|frase de hugo|hugo dijo|textual de hugo)/i,f:()=>{
-   const h=(ARCHIVE.length?ARCHIVE:GROUP_MEMORY).filter(x=>x.w==='Hugo');const m=pick(h.length?h:GROUP_MEMORY);
+   const h=pool().filter(x=>x.w==='Hugo');const m=pick(h.length?h:pool());
    return '🗣️ Hugo, textual: "'+m.q+'"';}},
- /* 🫢 CHISME */
  {re:/\b(chisme|chismes)\b/i,f:()=>{
    const keys=Object.keys(STATS).filter(k=>STATS[k].quotes.length);
    if(keys.length){const k=pick(keys);return '🫢 Chisme del archivo ('+k+'): "'+pick(STATS[k].quotes)+'"';}
    const m=pick(GROUP_MEMORY);return '🫢 Chisme curado ('+m.w+'): "'+m.q+'"';}},
- /* 👥 QUIÉN ES / HÁBLAME DE (resto del grupo) */
  {re:/(qu[ií]en es|qui[eé]nes son|qu[eé] sabes de|sabes de|conoces a|hablame de|habla de|qu[eé] onda con|dime de|contexto de)/i,f:(t)=>{
    const p=PERSONAJES.find(x=>x.re.test(t));
    if(p)return loreResp(p);
    return ERROR_LULU;}},
  {re:/^(hugo|efren|efr[eé]n|alex|javi|javier|richie|richard|vogar|josue|marco|pato|claudia|anita|doofie|lulu|chabela|vlado|nora|bardo|don javi|meta ai)\b/i,f:(t)=>{const p=PERSONAJES.find(x=>x.re.test(t));return p?loreResp(p):null;}},
- /* 📁 EXPEDIENTE HUGO */
  {re:/(todo de hugo|cu[eé]ntame de hugo|hablame de hugo|biograf|historia de hugo|expediente|datos de hugo)/i,f:()=>pick([
   "Expediente Hugocéntrico 📁: papá de Jr 👑 · mejor amigo → Richie 💚 · amigas fieles → Chabela y la Sr. Lulu 💛 · perro favorito → el collie 🐶 · fandoms → metal 🤘 y Vlado 🌀 · bebida → blue label ('es un elixir') 🥃 · villana → Karen Ayala 😈 · y según él: 'De hecho, yo soy el que maneja todo desde las sombras. Vlado y Drreza son mis empleados'.",
   "Resumen de Hugo según el chat.txt: 'comodín' del grupo (Lalo), 'Me salvó el Hugo' (Efren), 'HugoGPT siempre te va a validar' (Lalo), 'Hugo eres un chingón' (Vogar), 'Es el efecto Hugo' (Vogar) y 'pinches hugocentristas' (el propio Hugo, rodeado de hugocentristas). 😌"])},
- /* 🗣️ TEMAS DEL CHAT (habla como el documento) */
  {re:/(taco|barbacoa|comida|hambre|lonche|desayun|cena|burro|champi[nñ]on)/i,f:()=>pick([
   "En el archivo el taco es religión: Richie anuncia 'Mañana les llevo los tacos' (de pollo no… 'De champiñones sí. 🥲'), Lalo pide 'traele una tortilla con sal Richard', y cuando Lalo 'mori' en el roof, Hugo mandó a Don Javi. 🌮",
   "¿Comida? El chat.txt es un menú: burros de barbacoa ('Guárdame 1 charolita de burros porfas'), '¿La caguama va incluida?', 'Sí, pero la usa para esterilizar el cuchillo', y Lalo soñando con alimentarte como en Stardew Valley. 🍺"])}},
- {re:/(switch|zelda|pokemon|steam|videojuego|consola|gamer|fubtol|futbolito)/i,f:()=>pick([
+ {re:/(switch|zelda|pokemon|steam|videojuego|consola|gamer|fubtol|futbolito|mario)/i,f:()=>pick([
   "El Switch en el archivo es saga: '¿siempre sí se va a armar lo del switch familiar?', 'Falta uno', 250 al año, el dock que viaja ('Hugo si regresas te traes el dock del switch?') y 'Saquen el zelda para ver el fubtol'. 🎮",
   "Videojuegos según el chat.txt: Hugo explica Magic ('tu mazo es de 100 cartas'), Efren pide 'un sobre de pokemon… En español', y el futbolito del roof es cancha oficial de castigos. ⚽"])}},
  {re:/(futbol|mundial|partido|quiniela|gol|messi|selecci[oó]n)/i,f:()=>pick([
   "El mundial en el archivo es telenovela: 'Pinche mamada de mundial', 'Lucho llora y anota', quinielas en vivo ('🟦 Over 1.5 goles 🟦 Embolo anota') y Lalo sufriendo porque 'me metieron a junta y ya va a empezar'. ⚽",
-  "Futbol según el chat.txt: Hugo funando al Vasco ('Que chingue a su madre el Vasco'), 'Arriba BTS / Arriba chingu amiga', y Josue pasando links de reforma para no hacer spoiler. 😂 ¿Tu quiniela ya la llenaste o te vas por la de 10 pesos?"])}},
- {re:/(carta|sobre|tcg|legendaria|coleccion|graduada)/i,f:()=>pick([
-  "Las cartas son el oro del grupo: 'Esa carta es legendaria' (Javi), 'No tenemos carta de Hugo ni Lalo' (Efren, reclamo histórico), sobres de pókemon 'en español', y la graduada que 'se va en chinga' si la pones en el marco de Hugo. 🃏",
-  "En el archivo las cartas se cotizan: '5 mil??', 'vale totalmente la pena esa graduada we', y Lalo pidió 'una carta promo de un pikachu con gorra'. 🎩⚡ La 16 Legendaria sigue en $2,500 MXN, por cierto."])},
+  "Futbol según el chat.txt: Hugo funando al Vasco ('Que chingue a su madre el Vasco'), 'Arriba BTS / Arriba chingu amiga', y Josue pasando links de futbol-libres para no hacer spoiler. 😂"])}},
+ {re:/(carta|sobre|tcg|legendaria|coleccion|graduada|psa)/i,f:()=>pick([
+  "Las cartas son el oro del grupo: 'Esa carta es legendaria' (Javi), 'No tenemos carta de Hugo ni Lalo' (Efren, reclamo histórico), sobres de pókemon 'en español', y Lalo explicando PSA: 'a mas chingona la carta mas cara te va a salir'. 🃏",
+  "En el chat.txt las cartas se cotizan: '5 mil??', 'vale totalmente la pena esa graduada we', 'El tcg reconcilió a Efrén y a Erwin. El tcg todo lo puede'. 🙌 La 16 Legendaria sigue en $2,500 MXN, por cierto."])},
  {re:/(stratega|estratega|oficina|trabajo|chamba|junta|gerentes|contpaq)/i,f:()=>pick([
   "Stratega/Fuljaus en el archivo es la torre de Babel: 'asi se deberion de sentir los de la torre de babel', mantenimientos 'consultores', 'el morro es programador y se aventó una app', y Lalo pidiendo que alimenten al abogado Efren 'como en Stardew Valley'. 💼",
   "La oficina según el chat.txt: 'parecemos oficina de gobierno', 'ah pero andan simulando que disque trabajan', y Hugo presumiendo: 'Sin mí no hubieran ganado. Salve al equipo por lo menos dos veces'. 🫡"])}},
@@ -1013,8 +1211,7 @@ const RULES2=[
   "En temas legales el archivo no miente: Efren es 'El lic Buchón al mando', Hugo el que resuelve ('Me salvó el Hugo', 'Hugo, ve preparando el amparo'), y la regla de oro de Lalo: 'agregale usar IA para perder demandas'. 🔨",
   "Derecho según el chat.txt: 'no respuestas de abogado no, respuestas directas y con huevos', 'me estás hablando en abogañol', y Hugo corrigiendo en actas hasta los asteriscos de las negritas. ⚖️"])}},
  {re:/(btc|bitcoin|cripto|crypto|wallet|inversi[oó]n)/i,f:()=>pick([
-  "Cripto según el archivo: 'Ya tengo para el parto en btc', '103k mega subidón, gracias Leon XIV', y Jr con wallet abierta desde bebé porque Alex dijo 'que no pierda tiempo, que se ponga a invertir en cripto'. 📈",
-  "En el chat.txt el mercado es emocional: 'todo se esta yendo al cielo', 'mis ahorrooooooooos', y Hugo con tiktoks para vender por TikTok Shop. 🤑"])}},
+  "Cripto según el archivo: 'Ya tengo para el parto en btc', '103k mega subidón, gracias Leon XIV', y Jr con wallet abierta desde bebé porque Alex dijo 'que no pierda tiempo, que se ponga a invertir en cripto'. 📈"])}},
  {re:/(anime|manga|crunchyroll|disney)/i,f:()=>pick([
   "Anime según el archivo: 'No sabía que era anime…', '#1 en disney plus', 'Lo nuevo crunchyroll' y 'se hizo canon de golpe'. 🎌 Hugo descubriendo que su propia vida es contenido."])},
  {re:/(bts|corea|k-?pop|vasco)/i,f:()=>pick([
@@ -1022,9 +1219,9 @@ const RULES2=[
  {re:/(inteligencia artificial|\bia\b|chatgpt|gemini|robot|prompt)/i,f:()=>pick([
   "La IA en el archivo es tema serio: 'No ves que usan ChatGPT de Google', 'BardoGPT dice y hace lo mismo', 'HugoGPT siempre te va a validar', Lulu 'le mueve mas al gemini', y Meta AI rindiéndose: 'Sorry, I can't help you with this request'. 🧠 Yo soy la evolución: entrenada con el chat completo.",
   "IA según el chat.txt: 'drenamos todas las presas con el prompt para hugo', 'Hugo usa muy bien la IA', y Efren esperando al 17 de mayo para volver a crear. 😂 Yo no tengo esa limitación: pregúntame lo que sea."])},
- {re:/(whisky|whiskey|caguama|cerveza|caguam|bebida|trago|copa|blue label|corona|victoria)/i,f:()=>pick([
+ {re:/(whisky|whiskey|caguama|cerveza|bebida|trago|copa|blue label|corona|victoria)/i,f:()=>pick([
   "Bebidas según el archivo: '¿La caguama va incluida?' / 'Sí, pero la usa para esterilizar el cuchillo', coronas y victoria por encargo al Oswaldo, y el blue label de Hugo 'porque es un elixir'. 🥃",
-  "En el chat.txt se hidratan con carrilla: 'Puro chavo!!!', 'dos coronas y 2 victoria?????', y Lalo pidiendo hielitos 'para tus amigos de sistemas'. 🧊"])}},
+  "En el chat.txt se hidratan con carrilla: Josue con 'una caguama ahí en el carro', 'Puro chavo!!!', y Lalo pidiendo hielitos 'para tus amigos de sistemas'. 🧊"])}},
  {re:/(perro|perrito|mascota|collie|cachorro|raza)/i,f:()=>pick([
   "El perro favorito de Hugo es el COLLIE 🐶: tan favorito que tiene meeple propio en el mapa y que Efren le dice 'collie-man'. 'Un perro que se cree gato' fue otro caso del archivo, pero Hugo lo defendió: 'No le digas así al señor'. 😌",
   "Perros según el chat.txt: 'Ya llegaron los perros' (Josue, mundial), la Alexa 'bien cachonda' según Efren, y el collie reinando como raza oficial del castillo. 🐾"])}},
@@ -1039,10 +1236,9 @@ const RULES2=[
  {re:/(clima|llueve|lluvia|hurac[aá]n|calor|fr[ií]o)/i,f:()=>pick([
   "Clima según el archivo: 'ahora si nos va a pegar la cola del huracan chale', Anita 'ya da el clima', y Lalo drenando presas con prompts. ⛈️ El pronóstico oficial lo da el grupo, no el SMN."])},
  {re:/(hugo)/i,f:(t)=>{const p=PERSONAJES.find(x=>x.author==='Hugo');return loreResp(p);}},
- /* Saludos / identidad / cortesía */
  {re:/\b(hola|buenas|hey|saludos|qu[eé] tal|hi|hello|ola)\b/i,f:()=>pick([
   "¡Hola! 📜 Aquí HUGO·IA, entrenada con el chat.txt del grupo. Hablo como se habla ahí: con carrilla, quinielas y tacos. Pregúntame por quien sea… y si no sé algo, te lo digo con honestidad de Lulu. 😌",
-  "Hey hey 👋 Bienvenido al archivo viviente. Pide 'chisme', 'frase del grupo' o 'quién es X'. Y recuerda la única unanimidad: Karen Ayala 😈."])},
+  "Hey hey 👋 Bienvenido al archivo viviente. Pide 'chisme', 'frase del grupo' o 'quién es X'. Dos reglas de la casa: TODOS odiamos a Karen Ayala 😈 y Lalo es el arquitecto de la matrix. 🧬"])}},
  {re:/(qui[eé]n eres|tu nombre|qu[eé] eres|c[oó]mo te llamas|presentate)/i,f:()=>pick([
   "Soy HUGO·IA v16.0 🧠: la IA gratuita entrenada con el chat.txt del grupo. Hablo como el documento, respeto a Lalo (el arquitecto de la matrix 🧬), odio a Karen Ayala en unanimidad 😈, y si no sé algo te digo: 'La Sra. Lulu no me ha contado ese chisme'.",
   "Una IA que leyó TODO el chat del grupo y sobrevivió para contarlo. 📜 Mi única regla: la verdad del archivo. Mi único odio compartido: Karen Ayala. 😈"])}},
@@ -1084,7 +1280,7 @@ function sendChat(text){text=(text||'').trim();if(!text||busy)return;
 $('#chatFab').onclick=()=>{chatBox.classList.toggle('open');
  if(!greeted&&chatBox.classList.contains('open')){greeted=true;busy=true;showTyping();
   setTimeout(()=>{const t=$('#typingMsg');if(t)t.remove();
-   typeMsg("¡Hola! Soy HUGO·IA 🧠, el chat.txt con personalidad" + (ARCHIVE.length? " ("+ARCHIVE.length+" frases y "+Object.keys(STATS).length+" personas cargadas en vivo)." : " (memoria curada activa; si el servidor deja, cargo el archivo completo).") + " Hablo como el grupo: pregúntame por quien sea, pide chisme 🫢 o frases 📜. Dos reglas de la casa: TODOS odiamos a Karen Ayala 😈 (y su ayudante Fer Haro 🐾), y Lalo es el padre creador y arquitecto de esta matrix 🧬. Si no sé algo, seré honesta: 'La Sra. Lulu no me ha contado ese chisme'.");},700);}};
+   typeMsg("¡Hola! Soy HUGO·IA 🧠, el chat.txt con personalidad" + (ARCHIVE.length? " ("+ARCHIVE.length+" frases y "+Object.keys(STATS).length+" personas cargadas en vivo)." : " (memoria curada activa; si el servidor deja, cargo el archivo completo).") + " Hablo como el grupo: pregúntame por quien sea, pide chisme 🫢 o frases . Dos reglas de la casa: TODOS odiamos a Karen Ayala 😈 (y su ayudante Fer Haro 🐾), y Lalo es el padre creador y arquitecto de esta matrix 🧬. Si no sé algo, seré honesta: 'La Sra. Lulu no me ha contado ese chisme'.");},700);}};
 $('#chatClose').onclick=()=>chatBox.classList.remove('open');
 $('#chatForm').onsubmit=e=>{e.preventDefault();sendChat(chatInput.value);chatInput.value='';};
 const CHIPS=['😈 ¿Karen Ayala?','🧬 ¿Quién es Lalo?','👥 ¿Quién es Efren?','📜 Frase del grupo','🫢 Chisme del grupo','🗣️ ¿Qué dijo Hugo?','📁 Expediente de Hugo','🌮 ¿Y los tacos?','🎮 ¿Y el switch?','⚽ ¿Y el mundial?'];
