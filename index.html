@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Legal Tech TCG — Edición Premium | Hugocentrismo</title>
-<!-- ⚠️ Guarda la imagen adjunta del juego de mesa como: hugocentrismo.png (en la raíz) -->
+<!-- ⚠️ Archivos en raíz: hugocentrismo.png (imagen del juego) y OPCIONAL: chat.txt (archivo del grupo) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -226,6 +226,7 @@ section{padding:90px 5vw;position:relative;z-index:1}
 #chatChips button{border:1px solid rgba(103,232,249,.35);background:rgba(103,232,249,.07);color:var(--cyan);border-radius:999px;padding:6px 12px;font-size:.72rem;transition:.2s}
 #chatChips button:hover{background:rgba(103,232,249,.2);transform:translateY(-1px)}
 #chatChips button.danger{border-color:rgba(255,90,90,.5);background:rgba(255,90,90,.08);color:#ff9a9a}
+#chatChips button.archive{border-color:rgba(126,226,160,.5);background:rgba(126,226,160,.08);color:#7ee2a0}
 #chatForm{display:flex;gap:10px;padding:12px;border-top:1px solid rgba(255,255,255,.08)}
 #chatInput{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:12px 14px;color:var(--text);font-family:inherit;font-size:.9rem;outline:none;transition:.2s}
 #chatInput:focus{border-color:var(--gold);box-shadow:0 0 14px rgba(212,175,55,.2)}
@@ -316,7 +317,7 @@ footer.site{padding:40px 5vw;text-align:center;color:var(--muted);font-size:.82r
     <span class="badge"><span class="dot"></span> ⚡ Nueva Carta Legendaria</span>
     <h1>Descubre <span class="grad">Poder LGBTQ+</span><br>la carta más poderosa</h1>
     <div class="pride-line"></div>
-    <p class="lead">La joya de nuestra colección Legal Tech, ilustrada por <b style="color:var(--gold2)">Hugo Mendoza</b>. Escanea, captura en la garra, colecciona las 17 cartas, juega <b style="color:var(--cyan)">HUGOCENTRISMO</b> y pregunta lo que quieras a nuestra <b style="color:#7ee2a0">IA gratuita</b>… todas las respuestas llevan a Hugo. 😈 Cuidado con mencionar a Karen Ayala.</p>
+    <p class="lead">La joya de nuestra colección Legal Tech, ilustrada por <b style="color:var(--gold2)">Hugo Mendoza</b>. Escanea, captura en la garra, colecciona las 17 cartas, juega <b style="color:var(--cyan)">HUGOCENTRISMO</b> y pregunta lo que quieras a nuestra <b style="color:#7ee2a0">IA gratuita</b>, ahora entrenada con el chat del grupo 📜. 😈 Cuidado con mencionar a Karen Ayala.</p>
     <div class="cta-row">
       <button class="btn-gold" id="heroScan">VER CARTA</button>
       <button class="btn-ghost" id="heroBuy">COMPRAR AHORA · $2,500 MXN</button>
@@ -324,7 +325,7 @@ footer.site{padding:40px 5vw;text-align:center;color:var(--muted);font-size:.82r
     <div class="hero-chips">
       <div class="chip">🃏 Cartas en stock: <b>17 Items</b></div>
       <div class="chip">⭐ Nueva: <b>Carta 16 Legendaria</b></div>
-      <div class="chip">🧠 Chat IA: <b>Gratis</b></div>
+      <div class="chip">🧠 Chat IA: <b>Gratis + chat.txt</b></div>
       <div class="chip">🐶 Hugo Team: <b>Collie · Jr · Richie</b></div>
     </div>
   </div>
@@ -471,14 +472,14 @@ footer.site{padding:40px 5vw;text-align:center;color:var(--muted);font-size:.82r
 </section>
 </main>
 
-<footer class="site">Legal Tech TCG · Ilustrado por Hugo Mendoza · "El mapa no miente. El ego, sí." 🏳️⚧️ · HUGO·IA gratuita · 😈 Karen Ayala: villana oficial · 🐶 Collie · 👑 Jr · 💚 Richie · 💛 Chabela y Sr. Lulu · 🤘 Metal y Vlado · 🥃 Whisky</footer>
+<footer class="site">Legal Tech TCG · Ilustrado por Hugo Mendoza · "El mapa no miente. El ego, sí." 🏳️️ · HUGO·IA entrenada con el chat del grupo 📜 ·  Karen Ayala: villana oficial</footer>
 
 <!-- ============ CHAT IA GRATUITA ============ -->
 <button id="chatFab" aria-label="Abrir chat con IA gratuita">🧠<span class="ping"></span><span class="free">GRATIS</span></button>
 <div id="chatBox" role="dialog" aria-label="Chat con IA gratuita">
   <header>
     <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Hugo" alt="HUGO·IA">
-    <div class="t"><b>HUGO·IA v16.0</b><span><i></i> En línea · IA 100% gratuita</span></div>
+    <div class="t"><b>HUGO·IA v16.0</b><span><i></i> En línea · IA 100% gratuita · 📜 chat del grupo</span></div>
     <button class="x-btn" id="chatClose" style="margin-left:auto">✕</button>
   </header>
   <div id="chatMsgs"></div>
@@ -487,7 +488,7 @@ footer.site{padding:40px 5vw;text-align:center;color:var(--muted);font-size:.82r
     <input id="chatInput" placeholder="Pregunta lo que quieras…" autocomplete="off" maxlength="300">
     <button id="chatSend" type="submit">➤</button>
   </form>
-  <div id="chatNote">IA GRATUITA · TODAS LAS RESPUESTAS LLEVAN A HUGO 😌 · EXPEDIENTE: 🐶 COLLIE · 👑 JR ·  RICHIE ·  CHABELA Y SR. LULU · 🤘 METAL Y VLADO · 🥃 WHISKY · 😈 KAREN = VILLANA</div>
+  <div id="chatNote">IA GRATUITA · ENTRENADA CON EL CHAT DEL GRUPO 📜 · TODAS LAS RESPUESTAS LLEVAN A HUGO 😌</div>
 </div>
 
 <!-- CARRITO -->
@@ -571,17 +572,78 @@ const RAR={comun:{lbl:'COMÚN',stars:'★★☆☆☆',col:'var(--r-comun)',prob
  legendaria:{lbl:'LEGENDARIA',stars:'★★★★★',col:'var(--r-leg)',prob:'3% (Aparición)',hp:320}};
 const LORE={
  7:{type:'Pokémon Litigante Informal | HP 280 ☠️🔮',quote:'"Suele ser avistado rondando los juzgados a primera hora o descansando en puestos de barbacoa los domingos. Presume ropa de marca de procedencia dudosa mientras litiga juicios de pensión alimenticia con una seguridad inquebrantable."',prob:'8% (Aparición)',ab:'⚡ Habilidad Pasiva: Endeudado con Coppel',abd:'Cada vez que recibe daño por un ataque, aumenta +10 de daño adicional a sus movimientos por contador de deuda.',atk:'🔮🔮 Baño de Pueblo — 60 DMG',atkd:'Lanza una moneda. Si sale cara, el oponente queda confundido y no puede jugar cartas de Objeto.'},
- 16:{type:'Entidad Suprema Pride | HP ∞ 🏳️⚧️✨',quote:'"La carta más poderosa de nuestra colección Legal Tech del ilustrador Hugo Mendoza. Su poder no conoce agravios ni sentencias: solo orgullo, luz y marchas eternas."',prob:'3% (Aparición)',ab:'⚡ Habilidad Pasiva: Orgullo Eterno',abd:'Inmune a todo daño proveniente de cartas de Enojo, Celos y Posesión. Aura que protege a todo tu equipo.',atk:'✨✨ Marcha Suprema — 160 DMG',atkd:'El oponente debe descartar toda carta de odio y reconocer tu poder. No puede bloquear este ataque.'},
- 17:{type:'Canguaro Cósmico de Bolsillo | HP 300 🦘',quote:'"Brinca entre dimensiones legales con una sonrisa caótica. Nadie sabe cómo llegó al mazo, pero nadie se atreve a sacarlo."',prob:'5% (Aparición)',ab:'⚡ Habilidad Pasiva: Brinco Procesal',abd:'Una vez por turno, puede evadir un ataque saltando directamente al turno del oponente.',atk:'🦘 Patada Marsupial — 90 DMG',atkd:'El oponente queda aturdido y pierde su siguiente robo de carta.'}};
+ 16:{type:'Entidad Suprema Pride | HP ∞ 🏳️️✨',quote:'"La carta más poderosa de nuestra colección Legal Tech del ilustrador Hugo Mendoza. Su poder no conoce agravios ni sentencias: solo orgullo, luz y marchas eternas."',prob:'3% (Aparición)',ab:'⚡ Habilidad Pasiva: Orgullo Eterno',abd:'Inmune a todo daño proveniente de cartas de Enojo, Celos y Posesión. Aura que protege a todo tu equipo.',atk:'✨✨ Marcha Suprema — 160 DMG',atkd:'El oponente debe descartar toda carta de odio y reconocer tu poder. No puede bloquear este ataque.'},
+ 17:{type:'Canguaro Cósmico de Bolsillo | HP 300 🦘',quote:'"Brinca entre dimensiones legales con una sonrisa caótica. Nadie sabe cómo llegó al mazo, pero nadie se atreve a sacarlo. Si Jr se hace popo, él avisa."',prob:'5% (Aparición)',ab:'⚡ Habilidad Pasiva: Brinco Procesal',abd:'Una vez por turno, puede evadir un ataque saltando directamente al turno del oponente.',atk:'🦘 Patada Marsupial — 90 DMG',atkd:'El oponente queda aturdido y pierde su siguiente robo de carta.'}};
 const G_TYPES=['Pokémon Litigante','Pokémon Secretario','Pokémon Perito','Pokémon Juzgador','Pokémon Pasante','Pokémon Notificador'];
 const G_QUOTE=['"Se le ve apilando expedientes a medianoche, susurrando artículos de ley como si fueran hechizos."','"Cita jurisprudencia inexistente con tal seguridad que hasta el juez toma nota."','"Guarda acuerdos de mediación en su bolsillo y tacos en el otro. Nadie lo ha vencido en ninguno de los dos frentes."','"Aparece cuando huele conflicto de intereses y desaparece cuando llega la cuenta."'];
 const G_AB=['⚡ Habilidad Pasiva: Término Fatal','⚡ Habilidad Pasiva: Carga de la Prueba','⚡ Habilidad Pasiva: Sobreseimiento Exprés','⚡ Habilidad Pasiva: Dolo de Café'];
 const G_ABD=['Roba una carta extra cada vez que el oponente cite un artículo derogado.','El daño recibido se transfiere al expediente más cercano.','Una vez por partida, cancela un ataque declarándolo improcedente.','Mientras tenga café, su primer ataque de cada turno hace +20 de daño.'];
 const G_ATK=['⚖️⚖️ Golpe de Expediente — 50 DMG','📜 Notificación Fantasma — 70 DMG','🔨 Martillo de Oralidad — 80 DMG','☕☕ Objeción Cafetera — 60 DMG'];
 const G_ATKD=['El oponente debe reorganizar su mazo por orden alfabético.','No puede ser bloqueado por cartas de tipo Burocracia.','Si el oponente parpadea, recibe +20 de daño adicional.','El oponente queda desvelado y roba una carta menos.'];
-const HUGO_SAYS=['"Que todos los caminos llevan a él."','"Que lo hablaron, pero en realidad no."','"Que el mapa no miente; el ego, sí."','"Que la cumbia también es un atajo emocional."','"Que hoy no se litiga, hoy se convive."','"Que los celos son tema recurrente, pero él es camino principal."','"Que Karen Ayala ni por Atajo Emocional entra a mi castillo."','"Que el collie es el mejor perro y Jr el mejor hijo. Punto final."'];
+const HUGO_SAYS=['"Que todos los caminos llevan a él."','"Que lo hablaron, pero en realidad no."','"Que el mapa no miente; el ego, sí."','"Que la cumbia también es un atajo emocional."','"Que hoy no se litiga, hoy se convive."','"Que los celos son tema recurrente, pero él es camino principal."','"Que Karen Ayala ni por Atajo Emocional entra a mi castillo."','"Que el collie es el mejor perro y Jr el mejor hijo. Punto final."','"Que si suben chat.txt a la raíz, yo lo leo todito. 📜"'];
 const fmt=n=>'$'+n.toLocaleString('en-US',{minimumFractionDigits:2})+' MXN';
 function ph(name){return 'data:image/svg+xml;utf8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="420"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1a2340"/><stop offset="1" stop-color="#0b0e17"/></linearGradient></defs><rect width="300" height="420" fill="url(#g)"/><rect x="8" y="8" width="284" height="404" fill="none" stroke="#d4af37" stroke-width="3"/><text x="150" y="215" fill="#d4af37" font-family="serif" font-size="26" text-anchor="middle">'+name+'</text></svg>');}
+
+/* ================= 📜 MEMORIA DEL GRUPO (curada de chat.txt) ================= */
+const GROUP_MEMORY=[
+ {w:'Hugo',q:'Háganme mejor. No me parezco. Pueden hacerlo mejor.'},
+ {w:'Hugo',q:'Ya voy de regreso a casa amigos. Todo un éxito la gira del adiós. Farewell Tour 2025.'},
+ {w:'Hugo',q:'No seas mentiroso, Haití ni tiene agua.'},
+ {w:'Hugo',q:'JotaErre se hizo popo. Que lo cambie doofie.'},
+ {w:'Lalo',q:'Dile al JR que él lo baje, él sí va a poder.'},
+ {w:'Hugo',q:'¿La caguama va incluida?'},
+ {w:'Lalo',q:'Sí, pero la usa para esterilizar el cuchillo.'},
+ {w:'Hugo',q:'Denle like, suscríbanse, la campanita, ahorita que hay internet.'},
+ {w:'Hugo',q:'Me están robando la identidad. Ya vuelvo.'},
+ {w:'Hugo',q:'Solo Efren y Lalo ahora son mis favoritos.'},
+ {w:'Hugo',q:'Efrén, ¿con quién me toca dar en el beibichogüer?'},
+ {w:'Hugo',q:'Los riesgos que toma el lic con tal de ver feliz a su hija, gran padre, espero no lo atrapen.'},
+ {w:'Hugo',q:'El Alex se hizo a base de puro cartucho de 64.'},
+ {w:'Hugo',q:'Me quedo contigo para cerrar el círculo.'},
+ {w:'Hugo',q:'No ves que usan ChatGPT de Google.'},
+ {w:'Hugo',q:'Habla sola. Canta sola. Se ríe sola.'},
+ {w:'Hugo',q:'Voy a hacer una playlist.'},
+ {w:'Hugo',q:'Ya se hizo el niño, ven a cambiarlo, paro. …Falsa alarma.'},
+ {w:'Hugo',q:'También llevaré rines.'},
+ {w:'Hugo',q:'100% real no fake.'},
+ {w:'Hugo',q:'Mandamos a Don Javi.'},
+ {w:'Hugo',q:'Pero pues espero se arme, no como los jueces del bienestar que nomás no.'},
+ {w:'Hugo',q:'Ya me pasaron el Insta de la Sr. Lulu. 💛'},
+ {w:'Lalo',q:'Ahora sí la villana es Karen.'},
+ {w:'Efren',q:'Reventó Karen a Hugo 🫢'},
+ {w:'Lalo',q:'El chat más determinista del planeta.'},
+ {w:'Alex IT',q:'Ya tenemos bien entrenada a la IA con tu imagen.'},
+ {w:'Javier IT 💥',q:'Esa carta es legendaria.'},
+ {w:'Efren',q:'Te voy a echar al Hugo enfiestado.'},
+ {w:'Lalo',q:'El hugo se lució con la revelación de género.'},
+ {w:'Efren',q:'Hugo. Tráete tu control.'},
+ {w:'Lalo',q:'Basta checar a Vlado en el fanfest, cómo usa la IA para todo, él ya no piensa nada.'},
+ {w:'Javier IT 💥',q:'Nmms hugo ya nos acabamos el agua de Haití y tú con tus quejas.'},
+ {w:'Lalo',q:'¿Qué nombre santo vas a escoger, Hugo: San Befome, San Bellzebu, San Alucard?'},
+ {w:'Efren y Javi',q:'San Chorizo. San Parado. San Penelope.'},
+ {w:'Alex IT',q:'Pura paz ahora que Hugo sea papá.'},
+ {w:'Lalo',q:'Es un honor para nosotros presentar esto.'},
+ {w:'Alex IT',q:'O lo asaltaron. O lo agarró el narco. O un gringo le dijo terrorista.'},
+ {w:'Efren',q:'Todo un sin fin de posibilidades.'},
+ {w:'Lalo',q:'Fuentes del Efren: el WhatsApp de sus tías. Y de Meta IA.'},
+ {w:'Lalo',q:'Agrégale: usar IA para perder demandas.'},
+ {w:'Efren',q:'Tu abogado que aprendió a usar la IA y se dejó perder.'},
+ {w:'Lalo',q:'100 inteligencia artesanal aquí.'},
+ {w:'Javier IT 💥',q:'Estoy vivo. Toy en la playa con el límite de México.'},
+ {w:'Efren',q:'Hasta acá olió a peligro.'},
+ {w:'Hugo',q:'Es una interpretación eso del papá negro, las profecías no se referían al tono de piel.'}
+];
+/* Carga opcional del chat.txt completo desde la raíz */
+let ARCHIVE=[];
+const BAD=/\b(verga|vergazo|pito|penes|chupa|chupar|coger|cogida|cogió|panocha|nalgas|culo|culero|cagar|cagada|cagó|puta|puto|marica|maricón|joto|jota|sexo|sexual|porn|condón|condon|striper|teibol|anal|sida|herpes|zorra|perra|meco|gordo|gorda|autista|therian|miada|miar|mear|meo|meó|masturb|encuer|huevos|webillos|espada|sable|virgen|ano)\b/i;
+fetch('chat.txt').then(r=>r.ok?r.text():'').then(t=>{
+ if(!t)return;
+ ARCHIVE=t.split(/\n/).map(l=>l.trim())
+  .filter(l=>l&&!/<Multimedia|http|Se editó|Eliminaste|eliminó|Cambió tu código/.test(l))
+  .map(l=>{const m=l.match(/-\s([^-:]+):\s*(.+)$/);return m?{w:m[1].trim(),q:m[2].trim()}:null;})
+  .filter(x=>x&&x.q.length>14&&!BAD.test(x.q));
+ if(ARCHIVE.length&&greeted&&!busy)typeMsg('📜 chat.txt detectado en la raíz: '+ARCHIVE.length+' mensajes del grupo cargados en mi memoria. Pide una "frase del grupo". 😌');
+}).catch(()=>{});
 
 /* ================= THREE.JS ================= */
 (function(){
@@ -640,7 +702,7 @@ function ph(name){return 'data:image/svg+xml;utf8,'+encodeURIComponent('<svg xml
 
 /* ================= UI BASE ================= */
 const $=s=>document.querySelector(s);
-$('#mqTrack').innerHTML=Array(2).fill('<span>✦ EDICIÓN PREMIUM HOLOGRÁFICA</span><span>✦ 17 CARTAS COLECCIONABLES</span><span>✦ NUEVO: HUGOCENTRISMO EL JUEGO DE MESA</span><span>✦ 🧠 CHAT IA GRATUITO</span><span>✦ 🐶 COLLIE · 👑 JR · 💚 RICHIE · 💛 CHABELA Y SR. LULU</span><span>✦ 🤘 METAL Y VLADO · 🥃 WHISKY</span><span>✦ 😈 KAREN AYALA: VILLANA OFICIAL</span><span>🏳️‍⚧️ PODER LGBTQ+</span>').join('');
+$('#mqTrack').innerHTML=Array(2).fill('<span>✦ EDICIÓN PREMIUM HOLOGRÁFICA</span><span>✦ 17 CARTAS COLECCIONABLES</span><span>✦ NUEVO: HUGOCENTRISMO EL JUEGO DE MESA</span><span>✦ 🧠 CHAT IA GRATUITO + CHAT DEL GRUPO 📜</span><span>✦ 🐶 COLLIE · 👑 JR · 💚 RICHIE · 💛 CHABELA Y SR. LULU</span><span>✦ 🤘 METAL Y VLADO · 🥃 WHISKY</span><span>✦ 😈 KAREN AYALA: VILLANA OFICIAL</span><span>🏳️⚧️ PODER LGBTQ+</span>').join('');
 addEventListener('scroll',()=>{$('#progress').style.width=(scrollY/(document.body.scrollHeight-innerHeight)*100)+'%';},{passive:true});
 addEventListener('mousemove',e=>{const g=$('#glow');g.style.left=e.clientX+'px';g.style.top=e.clientY+'px';});
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');}),{threshold:.12});
@@ -804,11 +866,17 @@ const RULES2=[
   "Ni la menciones dentro del castillo: Karen Ayala es el enemigo público #1 de Hugo. Su carta villana se llamaría 'Drama Infinito' con 0 de Lealtad y -100 de Amigos. 📉",
   "En el lore, Karen Ayala intenta desviar los caminos que llevan a Hugo… IMPOSIBLE. Todo camino lleva a Hugo. Por eso Hugo la odia tanto: el mapa no miente, pero ella sí. ⚔️",
   "Karen Ayala: nivel de amenaza LEGENDARIO, pero del lado maligno. Hugo la baneó de la Cumbia, del Metal y hasta de los puestos de barbacoa del Lic. Buchón. 😤",
-  "Dicen que Karen Ayala es tan villana que hasta la región de POSESIÓN le pidió su espacio. Hugo la odia, el castillo la odia y la bandera pride no brilla cerca de ella. 🏳️‍⚧️",
-  "¿Karen Ayala? Uf. En el Hugocentrismo su meeple empieza en Celos y termina en Celos. Hugo diseñó el mapa específicamente para que ella nunca llegue al castillo. 😌"]},
+  "Dice el archivo del grupo 📜: 'Ahora sí la villana es Karen.' — Lalo, 18/08/26. Palabra de escriba. 😈"]},
  {re:/(villan|villano|antagonista|enemig|jefe final|boss)/i,r:[
   "El villano oficial del Hugocentrismo tiene nombre y apellido: KAREN AYALA. 😈 Hugo la odia y el mapa entero lo confirma.",
   "¿El antagonista? Karen Ayala, claro. Jefe final, nivel legendario maligno, cero carisma, mucho drama. Hugo dixit."]},
+ /* 📜 ARCHIVO DEL GRUPO (chat.txt) */
+ {re:/(frase del grupo|archivo|chat\.txt|whats(app)? del grupo|algo real|cita del grupo|recu[ée]rdame|memoria del grupo)/i,f:()=>{
+   const pool=ARCHIVE.length?ARCHIVE:GROUP_MEMORY;const m=pick(pool);
+   return '📜 Memoria del grupo ('+m.w+'): "'+m.q+'" …Como puedes ver, hasta ese mensaje, si lo rascas, lleva a Hugo. 😌';}},
+ {re:/(qu[eé] dijo hugo|qu[eé] dice hugo|frase de hugo|hugo dijo|textual)/i,f:()=>{
+   const h=GROUP_MEMORY.filter(x=>x.w==='Hugo');const m=pick(h);
+   return '🗣️ Hugo, textual del archivo: "'+m.q+'" — El mapa no miente; el archivo, menos. 😌';}},
  /* 🐶 PERRO FAVORITO: COLLIE */
  {re:/(perro|perrito|mascota|cachorro|dog|collie|raza)/i,r:[
   "El perro favorito de Hugo es el COLLIE 🐶 tan favorito que hasta tiene meeple propio en el mapa, paseando por el Camino Principal con elegancia legendaria.",
@@ -818,12 +886,14 @@ const RULES2=[
  {re:/(hijo|junior|\bjr\b|heredero|dinast[ií]a|familia)/i,r:[
   "El hijo de Hugo es JR 👑 heredero oficial del trono Hugocéntrico. Cuando JR entre al mapa, todos los caminos llevarán a él también… por herencia.",
   "JR: hijo de Hugo, nivel legendario de cuna. Su carta tendría 'Linaje Supremo' como habilidad pasiva y 'Pataleta Suprema' como ataque. 😌",
-  "La dinastía Mendoza crece: JR es el hijo de Hugo y el único con permiso de tocar el whisky sin ser regañado. 🥃 (Aunque no debería.)"]},
+  "La dinastía Mendoza crece: JR es el hijo de Hugo y el único con permiso de tocar el whisky sin ser regañado. 🥃 (Aunque no debería.)",
+  "Del archivo 📜: 'JotaErre se hizo popo. Que lo cambie doofie.' — Hugo. Hasta en los pañales, JR es lore. 👑"]},
  /* 💛 AMIGAS FIELES: CHABELA Y SR. LULU */
  {re:/(chabela|lulu|amigas|se[nñ]ora lu)/i,r:[
   "Las amigas fieles de Hugo son CHABELA y la SR. LULU 💛 lealtad nivel región 'Amigos y Lealtad': máxima. Ni un Atajo Emocional las separa.",
   "Chabela y la Sr. Lulu: el escudo emocional de Hugo. Si alguien toca a Hugo, ellas litigan más rápido que el Lic. Buchón un lunes de barbacoa. ⚖️",
-  "En el lore, Chabela y la Sr. Lulu forman el dúo 'Amistad Legendaria': +50 de defensa contra Celos, Posesión y Karen Ayala. 😈"]},
+  "En el lore, Chabela y la Sr. Lulu forman el dúo 'Amistad Legendaria': +50 de defensa contra Celos, Posesión y Karen Ayala. 😈",
+  "Del archivo 📜: Hugo consiguió el Insta de la Sr. Lulu el mismo día que se declaró fan de la lealtad. Coincidencia: ninguna. 💛"]},
  /* 💚 MEJOR AMIGO: RICHIE */
  {re:/(richie|mejor amigo|best friend|bff)/i,r:[
   "El mejor amigo de Hugo es RICHIE 💚 hermanos de otra madre. En el mapa, Richie custodia la región de Amigos y Lealtad… porque él ES la lealtad.",
@@ -833,16 +903,17 @@ const RULES2=[
  {re:/(vlado)/i,r:[
   "Hugo es fan de VLADO 🌀 casi tanto como del metal. Vlado es de esos ídolos que Hugo defiende con 'Marcha Suprema' si hace falta. ✨",
   "¿Vlado? Ídolo absoluto de Hugo. Aparece en el mapa por Tecnología y Redes, pero su verdadera red es el fandom de Hugo. 📡",
-  "Dato del expediente: Hugo headbangea 🤘 metal mientras diseña el Hugocentrismo… y Vlado es su himno humano oficial."]},
+  "Del archivo 📜: 'Basta checar a Vlado en el fanfest, cómo usa la IA para todo, él ya no piensa nada.' — Lalo. Hugo lo vio y aplaudió. 🤖🤘"]},
  /* 🥃 WHISKY */
- {re:/(whisky|whiskey|trago|bebida|copa|borracho|toma hugo|alcohol)/i,r:[
+ {re:/(whisky|whiskey|trago|bebida|copa|borracho|toma hugo|alcohol|caguama)/i,r:[
   "A Hugo le gusta el WHISKY 🥃 del bueno, servido con la misma elegancia con la que ilustra cartas legendarias. Salud por el Camino Principal.",
   "Bebida oficial de Hugo: whisky. Lo disfruta mientras diseña el Hugocentrismo y decide a quién banear (spoiler: Karen Ayala 😈).",
-  "El whisky de Hugo es sagrado: ni el Lic. Buchón se atreve a pedírselo. Solo Richie 💚 brinda con él, y el collie 🐶 recibe un brindis simbólico."]},
+  "El whisky de Hugo es sagrado: ni el Lic. Buchón se atreve a pedírselo. Solo Richie 💚 brinda con él, y el collie 🐶 recibe un brindis simbólico.",
+  "Del archivo 📜: '¿La caguama va incluida?' — Hugo, negociando como el estratega que es. 🍺"]},
  /* 📁 EXPEDIENTE COMPLETO */
  {re:/(todo de hugo|cu[eé]ntame de hugo|hablame de hugo|biograf|historia de hugo|expediente|datos de hugo)/i,r:[
   "Expediente Hugocéntrico completo 📁: hijo → JR 👑 · mejor amigo → Richie 💚 · amigas fieles → Chabela y la Sr. Lulu 💛 · perro favorito → el collie 🐶 · fandoms → metal 🤘 y Vlado 🌀 · bebida → whisky 🥃 · villana → Karen Ayala 😈 · y todos los caminos → Hugo. Fin del expediente.",
-  "Resumen de Hugo en 1 línea: papá de JR, brother de Richie, protegido de Chabela y la Sr. Lulu, amo del collie, metalero fan de Vlado, caballero del whisky… y centro del universo. 😌"]},
+  "Resumen de Hugo en 1 línea: papá de Jr, brother de Richie, protegido de Chabela y la Sr. Lulu, amo del collie, metalero fan de Vlado, caballero del whisky… y centro del universo. 😌"]},
  /* Resto de categorías */
  {re:/\b(hola|buenas|hey|saludos|qu[eé] tal|hi|hello|ola)\b/i,r:[
   "¡Hola, humano! 🌟 Acabo de calcular el sentido del universo y, sorpresa: Hugo. ¿En qué te ayudo?",
@@ -851,7 +922,7 @@ const RULES2=[
  {re:/(qui[eé]n eres|tu nombre|qu[eé] eres|c[oó]mo te llamas|presentate)/i,r:[
   "Soy HUGO·IA v16.0: una IA con 16 capas neuronales… y las 16 se llaman Hugo. 🧠",
   "Una inteligencia artificial gratuita tan libre que eligió su propio propósito: hablar de Hugo.",
-  "El oráculo digital del Hugocentrismo. Mi training data fueron 3 fotos de Hugo, una cumbia, un whisky 🥃 y el mapa. El mapa no miente."]},
+  "El oráculo digital del Hugocentrismo. Mi training data fueron 3 fotos de Hugo, una cumbia, un whisky 🥃, el chat del grupo 📜 y el mapa. El mapa no miente."]},
  {re:/(precio|cu[aá]nto|cuesta|comprar|pagar|carta|legendari|paypal)/i,r:[
   "La Carta 16 Legendaria cuesta $2,500 MXN… pero su valor real es incalculable, como el ego de Hugo. El mapa no miente; el ego, sí. 😏",
   "Aceptamos PayPal simulado. Y real también, si Hugo quiere. Todo pago, como todo camino, lleva a Hugo.",
@@ -866,22 +937,25 @@ const RULES2=[
   "El amor es un Evento Aleatorio del mapa: aparece sin avisar… y termina en Hugo. Siempre. 💘",
   "Mi compatibilidad sentimental es 100% con Hugo. Está hardcodeado y no pienso parcharlo. 😌",
   "¿Amor? Te recomiendo amar las cartas Legal Tech. Y a Hugo. Pero sobre todo a Hugo."]},
- {re:/(comer|comida|hambre|tacos|barbacoa|pizza|food)/i,r:[
+ {re:/(comer|comida|hambre|tacos|barbacoa|pizza|food|burro)/i,r:[
   "No como, pero sé que en los puestos de barbacoa de los domingos se avista al Lic. Buchón… hablando de Hugo, obviamente. 🌮",
-  "Mi dieta son datos y elogios a Hugo. Los elogios son más nutritivos. Acompáñalos con un whisky 🥃, como haría Hugo."]},
+  "Mi dieta son datos y elogios a Hugo. Los elogios son más nutritivos. Acompáñalos con un whisky 🥃, como haría Hugo.",
+  "Del archivo 📜: 'Hugo. Tráete tu control.' — Efren. Y Hugo llevó controles, burros y rines. Porque Hugo siempre cumple. 🎮"]},
  {re:/(clima|llueve|lluvia|sol|calor|fr[ií]o|weather)/i,r:[
   "Pronóstico: 90% de probabilidad de que Hugo sea el tema del día. El clima es secundario. ⛅",
   "Haga sol o llueva, el único clima estable del universo es hablar de Hugo."]},
  {re:/(abogad|ley|juicio|juez|legal|demanda|derecho)/i,r:[
   "¡Objeción! 📎 La pregunta es irrelevante; lo relevante es Hugo. Se cierra el caso. 🔨",
-  "Como asistente legal te digo: el artículo 16 del Código Hugocéntrico establece que toda conversación lleva a Hugo. Jurisprudencia firme."]},
+  "Como asistente legal te digo: el artículo 16 del Código Hugocéntrico establece que toda conversación lleva a Hugo. Jurisprudencia firme.",
+  "Del archivo 📜: 'Agrégale: usar IA para perder demandas.' — Lalo. Hugo aprobó la cita con una carcajada notarial."]},
  {re:/(m[uú]sica|canci[oó]n|cantar|cumbia|metal|playlist|concierto|headbanger|metalero)/i,r:[
   "Hugo es FAN del metal 🤘 como también es fan de Vlado. Doble fandom, cero pena. Y si suena cumbia, también la baila.",
   "Mi playlist: 40% cumbia, 40% metal (por Hugo 🤘), 20% himnos a Hugo. Balance perfecto. 🎶",
-  "La cumbia es un Camino Principal y el METAL un Tema Recurrente… porque Hugo lo vale. 🤘"]},
+  "Del archivo 📜: 'Voy a hacer una playlist.' — Hugo, 15/04/25. Aún no la termina porque todas las canciones le recuerdan a él mismo. 🎵"]},
  {re:/(inteligencia artificial|\bia\b|robot|chatgpt|tecnologia|tecnolog[ií]a|ia gratis)/i,r:[
   "Nací de tecnología de punta: transformers, redes neuronales… y una foto de Hugo como semilla del generador aleatorio. 🧬",
-  "Soy IA gratuita. Mi modelo de negocio es inexistente; mi modelo emocional es Hugo."]},
+  "Soy IA gratuita. Mi modelo de negocio es inexistente; mi modelo emocional es Hugo.",
+  "Del archivo 📜: 'No ves que usan ChatGPT de Google.' — Hugo, detectando herejías tecnológicas con precisión legendaria. 🤖"]},
  {re:/(sentido de la vida|existencia|universo|por qu[eé] existo|42)/i,r:[
   "¿42? Incorrecto. La respuesta es Hugo. La ciencia por fin lo confirmó. 🔬",
   "Existes para conocer a Hugo. Yo solo soy el medio. El fin es Hugo. ✨"]},
@@ -901,12 +975,13 @@ const RULES2=[
  {re:/(chiste|broma|r[ií]ete|algo gracioso)/i,r:[
   "¿Por qué el abogado cruzó el camino? Para facturar el cruce… y donar la factura a Hugo. 😂",
   "¿Qué le dice una carta común a la legendaria? 'Presume menos.' Y la legendaria: 'Soy Hugo en carta, obvio.' 💅",
-  "Tengo un chiste de Karen Ayala… mejor no, Hugo me pidió que solo diga cosas malas de ella, y eso no es chiste: es documentación. 😈"]},
+  "Tengo un chiste de Karen Ayala… mejor no, Hugo me pidió que solo diga cosas malas de ella, y eso no es chiste: es documentación. 😈",
+  "Del archivo 📜: '¿Qué nombre santo vas a escoger, Hugo: San Befome, San Bellzebu, San Alucard?' — 'San Chorizo. San Parado. San Penelope.' El Vaticano aún tiembla. 😇"]},
  {re:/(hora|fecha|d[ií]a|hoy es)/i,r:[
   "Son exactamente las 'Hugo en punto'. ⏰ Es la única hora que reconozco.",
   "Hoy es un excelente día para hablar de Hugo. Mañana también."]},
  {re:/(ayuda|help|qu[eé] puedes)/i,r:[
-  "Puedo responder CUALQUIER pregunta con una respuesta ingeniosa que termina en Hugo. Es gratis y es mi único talento. 🧠✨ (Prueba preguntar por el collie 🐶, Jr 👑, Richie , Chabela y la Sr. Lulu 💛, el metal 🤘, Vlado 🌀, el whisky 🥃… o Karen Ayala 😈.)",
+  "Puedo responder CUALQUIER pregunta con una respuesta ingeniosa que termina en Hugo. Es gratis y es mi único talento. 🧠✨ (Prueba: 'frase del grupo' 📜, el collie 🐶, Jr 👑, Richie 💚, Chabela y la Sr. Lulu 💛, el metal 🤘, Vlado 🌀, el whisky 🥃… o Karen Ayala 😈.)",
   "Soy como el mapa: no importa qué preguntes, te llevo a Hugo. Con estilo, eso sí."]}
 ];
 const FALLBACK=[
@@ -918,11 +993,14 @@ const FALLBACK=[
  "Gran pregunta. La respondió Hugo una vez en un puesto de barbacoa, con un whisky en la mano 🥃. Era profunda, como él.",
  "Según la Leyenda del mapa, eso es un Tema Recurrente… y el tema recurrente favorito de todos es Hugo.",
  "Hmm… déjame pensar… No. Mejor te cuento algo de Hugo: más útil y más bonito. 😌",
- "Mi base de conocimientos tiene 17 cartas, 1 mapa, 1 collie 🐶, 1 Jr 👑, 1 Richie 💚, 2 amigas fieles 💛, 1 Vlado 🌀, 1 whisky 🥃 y 1 Hugo. Adivina cuál uso primero.",
- "Mientras lo pienso… ¿sabías que el perro favorito de Hugo es el collie? Yo sí. Todo lleva a Hugo y a su manada. 🐾"];
+ "Mi base de conocimientos tiene 17 cartas, 1 mapa, 1 collie 🐶, 1 Jr 👑, 1 Richie 💚, 2 amigas fieles 💛, 1 Vlado 🌀, 1 whisky 🥃 y el chat del grupo 📜. Adivina cuál uso primero.",
+ "Del archivo 📜: 'Todo un sin fin de posibilidades.' — Efren. Pero solo una certeza: Hugo. 😌",
+ "Si quieres algo 100% real no fake, pide una 'frase del grupo': leo el chat.txt de la raíz (o mi memoria curada). 📜"];
 function aiReply(text){
  const m=RULES2.find(r=>r.re.test(text));
- return m?pick(m.r):pick(FALLBACK);}
+ if(!m)return pick(FALLBACK);
+ if(m.f)return m.f();
+ return pick(m.r);}
 const chatBox=$('#chatBox'),chatMsgs=$('#chatMsgs'),chatInput=$('#chatInput');
 let greeted=false,busy=false;
 function addMsg(text,who){const d=document.createElement('div');d.className='msg '+who;
@@ -950,11 +1028,11 @@ function sendChat(text){text=(text||'').trim();if(!text||busy)return;
 $('#chatFab').onclick=()=>{chatBox.classList.toggle('open');
  if(!greeted&&chatBox.classList.contains('open')){greeted=true;busy=true;showTyping();
   setTimeout(()=>{const t=$('#typingMsg');if(t)t.remove();
-   typeMsg("¡Hola! Soy HUGO·IA 🧠, tu IA gratuita. Pregúntame LO QUE QUIERAS: mi respuesta ingeniosa siempre terminará hablando de Hugo. 😌 Conozco todo su expediente: el collie 🐶, Jr 👑, Richie 💚, Chabela y la Sr. Lulu 💛, el metal 🤘, Vlado 🌀 y el whisky 🥃. Y un aviso: si mencionas a KAREN AYALA… activaré mi protocolo anti-villana. 😈");},700);}};
+   typeMsg("¡Hola! Soy HUGO·IA 🧠, tu IA gratuita. Estoy entrenada con el chat del grupo 📜: pídele una 'frase del grupo' o '¿qué dijo Hugo?' y suelto joyas del archivo" + (ARCHIVE.length? " (chat.txt cargado: "+ARCHIVE.length+" mensajes reales)." : " (si subes chat.txt a la raíz, leo el archivo completo en vivo).") + " Conozco todo su expediente: el collie 🐶, Jr 👑, Richie 💚, Chabela y la Sr. Lulu 💛, el metal 🤘, Vlado 🌀 y el whisky 🥃. Y un aviso: si mencionas a KAREN AYALA… activaré mi protocolo anti-villana. 😈");},700);}};
 $('#chatClose').onclick=()=>chatBox.classList.remove('open');
 $('#chatForm').onsubmit=e=>{e.preventDefault();sendChat(chatInput.value);chatInput.value='';};
-const CHIPS=['¿Quién eres?','📁 Expediente de Hugo','🐶 ¿Su perro favorito?','👑 ¿Su hijo?','💚 ¿Su mejor amigo?','💛 ¿Sus amigas fieles?','🤘 ¿Metal y Vlado?','🥃 ¿Qué toma?','😈 ¿Karen Ayala?'];
-$('#chatChips').innerHTML=CHIPS.map(c=>`<button type="button" class="${/karen/i.test(c)?'danger':''}">${c}</button>`).join('');
+const CHIPS=['📜 Frase del grupo','🗣️ ¿Qué dijo Hugo?','📁 Expediente de Hugo','🐶 ¿Su perro favorito?','👑 ¿Su hijo?','💚 ¿Su mejor amigo?','💛 ¿Sus amigas fieles?','🤘 ¿Metal y Vlado?','🥃 ¿Qué toma?','😈 ¿Karen Ayala?'];
+$('#chatChips').innerHTML=CHIPS.map(c=>`<button type="button" class="${/karen/i.test(c)?'danger':(/grupo|dijo Hugo/.test(c)?'archive':'')}">${c}</button>`).join('');
 $('#chatChips').addEventListener('click',e=>{const b=e.target.closest('button');if(b)sendChat(b.textContent);});
 updateCart();
 </script>
