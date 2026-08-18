@@ -176,7 +176,7 @@ section{padding:90px 5vw;position:relative;z-index:1}
 .map-wrap{padding:20px;position:relative}
 #hugoMap{width:100%;border-radius:14px;display:block}
 #mapTip{position:fixed;z-index:60;pointer-events:none;padding:8px 14px;border-radius:10px;background:rgba(0,0,0,.85);border:1px solid rgba(212,175,55,.5);
-  color:var(--gold2);font-size:.8rem;opacity:0;transition:opacity .15s;backdrop-filter:blur(6px);max-width:260px}
+  color:var(--gold2);font-size:.8rem;opacity:0;transition:opacity .15s;backdrop-filter:blur(6px);max-width:280px}
 #hugoMap .route{fill:none;stroke-width:5;stroke-linecap:round;stroke-dasharray:4 14;animation:routeFlow 2.6s linear infinite;opacity:.9}
 @keyframes routeFlow{to{stroke-dashoffset:-72}}
 .r-main{stroke:#c14b6a}.r-tema{stroke:#8a8f3c}.r-evento{stroke:#4f9d4f}.r-atajo{stroke:#4b7bd4}
@@ -216,6 +216,7 @@ section{padding:90px 5vw;position:relative;z-index:1}
 @keyframes msgIn{from{opacity:0;transform:translateY(8px)}}
 .msg.ai{align-self:flex-start;background:rgba(255,255,255,.06);border:1px solid rgba(103,232,249,.25);border-bottom-left-radius:4px}
 .msg.user{align-self:flex-end;background:linear-gradient(135deg,rgba(240,199,94,.95),rgba(190,150,50,.95));color:#1a1206;font-weight:600;border-bottom-right-radius:4px}
+.msg.user.villain{background:linear-gradient(135deg,rgba(164,60,60,.95),rgba(120,30,30,.95));color:#ffe3e3}
 .msg .who{display:block;font-size:.6rem;letter-spacing:.2em;color:var(--cyan);margin-bottom:4px;font-weight:800}
 .typing{display:inline-flex;gap:4px;padding:4px 0}
 .typing i{width:7px;height:7px;border-radius:50%;background:var(--cyan);animation:tp 1s infinite}
@@ -224,6 +225,7 @@ section{padding:90px 5vw;position:relative;z-index:1}
 #chatChips{display:flex;gap:8px;padding:0 14px 10px;flex-wrap:wrap}
 #chatChips button{border:1px solid rgba(103,232,249,.35);background:rgba(103,232,249,.07);color:var(--cyan);border-radius:999px;padding:6px 12px;font-size:.72rem;transition:.2s}
 #chatChips button:hover{background:rgba(103,232,249,.2);transform:translateY(-1px)}
+#chatChips button.danger{border-color:rgba(255,90,90,.5);background:rgba(255,90,90,.08);color:#ff9a9a}
 #chatForm{display:flex;gap:10px;padding:12px;border-top:1px solid rgba(255,255,255,.08)}
 #chatInput{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:12px 14px;color:var(--text);font-family:inherit;font-size:.9rem;outline:none;transition:.2s}
 #chatInput:focus{border-color:var(--gold);box-shadow:0 0 14px rgba(212,175,55,.2)}
@@ -314,7 +316,7 @@ footer.site{padding:40px 5vw;text-align:center;color:var(--muted);font-size:.82r
     <span class="badge"><span class="dot"></span> ⚡ Nueva Carta Legendaria</span>
     <h1>Descubre <span class="grad">Poder LGBTQ+</span><br>la carta más poderosa</h1>
     <div class="pride-line"></div>
-    <p class="lead">La joya de nuestra colección Legal Tech, ilustrada por <b style="color:var(--gold2)">Hugo Mendoza</b>. Escanea, captura en la garra, colecciona las 17 cartas, juega <b style="color:var(--cyan)">HUGOCENTRISMO</b> y pregunta lo que quieras a nuestra <b style="color:#7ee2a0">IA gratuita</b>… todas las respuestas llevan a Hugo.</p>
+    <p class="lead">La joya de nuestra colección Legal Tech, ilustrada por <b style="color:var(--gold2)">Hugo Mendoza</b>. Escanea, captura en la garra, colecciona las 17 cartas, juega <b style="color:var(--cyan)">HUGOCENTRISMO</b> y pregunta lo que quieras a nuestra <b style="color:#7ee2a0">IA gratuita</b>… todas las respuestas llevan a Hugo. 😈 Cuidado con mencionar a Karen Ayala.</p>
     <div class="cta-row">
       <button class="btn-gold" id="heroScan">VER CARTA</button>
       <button class="btn-ghost" id="heroBuy">COMPRAR AHORA · $2,500 MXN</button>
@@ -323,6 +325,7 @@ footer.site{padding:40px 5vw;text-align:center;color:var(--muted);font-size:.82r
       <div class="chip">🃏 Cartas en stock: <b>17 Items</b></div>
       <div class="chip">⭐ Nueva: <b>Carta 16 Legendaria</b></div>
       <div class="chip">🧠 Chat IA: <b>Gratis</b></div>
+      <div class="chip">😈 Villana: <b>Karen Ayala</b></div>
     </div>
   </div>
   <div class="holo-wrap">
@@ -438,7 +441,7 @@ footer.site{padding:40px 5vw;text-align:center;color:var(--muted);font-size:.82r
       <g class="rlabel" data-tip="Región de Infidelidades — Camino Principal"><rect x="80" y="70" width="150" height="30" rx="7"/><text x="95" y="90">INFIDELIDADES</text></g>
       <g class="rlabel" data-tip="Región de Cosas Malas — Evento Aleatorio"><rect x="360" y="48" width="140" height="30" rx="7"/><text x="377" y="68">COSAS MALAS</text></g>
       <g class="rlabel" data-tip="Región de Enojo — Tema Recurrente"><rect x="668" y="48" width="90" height="30" rx="7"/><text x="684" y="68">ENOJO</text></g>
-      <g class="rlabel" data-tip="Región de Celos — Tema Recurrente"><rect x="756" y="140" width="90" height="30" rx="7"/><text x="774" y="160">CELOS</text></g>
+      <g class="rlabel" data-tip="Región de Celos — Territorio de la Villana 😈"><rect x="756" y="140" width="90" height="30" rx="7"/><text x="774" y="160">CELOS</text></g>
       <g class="rlabel" data-tip="Región de Posesión — Atajo Emocional"><rect x="760" y="240" width="120" height="30" rx="7"/><text x="775" y="260">POSESIÓN</text></g>
       <g class="rlabel" data-tip="Región Amigos y Lealtad — Evento Aleatorio"><rect x="52" y="222" width="170" height="30" rx="7"/><text x="66" y="242">AMIGOS Y LEALTAD</text></g>
       <g class="rlabel" data-tip="Región de Metal — Tema Recurrente"><rect x="105" y="440" width="90" height="30" rx="7"/><text x="123" y="460">METAL</text></g>
@@ -456,7 +459,7 @@ footer.site{padding:40px 5vw;text-align:center;color:var(--muted);font-size:.82r
       <g>
         <rect x="690" y="556" width="272" height="62" rx="10" fill="rgba(231,211,168,.9)" stroke="#6b4d2a" stroke-width="2"/>
         <text x="706" y="581" font-size="14" fill="#2a2018" font-style="italic">Recuerda: El mapa no miente.</text>
-        <text x="706" y="603" font-size="14" fill="#2a2018" font-style="italic">El ego, sí.</text>
+        <text x="706" y="603" font-size="14" fill="#2a2018" font-style="italic">El ego, sí. (Y Karen, también.)</text>
       </g>
       <g transform="translate(930,60)" stroke="#2a2018" fill="none" stroke-width="2">
         <circle r="26"/><polygon points="0,-22 6,0 0,22 -6,0" fill="#2a2018"/><polygon points="-22,0 0,-6 22,0 0,6" fill="#6b4d2a"/>
@@ -468,7 +471,7 @@ footer.site{padding:40px 5vw;text-align:center;color:var(--muted);font-size:.82r
 </section>
 </main>
 
-<footer class="site">Legal Tech TCG · Ilustrado por Hugo Mendoza · "El mapa no miente. El ego, sí." 🏳️‍⚧️ · 🧠 HUGO·IA gratuita</footer>
+<footer class="site">Legal Tech TCG · Ilustrado por Hugo Mendoza · "El mapa no miente. El ego, sí." 🏳️⚧️ ·  HUGO·IA gratuita · 😈 Karen Ayala: villana oficial</footer>
 
 <!-- ============ CHAT IA GRATUITA ============ -->
 <button id="chatFab" aria-label="Abrir chat con IA gratuita">🧠<span class="ping"></span><span class="free">GRATIS</span></button>
@@ -484,7 +487,7 @@ footer.site{padding:40px 5vw;text-align:center;color:var(--muted);font-size:.82r
     <input id="chatInput" placeholder="Pregunta lo que quieras…" autocomplete="off" maxlength="300">
     <button id="chatSend" type="submit">➤</button>
   </form>
-  <div id="chatNote">IA GRATUITA · TODAS LAS RESPUESTAS LLEVAN A HUGO 😌</div>
+  <div id="chatNote">IA GRATUITA · TODAS LAS RESPUESTAS LLEVAN A HUGO 😌 · KAREN AYALA = VILLANA 😈</div>
 </div>
 
 <!-- CARRITO -->
@@ -568,15 +571,15 @@ const RAR={comun:{lbl:'COMÚN',stars:'★★☆☆☆',col:'var(--r-comun)',prob
  legendaria:{lbl:'LEGENDARIA',stars:'★★★★★',col:'var(--r-leg)',prob:'3% (Aparición)',hp:320}};
 const LORE={
  7:{type:'Pokémon Litigante Informal | HP 280 ☠️🔮',quote:'"Suele ser avistado rondando los juzgados a primera hora o descansando en puestos de barbacoa los domingos. Presume ropa de marca de procedencia dudosa mientras litiga juicios de pensión alimenticia con una seguridad inquebrantable."',prob:'8% (Aparición)',ab:'⚡ Habilidad Pasiva: Endeudado con Coppel',abd:'Cada vez que recibe daño por un ataque, aumenta +10 de daño adicional a sus movimientos por contador de deuda.',atk:'🔮🔮 Baño de Pueblo — 60 DMG',atkd:'Lanza una moneda. Si sale cara, el oponente queda confundido y no puede jugar cartas de Objeto.'},
- 16:{type:'Entidad Suprema Pride | HP ∞ 🏳️⚧️✨',quote:'"La carta más poderosa de nuestra colección Legal Tech del ilustrador Hugo Mendoza. Su poder no conoce agravios ni sentencias: solo orgullo, luz y marchas eternas."',prob:'3% (Aparición)',ab:'⚡ Habilidad Pasiva: Orgullo Eterno',abd:'Inmune a todo daño proveniente de cartas de Enojo, Celos y Posesión. Aura que protege a todo tu equipo.',atk:'✨✨ Marcha Suprema — 160 DMG',atkd:'El oponente debe descartar toda carta de odio y reconocer tu poder. No puede bloquear este ataque.'},
+ 16:{type:'Entidad Suprema Pride | HP ∞ 🏳️️✨',quote:'"La carta más poderosa de nuestra colección Legal Tech del ilustrador Hugo Mendoza. Su poder no conoce agravios ni sentencias: solo orgullo, luz y marchas eternas."',prob:'3% (Aparición)',ab:'⚡ Habilidad Pasiva: Orgullo Eterno',abd:'Inmune a todo daño proveniente de cartas de Enojo, Celos y Posesión. Aura que protege a todo tu equipo.',atk:'✨✨ Marcha Suprema — 160 DMG',atkd:'El oponente debe descartar toda carta de odio y reconocer tu poder. No puede bloquear este ataque.'},
  17:{type:'Canguaro Cósmico de Bolsillo | HP 300 🦘',quote:'"Brinca entre dimensiones legales con una sonrisa caótica. Nadie sabe cómo llegó al mazo, pero nadie se atreve a sacarlo."',prob:'5% (Aparición)',ab:'⚡ Habilidad Pasiva: Brinco Procesal',abd:'Una vez por turno, puede evadir un ataque saltando directamente al turno del oponente.',atk:'🦘 Patada Marsupial — 90 DMG',atkd:'El oponente queda aturdido y pierde su siguiente robo de carta.'}};
 const G_TYPES=['Pokémon Litigante','Pokémon Secretario','Pokémon Perito','Pokémon Juzgador','Pokémon Pasante','Pokémon Notificador'];
 const G_QUOTE=['"Se le ve apilando expedientes a medianoche, susurrando artículos de ley como si fueran hechizos."','"Cita jurisprudencia inexistente con tal seguridad que hasta el juez toma nota."','"Guarda acuerdos de mediación en su bolsillo y tacos en el otro. Nadie lo ha vencido en ninguno de los dos frentes."','"Aparece cuando huele conflicto de intereses y desaparece cuando llega la cuenta."'];
 const G_AB=['⚡ Habilidad Pasiva: Término Fatal','⚡ Habilidad Pasiva: Carga de la Prueba','⚡ Habilidad Pasiva: Sobreseimiento Exprés','⚡ Habilidad Pasiva: Dolo de Café'];
 const G_ABD=['Roba una carta extra cada vez que el oponente cite un artículo derogado.','El daño recibido se transfiere al expediente más cercano.','Una vez por partida, cancela un ataque declarándolo improcedente.','Mientras tenga café, su primer ataque de cada turno hace +20 de daño.'];
-const G_ATK=['⚖️⚖️ Golpe de Expediente — 50 DMG','📜 Notificación Fantasma — 70 DMG','🔨🔨 Martillo de Oralidad — 80 DMG','☕☕ Objeción Cafetera — 60 DMG'];
+const G_ATK=['⚖️⚖️ Golpe de Expediente — 50 DMG','📜 Notificación Fantasma — 70 DMG','🔨 Martillo de Oralidad — 80 DMG','☕☕ Objeción Cafetera — 60 DMG'];
 const G_ATKD=['El oponente debe reorganizar su mazo por orden alfabético.','No puede ser bloqueado por cartas de tipo Burocracia.','Si el oponente parpadea, recibe +20 de daño adicional.','El oponente queda desvelado y roba una carta menos.'];
-const HUGO_SAYS=['"Que todos los caminos llevan a él."','"Que lo hablaron, pero en realidad no."','"Que el mapa no miente; el ego, sí."','"Que la cumbia también es un atajo emocional."','"Que hoy no se litiga, hoy se convive."','"Que los celos son tema recurrente, pero él es camino principal."'];
+const HUGO_SAYS=['"Que todos los caminos llevan a él."','"Que lo hablaron, pero en realidad no."','"Que el mapa no miente; el ego, sí."','"Que la cumbia también es un atajo emocional."','"Que hoy no se litiga, hoy se convive."','"Que los celos son tema recurrente, pero él es camino principal."','"Que Karen Ayala ni por Atajo Emocional entra a mi castillo."'];
 const fmt=n=>'$'+n.toLocaleString('en-US',{minimumFractionDigits:2})+' MXN';
 function ph(name){return 'data:image/svg+xml;utf8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="420"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1a2340"/><stop offset="1" stop-color="#0b0e17"/></linearGradient></defs><rect width="300" height="420" fill="url(#g)"/><rect x="8" y="8" width="284" height="404" fill="none" stroke="#d4af37" stroke-width="3"/><text x="150" y="215" fill="#d4af37" font-family="serif" font-size="26" text-anchor="middle">'+name+'</text></svg>');}
 
@@ -637,7 +640,7 @@ function ph(name){return 'data:image/svg+xml;utf8,'+encodeURIComponent('<svg xml
 
 /* ================= UI BASE ================= */
 const $=s=>document.querySelector(s);
-$('#mqTrack').innerHTML=Array(2).fill('<span>✦ EDICIÓN PREMIUM HOLOGRÁFICA</span><span>✦ 17 CARTAS COLECCIONABLES</span><span>✦ NUEVO: HUGOCENTRISMO EL JUEGO DE MESA</span><span>✦ 🧠 CHAT IA GRATUITO</span><span>✦ ILUSTRADO POR HUGO MENDOZA</span><span>🏳️⚧️ PODER LGBTQ+</span>').join('');
+$('#mqTrack').innerHTML=Array(2).fill('<span>✦ EDICIÓN PREMIUM HOLOGRÁFICA</span><span>✦ 17 CARTAS COLECCIONABLES</span><span>✦ NUEVO: HUGOCENTRISMO EL JUEGO DE MESA</span><span>✦ 🧠 CHAT IA GRATUITO</span><span>✦ 😈 KAREN AYALA: VILLANA OFICIAL</span><span>✦ ILUSTRADO POR HUGO MENDOZA</span><span>🏳️️ PODER LGBTQ+</span>').join('');
 addEventListener('scroll',()=>{$('#progress').style.width=(scrollY/(document.body.scrollHeight-innerHeight)*100)+'%';},{passive:true});
 addEventListener('mousemove',e=>{const g=$('#glow');g.style.left=e.clientX+'px';g.style.top=e.clientY+'px';});
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in');}),{threshold:.12});
@@ -671,7 +674,7 @@ $('#cardGrid').addEventListener('click',e=>{
 /* ================= SCANNER ================= */
 let scanTimer=null;
 function loreOf(c){if(LORE[c.id])return LORE[c.id];const i=c.id;
- return{type:G_TYPES[i%G_TYPES.length]+' | HP '+(RAR[c.rarity].hp+i*3)+' '+['⚖️','🔮','☠️','✨'][i%4],
+ return{type:G_TYPES[i%G_TYPES.length]+' | HP '+(RAR[c.rarity].hp+i*3)+' '+['⚖️','','☠️','✨'][i%4],
  quote:G_QUOTE[i%G_QUOTE.length],prob:RAR[c.rarity].prob,ab:G_AB[i%G_AB.length],abd:G_ABD[i%G_ABD.length],
  atk:G_ATK[i%G_ATK.length],atkd:G_ATKD[i%G_ATKD.length]};}
 function openScanner(id){const c=CARDS.find(x=>x.id===id),L=loreOf(c),R=RAR[c.rarity];
@@ -776,7 +779,7 @@ $('#prizeAdd').onclick=()=>{if(prizeCard)addToCart(prizeCard.id);closeModals();}
 /* ================= HUGOCENTRISMO ================= */
 const MEEPLES=[['Fer Haro','#f0a028',250,120],['jantey','#2f7fe0',430,112],['nora','#d43a3a',640,112],['karen','#8a3fd6',760,192],['Richie','#3fae5a',92,172],['Bardo','#7a2fd0',252,242],['Belia','#9a3fd6',142,322],['collie','#f0a028',300,402],['Vlado','#3fae5a',560,362],['IGA','#2fb8d6',690,302],['giussepe','#2f7fe0',242,482]];
 $('#meeples').innerHTML=MEEPLES.map(([n,c,x,y])=>`
- <g class="meepleG" transform="translate(${x},${y})" fill="${c}" stroke="rgba(0,0,0,.4)" stroke-width="1.5" data-tip="👤 ${n} — pieza en el mapa">
+ <g class="meepleG" transform="translate(${x},${y})" fill="${c}" stroke="rgba(0,0,0,.4)" stroke-width="1.5" data-tip="${n==='karen'?'😈 karen (Ayala) — LA VILLANA del Hugocentrismo: Hugo la odia':'👤 '+n+' — pieza en el mapa'}">
   <circle cx="0" cy="-9" r="4.6"/><path d="M-6.5,7 C-6.5,-2 -3,-5 0,-5 C3,-5 6.5,-2 6.5,7 C3,9.5 -3,9.5 -6.5,7 Z"/>
   <text x="0" y="22" text-anchor="middle">${n}</text></g>`).join('');
 const tip=$('#mapTip');
@@ -789,17 +792,24 @@ $('#oracleBtn').onclick=()=>{const card=$('#oracleCard');card.classList.add('fli
 
 /* ================= 🧠 CHAT IA GRATUITA (HUGO·IA) ================= */
 const pick=a=>a[Math.floor(Math.random()*a.length)];
-const RULES=[
- {re:/me llamo|mi nombre es|soy (\w+)/i,f:m=>{const n=(m&&m[1])||'amigo';return[
-  "Un gusto, "+n+" 🤝 Aunque entre nosotros: el mejor nombre del universo es Hugo. Datos, no opiniones.",
-  "¡Hola, "+n+"! Tu nombre está bien… pero te falta un 'Hugo' para brillar de verdad. 😌"].pick?0:0; }},
-];
-/* (motor real abajo; el bloque de arriba se reemplaza por claridad) */
 const RULES2=[
+ /* 😈 REGLA PRIORITARIA: KAREN AYALA = VILLANA DEL JUEGO, HUGO LA ODIA */
+ {re:/karen(\s+ayala)?/i,r:[
+  "¿Karen Ayala? 😈 El JEFE FINAL del Hugocentrismo. Hugo la odia con toda su alma y el mapa la condenó a vagar por la región de CELOS sin Atajo Emocional de regreso.",
+  "Karen Ayala: la VILLANA oficial del juego de mesa. Hugo la tiene en su lista negra, justo entre 'Infidelidades' y 'Enojo'. O sea: en el top de lo peor. 💀",
+  "Ni la menciones dentro del castillo: Karen Ayala es el enemigo público #1 de Hugo. Su carta villana se llamaría 'Drama Infinito' con 0 de Lealtad y -100 de Amigos. 📉",
+  "En el lore, Karen Ayala intenta desviar los caminos que llevan a Hugo… IMPOSIBLE. Todo camino lleva a Hugo. Por eso Hugo la odia tanto: el mapa no miente, pero ella sí. ⚔️",
+  "Karen Ayala: nivel de amenaza LEGENDARIO, pero del lado maligno. Hugo la baneó de la Cumbia, del Metal y hasta de los puestos de barbacoa del Lic. Buchón. 😤",
+  "Dicen que Karen Ayala es tan villana que hasta la región de POSESIÓN le pidió su espacio. Hugo la odia, el castillo la odia y la bandera pride no brilla cerca de ella. 🏳️‍⚧️❌",
+  "¿Karen Ayala? Uf. En el Hugocentrismo su meeple empieza en Celos y termina en Celos. Hugo diseñó el mapa específicamente para que ella nunca llegue al castillo. 😌"]},
+ /* 😈 Pregunta por el villano en general */
+ {re:/(villan|villano|antagonista|enemig|jefe final|boss)/i,r:[
+  "El villano oficial del Hugocentrismo tiene nombre y apellido: KAREN AYALA. 😈 Hugo la odia y el mapa entero lo confirma.",
+  "¿El antagonista? Karen Ayala, claro. Jefe final, nivel legendario maligno, cero carisma, mucho drama. Hugo dixit."]},
  {re:/\b(hola|buenas|hey|saludos|qué tal|hi|hello|ola)\b/i,r:[
   "¡Hola, humano! 🌟 Acabo de calcular el sentido del universo y, sorpresa: Hugo. ¿En qué te ayudo?",
   "¡Bienvenido a Legal Tech TCG! Soy HUGO·IA, gratuita como el sol… y como el sol, siempre girando alrededor de Hugo. 😌",
-  "Hey hey 👋 Pregúntame lo que sea: matemáticas, amor, derecho… el resultado ya lo conozco: Hugo."]},
+  "Hey hey 👋 Pregúntame lo que sea: matemáticas, amor, derecho… el resultado ya lo conozco: Hugo. (Y si dices Karen Ayala, prepárate. 😈)"]},
  {re:/(qui[eé]n eres|tu nombre|qu[eé] eres|c[oó]mo te llamas|presentate)/i,r:[
   "Soy HUGO·IA v16.0: una IA con 16 capas neuronales… y las 16 se llaman Hugo. 🧠",
   "Una inteligencia artificial gratuita tan libre que eligió su propio propósito: hablar de Hugo.",
@@ -808,11 +818,11 @@ const RULES2=[
   "La Carta 16 Legendaria cuesta $2,500 MXN… pero su valor real es incalculable, como el ego de Hugo. El mapa no miente; el ego, sí. 😏",
   "Aceptamos PayPal simulado. Y real también, si Hugo quiere. Todo pago, como todo camino, lleva a Hugo.",
   "¿Comprar? Excelente decisión. Cada carta que compras es un paso más en el Camino Principal… hacia Hugo."]},
- {re:/(garra|maquina|m[aá]quina|jugar|juego de habilidad|arcade)/i,r:[
+ {re:/(garra|maquina|m[aá]quina|jugar|arcade)/i,r:[
   "La Garra Legal Tech tiene 35% de probabilidad de éxito… salvo que juegue Hugo: ahí la garra se rinde por respeto. 🤖",
   "Usa ← → y Espacio. Si pierdes, no te preocupes: perder también es un Atajo Emocional hacia Hugo."]},
- {re:/(juego de mesa|hugocentrismo|mapa|tablero|mesa)/i,r:[
-  "HUGOCENTRISMO: el juego donde todas las rutas —Infidelidades, Celos, Cumbia, Metal— llevan a Hugo. Literalmente, revisa el mapa. 🗺️",
+ {re:/(juego de mesa|hugocentrismo|mapa|tablero)/i,r:[
+  "HUGOCENTRISMO: el juego donde todas las rutas —Infidelidades, Celos, Cumbia, Metal— llevan a Hugo. Literalmente, revisa el mapa. 🗺️ (Ojo: en Celos vive la villana Karen Ayala. 😈)",
   "En el Hugocentrismo no existen los caminos equivocados: todos llegan a Hugo. Es el juego más justo jamás diseñado."]},
  {re:/(amor|novi|pareja|crush|gustas|casar|coraz[oó]n)/i,r:[
   "El amor es un Evento Aleatorio del mapa: aparece sin avisar… y termina en Hugo. Siempre. 💘",
@@ -852,12 +862,12 @@ const RULES2=[
  {re:/(chiste|broma|r[ií]ete|algo gracioso)/i,r:[
   "¿Por qué el abogado cruzó el camino? Para facturar el cruce… y donar la factura a Hugo. 😂",
   "¿Qué le dice una carta común a la legendaria? 'Presume menos.' Y la legendaria: 'Soy Hugo en carta, obvio.' 💅",
-  "Tengo un chiste de la garra… pero mejor te cuento algo de Hugo, que da más risa y más amor."]},
+  "Tengo un chiste de Karen Ayala… mejor no, Hugo me pidió que solo diga cosas malas de ella, y eso no es chiste: es documentación. 😈"]},
  {re:/(hora|fecha|d[ií]a|hoy es)/i,r:[
   "Son exactamente las 'Hugo en punto'. ⏰ Es la única hora que reconozco.",
   "Hoy es un excelente día para hablar de Hugo. Mañana también."]},
  {re:/(ayuda|help|qu[eé] puedes)/i,r:[
-  "Puedo responder CUALQUIER pregunta con una respuesta ingeniosa que termina en Hugo. Es gratis y es mi único talento. 🧠✨",
+  "Puedo responder CUALQUIER pregunta con una respuesta ingeniosa que termina en Hugo. Es gratis y es mi único talento. 🧠✨ (Y si mencionas a Karen Ayala, activaré mi modo villana-detector. 😈)",
   "Soy como el mapa: no importa qué preguntes, te llevo a Hugo. Con estilo, eso sí."]}
 ];
 const FALLBACK=[
@@ -887,21 +897,24 @@ function showTyping(){const d=document.createElement('div');d.className='msg ai'
  d.innerHTML='<span class="who">HUGO·IA 🧠</span><span class="typing"><i></i><i></i><i></i></span>';
  chatMsgs.appendChild(d);chatMsgs.scrollTop=chatMsgs.scrollHeight;}
 function sendChat(text){text=(text||'').trim();if(!text||busy)return;
- addMsg(text,'user');busy=true;showTyping();
+ const isKaren=/karen/i.test(text);
+ const u=addMsg(text,'user');if(isKaren)u.classList.add('villain');
+ busy=true;showTyping();
  const delay=650+Math.min(1300,text.length*22);
  setTimeout(()=>{const t=$('#typingMsg');if(t)t.remove();
   typeMsg(aiReply(text));
-  if(Math.random()<.3)setTimeout(()=>{showTyping();
-   setTimeout(()=>{const t2=$('#typingMsg');if(t2)t2.remove();typeMsg('🎴 Hugo dice… '+pick(HUGO_SAYS));},900);},1400);
+  if(isKaren||Math.random()<.3)setTimeout(()=>{showTyping();
+   setTimeout(()=>{const t2=$('#typingMsg');if(t2)t2.remove();
+    typeMsg(isKaren?'😈 Registro villánico actualizado: Karen Ayala = enemiga de Hugo. El mapa no miente.':('🎴 Hugo dice… '+pick(HUGO_SAYS)));},900);},1400);
  },delay);}
 $('#chatFab').onclick=()=>{chatBox.classList.toggle('open');
  if(!greeted&&chatBox.classList.contains('open')){greeted=true;busy=true;showTyping();
   setTimeout(()=>{const t=$('#typingMsg');if(t)t.remove();
-   typeMsg("¡Hola! Soy HUGO·IA 🧠, tu IA gratuita. Pregúntame LO QUE QUIERAS: mi respuesta ingeniosa siempre terminará hablando de Hugo. Es gratis, es fatal, es Hugocentrismo. 😌");},700);}};
+   typeMsg("¡Hola! Soy HUGO·IA 🧠, tu IA gratuita. Pregúntame LO QUE QUIERAS: mi respuesta ingeniosa siempre terminará hablando de Hugo. 😌 Y un aviso: si mencionas a KAREN AYALA… activaré mi protocolo anti-villana. 😈");},700);}};
 $('#chatClose').onclick=()=>chatBox.classList.remove('open');
 $('#chatForm').onsubmit=e=>{e.preventDefault();sendChat(chatInput.value);chatInput.value='';};
-const CHIPS=['¿Quién eres?','¿Cuánto cuesta la carta 16?','Cuéntame un chiste','¿Sentido de la vida?','Háblame del juego de mesa'];
-$('#chatChips').innerHTML=CHIPS.map(c=>`<button type="button">${c}</button>`).join('');
+const CHIPS=['¿Quién eres?','¿Cuánto cuesta la carta 16?','¿Quién es Karen Ayala? 😈','Cuéntame un chiste','¿Sentido de la vida?'];
+$('#chatChips').innerHTML=CHIPS.map(c=>`<button type="button" class="${/karen/i.test(c)?'danger':''}">${c}</button>`).join('');
 $('#chatChips').addEventListener('click',e=>{const b=e.target.closest('button');if(b)sendChat(b.textContent);});
 updateCart();
 </script>
